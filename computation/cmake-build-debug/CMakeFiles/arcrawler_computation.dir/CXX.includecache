@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/var/www/arcrawler/computation/main.cpp
+mysql.h
+-
+stdio.h
+-
+stdlib.h
+-
+string
+-
+

@@ -1,0 +1,201 @@
+<?php
+
+
+class CrawlDigikalaCest
+{
+    public function _before(AcceptanceTester $I)
+    {
+        //exec('phantomjs --webdriver=4444 &');
+    }
+
+    public function _after(AcceptanceTester $I)
+    {
+    }
+
+    // tests
+    public function CrawlTest(AcceptanceTester $I)
+    {
+
+        $crawledProducts = [];
+        $commentsPath = '/var/www/arcrawler/tests/_data/output/comments';
+        //$commentsPath = 'E:\\wamp\\www\\arcrawler\\tests\\_data\\output\\comments';
+        $fileNames = scandir($commentsPath);
+        foreach ($fileNames as $fileName) {
+            $delimiterPos = strpos($fileName, '-');
+            if ($delimiterPos !== false) {
+                $productId = substr($fileName, 0, $delimiterPos);
+                $crawledProducts[$productId] = $productId;
+            }
+        }
+
+        $outputPath = '/var/www/arcrawler/tests/_data/output';
+        //$outputPath = 'E:\\wamp\\www\\arcrawler\\tests\\_data\\output';
+        $requestsCount = 0;
+        //$inputPath = '/var/www/digikala-crawler/tests/_data/input/input.csv';
+        //$searchPages = $I->readSearchPages($inputPath);
+        for ($pageNo = 6; $pageNo <= 7; $pageNo++) {
+            $searchPage = '/Search/Category-Mobile-Phone/#!/Category-Electronic-Devices/Category-Mobile/Category-Mobile-Phone/Category-Mobile-Phone/PageNo-' . strval($pageNo) . '/SortBy-1/Status-2/';
+
+            $I->amOnPage($searchPage);
+            $I->seeInTitle('دیجی کالا');
+            $requestsCount++;
+            print_r("\n Page Request Count: " . $requestsCount . "\n");
+            print_r("\n Search page: " . $pageNo . "\n");
+            $I->waitPageLoad();
+            if ($I->cantSee('//div[@class="item"]')) {
+                continue;
+            }
+
+            $productIds = $I->grabMultiple("//div[@class='item']", "data-id");
+
+            $commentAspects = [
+                '1' => 'ارزش خرید به نسبت قیمت',
+                '2' => 'نوآوری',
+                '3' => 'کیفیت ساخت',
+                '4' => 'امکانات و قابلیت ها',
+                '5' => 'سهولت استفاده',
+                '6' => 'طراحی و ظاهر'
+            ];
+            $commentsColumnRow = [
+                'positivePoints',
+                'negativePoints',
+                'commentText',
+                'like',
+                'dislike',
+            ];
+
+            foreach ($commentAspects as $aspect) {
+                $commentsColumnRow[] = $aspect;
+            }
+
+            $productColumnRow = [
+                'id',
+                'price',
+                'userRate',
+                'recommendationCount'
+            ];
+            $productAspects = [
+                '1' => 'کیفیت ساخت',
+                '2' => 'نوآوری',
+                '3' => 'امکانات و قابلیت ها',
+                '4' => 'سهولت استفاده',
+                '5' => 'طراحی و ظاهر',
+                '6' => 'ارزش خرید به نسبت قیمت',
+            ];
+
+
+            foreach ($productAspects as $aspect) {
+                $productColumnRow[] = $aspect;
+            }
+
+            foreach ($productIds as $productId) {
+                if (isset($crawledProducts[$productId])) {
+                    continue;
+                }
+
+                print_r("\n Product: " . $productId . "\n");
+                $product = array();
+                $product['id'] = $productId;
+                $productUrl = "/Product/DKP-" . $product['id'] . "/#!/displaycomment-0/page-1/sort-date/tab-comments/";
+                $I->amOnPage($productUrl);
+                $I->seeInTitle('دیجی کالا');
+                $requestsCount++;
+                print_r("\n Page Request Count: " . $requestsCount . "\n");
+                $I->waitPageLoad();
+                //$I->wait(2);
+
+                //Retrieve and store product info
+                $productPriceXpath = "//span[@id='frmLblPayablePriceAmount']";
+                if ($I->elementExist($productPriceXpath, $I)) {
+                    $product['price'] = $I->grabTextFrom($productPriceXpath);
+                } else {
+                    $product['price'] = '';
+                }
+                $productUsersRateXpath = "//span[@id='frmSPAN_RateValueAtBottom']";
+                if ($I->elementExist($productUsersRateXpath, $I)) {
+                    $product['usersRate'] = $I->grabTextFrom($productUsersRateXpath);
+                } else {
+                    $product['usersRate'] = '';
+                }
+                $product['recommendationCount'] = 0;
+                $productRecommendationCountXpath = "//div[@id='frmPnlProductOffers']//span[@class='counter']";
+                if ($I->elementExist($productRecommendationCountXpath, $I)) {
+                    $product['recommendationCount'] = $I->grabTextFrom($productRecommendationCountXpath);
+                }
+
+                foreach ($productAspects as $key => $aspect) {
+                    $rateXpath = "//ul[@id='frmUL_RatesAverage']/li[" . $key . "]//div[@class='rating-container clearfix']//div//span[@class='number']";
+                    if ($I->elementExist($rateXpath, $I)) {
+                        $aspectRate = $I->grabTextFrom($rateXpath);
+                        $product[$aspect] = $aspectRate;
+                    } else {
+                        $product[$aspect] = '';
+                    }
+                }
+                $I->saveProduct($product, $productColumnRow, $outputPath);
+
+                //$commentTabsPAth = "div[@class='usercomments-pagination']/div[@class='dk-pagination-container']//ul/li";
+                //$commentTabsCount = sizeof($I->getElements($commentTabsPAth));
+                //$commentTabsCount = $commentTabsCount - 2; //minux pre and next links
+
+                //Retrieve and store comments
+
+                while (true) {
+                    $rateXpathGeneral = "//ul[@id='frmUL_CommentsList']/li";
+                    $commentsNo = sizeof($I->getElements($rateXpathGeneral));
+                    if (!$commentsNo) {
+                        break;
+                    }
+                    for ($c = 1; $c <= $commentsNo; $c++) {
+                        $commentPath = "//ul[@id='frmUL_CommentsList']/li[" . $c . "]";
+
+                        $product['comments'][$c]['rate']['like'] = 0;
+                        $commentLikeXpath = $commentPath . "//div[@class='user-comment-header clearfix']//div[@class='like-container left clearfix']//a[@class='like']//span[@class='counter']";
+                        if ($I->elementExist($commentLikeXpath, $I)) {
+                            $product['comments'][$c]['rate']['like'] = $I->grabTextFrom($commentLikeXpath);
+                        }
+
+                        $product['comments'][$c]['rate']['dislike'] = 0;
+                        $commentDislikeXpath = $commentPath . "//div[@class='user-comment-header clearfix']//div[@class='like-container left clearfix']//a[@class='dislike']//span[@class='counter']";
+                        if ($I->elementExist($commentDislikeXpath, $I)) {
+                            $product['comments'][$c]['rate']['dislike'] = $I->grabTextFrom($commentDislikeXpath);
+                        }
+
+                        foreach ($commentAspects as $key => $aspect) {
+                            $rateXpath = $commentPath . "//div[@class='user-comment-content clearfix']//div[@class='rating-panel right']/div[@class='user-rating']/ul/li[" . $key . "]/div[@class='rating-container clearfix']/div[@class='bar done']";
+                            $doneRatings = $I->getElements($rateXpath);
+                            $product['comments'][$c]['aspect'][$aspect] = sizeof($doneRatings);
+                        }
+
+                        $product['comments'][$c]['positivePoints'] = '';
+                        $product['comments'][$c]['negativePoints'] = '';
+                        $commentEvaluationPath = '//div[@class="content-panel right"]//div[@class="comment-evaluation clearfix"]';
+                        $positivePointsXpath = $commentPath . $commentEvaluationPath . '//div[@class="positive-point"]//ul/li/span';
+                        if ($I->elementExist($positivePointsXpath, $I)) {
+                            $positivePoints = $I->grabMultiple($positivePointsXpath);
+                            $product['comments'][$c]['positivePoints'] = implode("\n", $positivePoints);
+                        }
+                        $negativePointsXpath = $commentPath . $commentEvaluationPath . '//div[@class="negetive-point"]//ul/li/span';
+                        if ($I->elementExist($negativePointsXpath, $I)) {
+                            $negativePoints = $I->grabMultiple($negativePointsXpath);
+                            $product['comments'][$c]['negativePoints'] = implode("\n", $negativePoints);
+                        }
+
+                        $commentTextXpath = $commentPath . '//div[@class="content-panel right"]//div[@class="comment-text"]//p';
+                        $product['comments'][$c]['commentText'] = $I->grabTextFrom($commentTextXpath);
+
+                    }
+                    $I->saveComments($product, $commentsColumnRow, $outputPath);
+
+                    //Go to next page of comments if exists
+                    $nextPageXpath = "//a[@class='page-link next']";
+                    if (!$I->elementExist($nextPageXpath, $I)) {
+                        break;
+                    }
+                    $I->click($nextPageXpath);
+                    $I->waitAjaxLoad(10);
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,7 @@
+install cmake:
+
+./bootstrap
+make
+make install
+
+sudo apt-get install libboost-dev

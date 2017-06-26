@@ -1,0 +1,7 @@
+phantomjs --webdriver=4444 &
+
+linux:
+vendor/bin/codecept run tests/acceptance/CrawlDigikalaCest.php
+
+windows:
+vendor\bin\codecept run tests\acceptance\CrawlDigikalaCest.php

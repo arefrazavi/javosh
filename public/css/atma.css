@@ -1,0 +1,139 @@
+/*WebYekanFont*/
+@font-face
+{
+    font-family:'yekan';
+    src: url('../fonts/Yekan.eot?#') format('eot'),  /* IE6–8 */
+    url('../fonts/Yekan.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+    url('../fonts/Yekan.ttf') format('truetype');  /* Saf3—5, Chrome4+, FF3.5, Opera 10+ */
+}
+
+/*WebYekanNumberFont*/
+@font-face
+{
+    font-family:'yekan_numbers';
+    src: url('../fonts/yekannumbers-regular.eot?#') format('eot'),  /* IE6–8 */
+    url('../fonts/yekannumbers-regular.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+    url('../fonts/yekannumbers-regular.ttf') format('truetype');  /* Saf3—5, Chrome4+, FF3.5, Opera 10+ */
+}
+
+body {
+    font-family: 'yekan', 'yekan_numbers', sans-serif;
+    direction: rtl;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: 'yekan', 'yekan_numbers', sans-serif;
+    font-weight: bold;
+}
+
+.section {
+    margin: 10px 0;
+}
+
+.rtl-text {
+    direction: rtl !important;
+    text-align: justify !important;
+    text-justify: inter-word !important;
+}
+
+
+.ltr-text {
+    direction: ltr !important;
+    text-align: justify !important;
+    text-justify: inter-word !important;
+}
+
+.form-control {
+    height: auto;
+}
+
+.block {
+    margin: 5px 0;
+    padding: 5px;
+}
+
+.cursor-hand {
+    cursor: pointer !important;
+    cursor: hand !important;
+}
+
+.tooltip > .tooltip-inner, .popover .popover-content {
+    direction: rtl;
+    padding: 10px;
+    font-family: 'yekan', 'yekan_numbers', sans-serif;
+    text-align: justify !important;
+    text-justify: inter-word !important;
+    cursor: pointer;
+    cursor: hand;
+}
+
+.box-summary , .box-description{
+    padding: 10px 20px;
+}
+
+.aspect-header {
+    background: green;
+    color: #FFFFFF;
+    background-color: rgba(90,0,30);
+}
+
+a {
+    color: black;
+}
+
+.previous-page-link {
+    color : #696969;
+}
+
+.fa, .glyphicon {
+    vertical-align: middle !important;
+}
+
+#sentence-list-table tbody td, div.DTS tbody td {
+    white-space: initial;
+}
+
+.gold {
+    background: gold !important;
+    color: black;
+}
+.gold-suggest {
+    font-size: x-large;
+    cursor: hand;
+    cursor: pointer;
+    transition: all 0.5s ease;
+}
+.gold-suggest-disabled {
+    color: #696969;
+}
+
+.gold-suggest-disabled:hover {
+    color: #ffff00;
+}
+
+.gold-suggest-enabled, .gold-text {
+    color: goldenrod;
+}
+
+.gold-suggest-enabled:hover {
+    color: grey;
+}
+
+.breadcrumb {
+    padding: 2px 15px;
+}
+
+h1, h2, h3, h4, h5 {
+    margin: 5px 0;
+}
+
+.content-header, .content {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+.box, .box-default, .box-description {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
