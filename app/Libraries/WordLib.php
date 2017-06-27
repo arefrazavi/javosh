@@ -113,7 +113,6 @@ class WordLib
         print_r("\n********END******\n");
     }
 
-
     /**
      * @param $value
      */
@@ -174,7 +173,6 @@ class WordLib
 
 
     }
-
 
     /**
      *
@@ -509,6 +507,5 @@ class WordLib
 
         print_r("\n********END******\n");
     }
-
 
 }

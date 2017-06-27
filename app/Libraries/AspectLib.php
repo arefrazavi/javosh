@@ -39,6 +39,7 @@ class AspectLib
         print_r("\n********END of storeKeywords******\n");
     }
 
+
     public static function retrieveAspectIds($categoryId = 0, $categoryTitle = '')
     {
         $category = Category::fetch($categoryId, $categoryTitle);
@@ -78,7 +79,6 @@ class AspectLib
 
         return $aspects;
     }
-
 
     /**
      * Find frequent item sets as pot aspects
