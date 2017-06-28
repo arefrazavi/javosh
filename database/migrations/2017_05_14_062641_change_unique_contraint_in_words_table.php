@@ -14,7 +14,7 @@ class ChangeUniqueContraintInWordsTable extends Migration
     public function up()
     {
         Schema::table('words', function (Blueprint $table) {
-            $table->dropUnique('value');
+            $table->dropUnique('words_value_unique');
             $table->unique(['value', 'category_id']);
         });
     }
