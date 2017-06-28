@@ -19,6 +19,5 @@ class DatabaseSeeder extends Seeder
         $this->call(StopWordsSeeder::class);
         $this->call(SummarizationMethodsTableSeeder::class);
         $this->call(TypesTableSeeder::class);
-        $this->call(UsersTableSeeder::class);
     }
 }
