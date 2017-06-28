@@ -13,6 +13,7 @@ class SentinelDatabaseSeeder extends Seeder
     {
         // Create Users
         DB::table('users')->truncate();
+        DB::table('roles')->truncate();
 
         $admin = Sentinel::getUserRepository()->create(array(
             'first_name' => 'Aref',
