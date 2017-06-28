@@ -26,7 +26,6 @@ class AddSentimentPolarityFieldToSentencesTable extends Migration
     public function down()
     {
         Schema::table('sentences', function (Blueprint $table) {
-            $table->dropColumn('gold_selected');
             $table->dropColumn('sentiment_polarity');
         });
     }
