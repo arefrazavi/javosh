@@ -18,7 +18,7 @@ class UsersTableSeeder extends Seeder
                 'first_name' => 'Aref',
                 'last_name' => 'Razavi',
                 'email' => 'arefrazavi@gmail.com',
-                'password' => '4313347',
+                'password' => 'kiana_1989',
             ]
         );
     }
