@@ -11,9 +11,12 @@ class SentinelDatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // Create Users
         DB::table('users')->truncate();
         DB::table('roles')->truncate();
+        DB::table('role_users')->truncate();
+        DB::table('activations')->truncate();
+
+        // Create Users
 
         $admin = Sentinel::getUserRepository()->create(array(
             'first_name' => 'Aref',
@@ -28,7 +31,6 @@ class SentinelDatabaseSeeder extends Seeder
         ));
 
         // Create Activations
-        DB::table('activations')->truncate();
         $code = Activation::create($admin)->code;
         Activation::complete($admin, $code);
         $code = Activation::create($user)->code;
