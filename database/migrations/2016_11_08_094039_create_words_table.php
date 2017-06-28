@@ -15,7 +15,7 @@ class CreateWordsTable extends Migration
     {
         Schema::create('words', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('value');
+            $table->string('value')->unique();
             $table->integer('count');
             $table->text('occurrences');
             $table->text('entropy')->nullable();
