@@ -23,6 +23,7 @@ class CreateWordsTable extends Migration
         });
     }
 
+
     /**
      * Reverse the migrations.
      *
