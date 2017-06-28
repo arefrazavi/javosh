@@ -19,6 +19,7 @@ class AddPosTagAndSentimentPolarityFieldsToWordsTable extends Migration
         });
     }
 
+
     /**
      * Reverse the migrations.
      *
