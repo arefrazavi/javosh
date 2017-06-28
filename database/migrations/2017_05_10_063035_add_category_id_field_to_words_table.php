@@ -14,7 +14,7 @@ class AddCategoryIdFieldToWordsTable extends Migration
     public function up()
     {
         Schema::table('words', function(Blueprint $table) {
-            $table->unsignedInteger('category_id')->after('sentiment_score')->nullable();
+            $table->unsignedInteger('category_id')->after('id')->nullable();
             $table->foreign('category_id')
                 ->references('id')
                 ->on('categories')
