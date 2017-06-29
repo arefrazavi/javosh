@@ -91,5 +91,4 @@ return [
     "Aspect" => "جنبه",
     "Gold_Summary_Suggestion" => "پیشنهاد خلاصه طلایی",
     "Max_Summary_Size_Exceed" => "تجاوز از حداکثر اندازه خلاصه",
-
 ];

@@ -1,5 +1,5 @@
 @extends('layouts.master-admin')
-@section('title', trans('common.Evaluation_Results'))
+@section('title', trans('common_lang.Evaluation_Results'))
 @section('content')
     <div class="row">
         <div class="col-lg-12">

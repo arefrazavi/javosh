@@ -37,11 +37,11 @@
                         <div class="panel-footer">
                             <a href="{{ route('users.edit', $user->id) }}" class="btn btn-default">
                                 <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                                @lang('common.Edit')
+                                @lang('common_lang.Edit')
                             </a>
                             <a href="{{ route('users.destroy', $user->id) }}" class="btn btn-danger" data-method="delete" data-token="{{ csrf_token() }}">
                                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                @lang('common.Delete')
+                                @lang('common_lang.Delete')
                             </a>
                         </div>
                     </div>

@@ -32,11 +32,11 @@
                                 <td>
                                     <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-default">
                                         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                                        @lang('common.Edit')
+                                        @lang('common_lang.Edit')
                                     </a>
                                     <a href="{{ route('roles.destroy', $role->id) }}" class="btn btn-danger" data-method="delete" data-token="{{ csrf_token() }}">
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                                        @lang('common.Delete')
+                                        @lang('common_lang.Delete')
                                     </a>
                                 </td>
                             </tr>

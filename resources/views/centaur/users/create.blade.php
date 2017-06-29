@@ -1,6 +1,6 @@
 @extends('layouts.master-admin')
 
-@section('title', 'Create New User')
+@section('title', @trans('common_lang.Create_User'))
 
 @section('content')
 <div class="row">

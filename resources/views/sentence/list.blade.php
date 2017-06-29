@@ -1,12 +1,12 @@
 @extends('layouts.master-admin')
-@section('title', trans('common.Sentences_List'))
-@section('previous_page', trans('common.Back_To'). " " . trans('common.Comments_List'))
+@section('title', trans('common_lang.Sentences_List'))
+@section('previous_page', trans('common_lang.Back_To'). " " . trans('common_lang.Comments_List'))
 @section('content')
     <div class="row">
         <div class="col-lg-12">
             <div class="box box-info">
                 <div class="box box-header">
-                    <h5> @lang('common.Text') @lang('common.Comment')</h5>
+                    <h5> @lang('common_lang.Text') @lang('common_lang.Comment')</h5>
                 <div class="box-body"> {{ $comment->text }}
             </div>
         </div>
@@ -18,10 +18,10 @@
                     <table id="sentence-list-table" class="table table-responsive" cellspacing="1" width="100%">
                         <thead>
                         <tr>
-                            <th>@lang('common.Id')</th>
-                            <th>@lang('common.Text')</th>
-                            <th>@lang('common.Aspect_Selection_For_Gold_Standard')</th>
-                            <th>@lang('common.Polarity')</th>
+                            <th>@lang('common_lang.Id')</th>
+                            <th>@lang('common_lang.Text')</th>
+                            <th>@lang('common_lang.Aspect_Selection_For_Gold_Standard')</th>
+                            <th>@lang('common_lang.Polarity')</th>
                         </tr>
                         </thead>
                         <tfoot>
@@ -33,7 +33,7 @@
                     </table>
                 </div>
                 <div class="form-horizontal block">
-                    <button class="btn btn-success center-block btn-apply-changes">@lang('common.Apply_Changes')</button>
+                    <button class="btn btn-success center-block btn-apply-changes">@lang('common_lang.Apply_Changes')</button>
                 </div>
             </div>
         </div>
@@ -48,18 +48,18 @@
         $("#sentence-list-table").DataTable({
             "language": {
                 "emptyTable": "No data available in table",
-                "lengthMenu": "@lang('common.Show_Entries_No') _MENU_ ",
-                "zeroRecords": "@lang('common.Nothing_found')",
-                "info": "@lang('common.Showing_Page') _PAGE_ @lang('common.of') _PAGES_",
+                "lengthMenu": "@lang('common_lang.Show_Entries_No') _MENU_ ",
+                "zeroRecords": "@lang('common_lang.Nothing_found')",
+                "info": "@lang('common_lang.Showing_Page') _PAGE_ @lang('common_lang.of') _PAGES_",
                 "infoEmpty": "@lang("common.No_Records_Available")",
-                "loadingRecords": "@lang('common.loadingRecords')",
-                "processing": "@lang('common.Processing...')",
-                "search": "@lang('common.Search')",
+                "loadingRecords": "@lang('common_lang.loadingRecords')",
+                "processing": "@lang('common_lang.Processing...')",
+                "search": "@lang('common_lang.Search')",
                 "paginate": {
-                    "first": "@lang('common.First')",
-                    "last": "@lang('common.Last')",
-                    "next": "@lang('common.Next')",
-                    "previous": "@lang('common.Previous')"
+                    "first": "@lang('common_lang.First')",
+                    "last": "@lang('common_lang.Last')",
+                    "next": "@lang('common_lang.Next')",
+                    "previous": "@lang('common_lang.Previous')"
                 },
                 "aria": {
                     "sortAscending": ": activate to sort column ascending",
@@ -84,7 +84,7 @@
                     data: {aspect_id: "aspect_id", id: "id"},
                     render: function (data) {
                         var selectField = "<select data-sentence-id=" + data.id + " name='aspect_id' class='form-control'>";
-                        selectField += "<option value='0'>@lang('common.Select_an_aspect')</option>";
+                        selectField += "<option value='0'>@lang('common_lang.Select_an_aspect')</option>";
                         $.each(aspects, function (key, aspect) {
                             var selected = '';
                             if (aspect.id == data.aspect_id) {
@@ -103,9 +103,9 @@
                     render: function (data) {
                         var selectField = "<select data-sentence-id=" + data.id + " name='polarity' class='form-control'>";
                         var polarities = {
-                            "-1": "@lang('common.Negative')",
-                            "0": "@lang('common.Neutral')",
-                            "1": "@lang('common.Positive')"
+                            "-1": "@lang('common_lang.Negative')",
+                            "0": "@lang('common_lang.Neutral')",
+                            "1": "@lang('common_lang.Positive')"
                         };
                         $.each(polarities, function (polarity, text) {
                             var selected = '';

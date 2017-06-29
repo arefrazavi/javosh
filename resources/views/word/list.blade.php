@@ -1,5 +1,5 @@
 @extends('layouts.master-admin')
-@section('title', trans('common.Words_List'))
+@section('title', trans('common_lang.Words_List'))
 @section('content')
     <div class="row">
         <div class="col-lg-12">
@@ -7,17 +7,17 @@
                 <div class="box-header ui-sortable-handle" style="cursor: move;">
                     <i class="fa fa-list" style="color:green"></i>
 
-                    <h3 class="box-title">@lang('common.Words_List')</h3>
+                    <h3 class="box-title">@lang('common_lang.Words_List')</h3>
                 </div>
                 <div class="box-body">
                     <div class="table-responsive">
                         <table id="word-list-table" class="table table-bordered table-hover">
                             <thead>
                             <tr>
-                                <th>@lang('common.Id')</th>
-                                <th>@lang('common.Word')</th>
-                                <th>@lang('common.Count')</th>
-                                <th>@lang('common.Pos_Tag')</th>
+                                <th>@lang('common_lang.Id')</th>
+                                <th>@lang('common_lang.Word')</th>
+                                <th>@lang('common_lang.Count')</th>
+                                <th>@lang('common_lang.Pos_Tag')</th>
                             </tr>
                             </thead>
                         </table>
@@ -34,18 +34,18 @@
         $("#word-list-table").DataTable({
             "language": {
                 "emptyTable": "No data available in table",
-                "lengthMenu": "@lang('common.Show_Entries_No') _MENU_ ",
-                "zeroRecords": "@lang('common.Nothing_found')",
+                "lengthMenu": "@lang('common_lang.Show_Entries_No') _MENU_ ",
+                "zeroRecords": "@lang('common_lang.Nothing_found')",
                 "info": "",
                 "infoEmpty": "@lang("common.No_Records_Available")",
-                "loadingRecords": "@lang('common.loadingRecords')",
-                "processing": "@lang('common.Processing...')",
-                "search": "@lang('common.Search')",
+                "loadingRecords": "@lang('common_lang.loadingRecords')",
+                "processing": "@lang('common_lang.Processing...')",
+                "search": "@lang('common_lang.Search')",
                 "paginate": {
-                    "first": "@lang('common.First')",
-                    "last": "@lang('common.Last')",
-                    "next": "@lang('common.Next')",
-                    "previous": "@lang('common.Previous')"
+                    "first": "@lang('common_lang.First')",
+                    "last": "@lang('common_lang.Last')",
+                    "next": "@lang('common_lang.Next')",
+                    "previous": "@lang('common_lang.Previous')"
                 },
                 "aria": {
                     "sortAscending": ": activate to sort column ascending",

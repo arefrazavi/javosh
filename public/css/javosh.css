@@ -16,6 +16,16 @@
     url('../fonts/yekannumbers-regular.ttf') format('truetype');  /* Saf3—5, Chrome4+, FF3.5, Opera 10+ */
 }
 
+/*AbeatbyKai Font*/
+@font-face
+{
+    font-family:'AbeatbyKai';
+    src: url('../fonts/AbeatbyKai.eot?#') format('eot'),  /* IE6–8 */
+    url('../fonts/AbeatbyKai.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+    url('../fonts/AbeatbyKai.ttf') format('truetype');  /* Saf3—5, Chrome4+, FF3.5, Opera 10+ */
+}
+
+
 body {
     font-family: 'yekan', 'yekan_numbers', sans-serif;
     direction: rtl;
@@ -26,6 +36,12 @@ body {
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     font-family: 'yekan', 'yekan_numbers', sans-serif;
     font-weight: bold;
+}
+
+.logo {
+    font-family: 'AbeatbyKai', sans-serif;
+    font-weight: 900;
+    color: green !important;
 }
 
 .section {

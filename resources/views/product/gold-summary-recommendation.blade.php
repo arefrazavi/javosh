@@ -1,11 +1,11 @@
 @extends('layouts.master-admin')
-@section('title', trans('common.Gold_Summary_Suggestion'))
+@section('title', trans('common_lang.Gold_Summary_Suggestion'))
 
 @section('content')
     <div class="row">
         <div class="col-lg-12">
             <div class="box box-info rtl-text box-description">
-                <h5> <i class="fa fa-info-circle"></i> @lang('common.Title') @lang('common.Product')</h5>
+                <h5> <i class="fa fa-info-circle"></i> @lang('common_lang.Title') @lang('common_lang.Product')</h5>
                 <div class="box-body"> <a href="{{route("ProductController.viewProduct", $product->id)}}"> {{ $product->title }} </a> </div>
             </div>
         </div>
@@ -28,10 +28,10 @@
                         <table id="sentence-list-table" class="table table-bordered table-hover">
                             <thead>
                             <tr>
-                                <th class="hidden">@lang('common.af')</th>
-                                <th class="hidden">@lang('common.Text')</th>
-                                <th class="hidden">@lang('common.Aspect_Selection_For_Gold_Standard')</th>
-                                <th class="hidden">@lang('common.Polarity')</th>
+                                <th class="hidden">@lang('common_lang.af')</th>
+                                <th class="hidden">@lang('common_lang.Text')</th>
+                                <th class="hidden">@lang('common_lang.Aspect_Selection_For_Gold_Standard')</th>
+                                <th class="hidden">@lang('common_lang.Polarity')</th>
                             </tr>
                             </thead>
                         </table>
@@ -54,18 +54,18 @@
                 $("#sentence-list-table").DataTable({
                     "language": {
                         "emptyTable": "No data available in table",
-                        "lengthMenu": "@lang('common.Show_Entries_No') _MENU_ ",
-                        "zeroRecords": "@lang('common.Nothing_found')",
-                        "info": "@lang('common.Showing_Page') _PAGE_ @lang('common.of') _PAGES_",
+                        "lengthMenu": "@lang('common_lang.Show_Entries_No') _MENU_ ",
+                        "zeroRecords": "@lang('common_lang.Nothing_found')",
+                        "info": "@lang('common_lang.Showing_Page') _PAGE_ @lang('common_lang.of') _PAGES_",
                         "infoEmpty": "No records available",
-                        "loadingRecords": "@lang('common.loadingRecords')",
-                        "processing": "@lang('common.Processing...')",
-                        "search": "@lang('common.Search')",
+                        "loadingRecords": "@lang('common_lang.loadingRecords')",
+                        "processing": "@lang('common_lang.Processing...')",
+                        "search": "@lang('common_lang.Search')",
                         "paginate": {
-                            "first": "@lang('common.First')",
-                            "last": "@lang('common.Last')",
-                            "next": "@lang('common.Next')",
-                            "previous": "@lang('common.Previous')"
+                            "first": "@lang('common_lang.First')",
+                            "last": "@lang('common_lang.Last')",
+                            "next": "@lang('common_lang.Next')",
+                            "previous": "@lang('common_lang.Previous')"
                         },
                         "aria": {
                             "sortAscending": ": activate to sort column ascending",
@@ -117,9 +117,9 @@
                             render: function (data) {
                                 var selectField = "<select data-sentence-id=" + data.id + " name='polarity' class='form-control'>";
                                 var polarities = {
-                                    "-1": "@lang('common.Negative')",
-                                    "0": "@lang('common.Neutral')",
-                                    "1": "@lang('common.Positive')"
+                                    "-1": "@lang('common_lang.Negative')",
+                                    "0": "@lang('common_lang.Neutral')",
+                                    "1": "@lang('common_lang.Positive')"
                                 };
                                 $.each(polarities, function (polarity, text) {
                                     var selected = '';

@@ -46,7 +46,6 @@ Route::get('/', ['as' => 'dashboard', 'uses' => function() {
     return view('dashboard');
 }])->middleware(['sentinel.auth']);
 
-
 /** Category Controller **/
 Route::group(
     ['middleware' => ['web','sentinel.auth'], 'prefix' => 'category'],

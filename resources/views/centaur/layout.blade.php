@@ -10,7 +10,7 @@
         <!-- Bootstrap - Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
-        <link rel="stylesheet" href="{{ asset("css/atma.css") }}">
+        <link rel="stylesheet" href="{{ asset("css/javosh.css") }}">
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -29,24 +29,24 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="/">ATMA</a>
+                    <a class="navbar-brand logo" href="/">Javosh</a>
                 </div>
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        <li class="{{ Request::is('/dashboard') ? 'active' : '' }}"><a href="{{ route('dashboard') }}">@lang('common.Dashboard')</a></li>
+                        <li class="{{ Request::is('/dashboard') ? 'active' : '' }}"><a href="{{ route('dashboard') }}">@lang('common_lang.Dashboard')</a></li>
                         @if (Sentinel::check() && Sentinel::inRole('administrator'))
-                            <li class="{{ Request::is('users*') ? 'active' : '' }}"><a href="{{ route('users.index') }}">@lang('common.Users')</a></li>
-                            <li class="{{ Request::is('roles*') ? 'active' : '' }}"><a href="{{ route('roles.index') }}">@lang('common.Roles')</a></li>
+                            <li class="{{ Request::is('users*') ? 'active' : '' }}"><a href="{{ route('users.index') }}">@lang('common_lang.Users')</a></li>
+                            <li class="{{ Request::is('roles*') ? 'active' : '' }}"><a href="{{ route('roles.index') }}">@lang('common_lang.Roles')</a></li>
                         @endif
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         @if (Sentinel::check())
                             <li><p class="navbar-text">{{ Sentinel::getUser()->email }}</p></li>
-                            <li><a href="{{ route('auth.logout') }}">@lang('common.Logout')</a></li>
+                            <li><a href="{{ route('auth.logout') }}">@lang('common_lang.Logout')</a></li>
                         @else
-                            <li><a href="{{ route('auth.login.form') }}">@lang('common.Login')</a></li>
-                            <li><a href="{{ route('auth.register.form') }}">@lang('common.Register')</a></li>
+                            <li><a href="{{ route('auth.login.form') }}">@lang('common_lang.Login')</a></li>
+                            <li><a href="{{ route('auth.register.form') }}">@lang('common_lang.Register')</a></li>
                         @endif
                     </ul>
                 </div><!-- /.navbar-collapse -->

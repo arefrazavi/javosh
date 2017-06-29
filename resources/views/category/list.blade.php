@@ -1,5 +1,5 @@
 @extends('layouts.master-admin')
-@section('title', trans('common.Categories_List'))
+@section('title', trans('common_lang.Categories_List'))
 
 @section('content')
     <div class="row">
@@ -10,21 +10,21 @@
                         <table id="category-list-table" class="table table-bordered table-hover">
                             <thead>
                             <tr>
-                                <th>@lang('common.Id')</th>
-                                <th>@lang('common.Title')</th>
-                                <th>@lang('common.ProductsCount')</th>
-                                <th>@lang('common.CommentsCount')</th>
-                                <th>@lang('common.Parent_Title')</th>
-                                <th>@lang('common.Aspects_List')</th>
-                                <th>@lang('common.Products_List')</th>
+                                <th>@lang('common_lang.Id')</th>
+                                <th>@lang('common_lang.Title')</th>
+                                <th>@lang('common_lang.ProductsCount')</th>
+                                <th>@lang('common_lang.CommentsCount')</th>
+                                <th>@lang('common_lang.Parent_Title')</th>
+                                <th>@lang('common_lang.Aspects_List')</th>
+                                <th>@lang('common_lang.Products_List')</th>
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
-                                <th>@lang('common.Id')</th>
-                                <th>@lang('common.Title')</th>
-                                <th>@lang('common.ProductsCount')</th>
-                                <th>@lang('common.CommentsCount')</th>
+                                <th>@lang('common_lang.Id')</th>
+                                <th>@lang('common_lang.Title')</th>
+                                <th>@lang('common_lang.ProductsCount')</th>
+                                <th>@lang('common_lang.CommentsCount')</th>
                             </tr>
                             </tfoot>
                         </table>
@@ -41,18 +41,18 @@
         $("#category-list-table").DataTable({
             "language": {
                 "emptyTable": "No data available in table",
-                "lengthMenu": "@lang('common.Show_Entries_No') _MENU_ ",
-                "zeroRecords": "@lang('common.Nothing_found')",
-                "info": "@lang('common.Showing_Page') _PAGE_ @lang('common.of') _PAGES_",
+                "lengthMenu": "@lang('common_lang.Show_Entries_No') _MENU_ ",
+                "zeroRecords": "@lang('common_lang.Nothing_found')",
+                "info": "@lang('common_lang.Showing_Page') _PAGE_ @lang('common_lang.of') _PAGES_",
                 "infoEmpty": "No records available",
-                "loadingRecords": "@lang('common.loadingRecords')",
-                "processing": "@lang('common.Processing...')",
-                "search": "@lang('common.Search')",
+                "loadingRecords": "@lang('common_lang.loadingRecords')",
+                "processing": "@lang('common_lang.Processing...')",
+                "search": "@lang('common_lang.Search')",
                 "paginate": {
-                    "first": "@lang('common.First')",
-                    "last": "@lang('common.Last')",
-                    "next": "@lang('common.Next')",
-                    "previous": "@lang('common.Previous')"
+                    "first": "@lang('common_lang.First')",
+                    "last": "@lang('common_lang.Last')",
+                    "next": "@lang('common_lang.Next')",
+                    "previous": "@lang('common_lang.Previous')"
                 },
                 "aria": {
                     "sortAscending": ": activate to sort column ascending",
@@ -79,7 +79,7 @@
                     render: function (id) {
                         var aspectListRoute = '{{route("AspectController.viewList", "id")}}';
                         aspectListRoute = aspectListRoute.replace("id", id);
-                        var button = '<a class="btn btn-info" title="@lang('common.Aspects_List')" href="'+ aspectListRoute +'"><i class="fa fa-cubes"></i> @lang('common.Aspects_List')</a>';
+                        var button = '<a class="btn btn-info" title="@lang('common_lang.Aspects_List')" href="'+ aspectListRoute +'"><i class="fa fa-cubes"></i> @lang('common_lang.Aspects_List')</a>';
 
                         return button;
                     }
@@ -88,7 +88,7 @@
                     render: function (id) {
                         var productListRoute = '{{route("ProductController.viewList", "id")}}';
                         productListRoute = productListRoute.replace("id", id);
-                        var button = '<a class="btn btn-primary" title="@lang('common.Products_List')" href="'+ productListRoute +'"><i class="fa fa-tags"></i> @lang('common.Products_List')</a>';
+                        var button = '<a class="btn btn-primary" title="@lang('common_lang.Products_List')" href="'+ productListRoute +'"><i class="fa fa-tags"></i> @lang('common_lang.Products_List')</a>';
 
                         return button;
                     }

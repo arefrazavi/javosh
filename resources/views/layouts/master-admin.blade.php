@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>ATMA -> @yield('title')</title>
+    <title>Javosh -> @yield('title')</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="icon" href="{{ asset('image/favicon.ico') }}" type="image/gif" sizes="16x16">
     <link rel="stylesheet" href="{{ asset("admin-lte/bootstrap/css/bootstrap-rtl.css") }}">
@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{{ asset("admin-lte/dist/css/AdminLTE-rtl.css") }}">
     <link rel="stylesheet" href="{{ asset("admin-lte/dist/css/skins/_all-skins-rtl.css") }}">
     <link rel="stylesheet" href="{{ asset("css/jquery.dataTables.1.10.15.min.css") }}">
-    <link rel="stylesheet" href="{{ asset("css/atma.css") }}">
+    <link rel="stylesheet" href="{{ asset("css/javosh.css") }}">
     <link rel="stylesheet" href="{{ asset("css/scroller.dataTables.css") }}">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page commentfile:// -->
@@ -43,7 +43,7 @@
                     <!-- You can dynamically generate breadcrumbs here -->
                     <ol class="breadcrumb">
                         <a class="previous-page-link" href="{{ url()->previous() }}" class="">
-                            @yield('previous_page', trans("Common.Back_To_Previous_Page"))
+                            @yield('previous_page', trans("common_lang.Back_To_Previous_Page"))
                             <span class="fa fa-chevron-left"></span>
                         </a>
                     </ol>

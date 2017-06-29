@@ -1,6 +1,6 @@
 @extends('layouts.master-admin')
-@section('title', trans('common.Comments_List'))
-@section('previous_page', trans('common.Back_To'). " " . trans('common.Products_List'))
+@section('title', trans('common_lang.Comments_List'))
+@section('previous_page', trans('common_lang.Back_To'). " " . trans('common_lang.Products_List'))
 
 @section('content')
 
@@ -8,7 +8,7 @@
         <div class="col-lg-12">
             <div class="box box-info">
                 <div class="box box-header">
-                    <h5> @lang('common.Title') @lang('common.Product')</h5>
+                    <h5> @lang('common_lang.Title') @lang('common_lang.Product')</h5>
                     <div class="box-body"> <a href="{{route("ProductController.viewProduct", $product->id)}}"> {{ $product->title }} </a> </div>
                 </div>
             </div>
@@ -22,11 +22,11 @@
                     <table id="comment-list-table" class="table table-responsive" cellspacing="1" width="100%">
                         <thead>
                         <tr>
-                            <th>@lang('common.Id')</th>
-                            <th>@lang('common.Text')</th>
-                            <th>@lang('common.Positive_Points')</th>
-                            <th>@lang('common.Negative_Points')</th>
-                            <th>@lang('common.Sentences')</th>
+                            <th>@lang('common_lang.Id')</th>
+                            <th>@lang('common_lang.Text')</th>
+                            <th>@lang('common_lang.Positive_Points')</th>
+                            <th>@lang('common_lang.Negative_Points')</th>
+                            <th>@lang('common_lang.Sentences')</th>
                         </tr>
                         </thead>
                         <tfoot>
@@ -50,18 +50,18 @@
         $("#comment-list-table").DataTable({
             "language": {
                 "emptyTable": "No data available in table",
-                "lengthMenu": "@lang('common.Show_Entries_No') _MENU_ ",
-                "zeroRecords": "@lang('common.Nothing_found')",
-                "info": "@lang('common.Showing_Page') _PAGE_ @lang('common.of') _PAGES_",
+                "lengthMenu": "@lang('common_lang.Show_Entries_No') _MENU_ ",
+                "zeroRecords": "@lang('common_lang.Nothing_found')",
+                "info": "@lang('common_lang.Showing_Page') _PAGE_ @lang('common_lang.of') _PAGES_",
                 "infoEmpty": "No records available",
-                "loadingRecords": "@lang('common.loadingRecords')",
-                "processing": "@lang('common.Processing...')",
-                "search": "@lang('common.Search')",
+                "loadingRecords": "@lang('common_lang.loadingRecords')",
+                "processing": "@lang('common_lang.Processing...')",
+                "search": "@lang('common_lang.Search')",
                 "paginate": {
-                    "first": "@lang('common.First')",
-                    "last": "@lang('common.Last')",
-                    "next": "@lang('common.Next')",
-                    "previous": "@lang('common.Previous')"
+                    "first": "@lang('common_lang.First')",
+                    "last": "@lang('common_lang.Last')",
+                    "next": "@lang('common_lang.Next')",
+                    "previous": "@lang('common_lang.Previous')"
                 },
                 "aria": {
                     "sortAscending": ": activate to sort column ascending",
@@ -89,7 +89,7 @@
                     render: function (id) {
                         var sentenceListRoute = '{{route("SentenceController.viewList", "id")}}';
                         sentenceListRoute = sentenceListRoute.replace("id", id);
-                        var button = '<a class="btn btn-primary" title="Show comments list" href="' + sentenceListRoute + '">@lang('common.Sentences_List')</a>';
+                        var button = '<a class="btn btn-primary" title="Show comments list" href="' + sentenceListRoute + '">@lang('common_lang.Sentences_List')</a>';
 
                         return button;
                     }

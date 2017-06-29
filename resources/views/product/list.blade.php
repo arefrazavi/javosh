@@ -1,5 +1,5 @@
 @extends('layouts.master-admin')
-@section('title', trans('common.Products_List'))
+@section('title', trans('common_lang.Products_List'))
 
 @section('content')
     <div class="row">
@@ -10,10 +10,10 @@
                         <table id="product-list-table" class="table table-bordered table-hover">
                             <thead>
                             <tr>
-                                <th>@lang('common.Id')</th>
-                                <th>@lang('common.Title')</th>
-                                <th>@lang('common.Category')</th>
-                                <th>@lang('common.Comments')</th>
+                                <th>@lang('common_lang.Id')</th>
+                                <th>@lang('common_lang.Title')</th>
+                                <th>@lang('common_lang.Category')</th>
+                                <th>@lang('common_lang.Comments')</th>
                             </tr>
                             </thead>
                             <tfoot>
@@ -37,18 +37,18 @@
         $("#product-list-table").DataTable({
             "language": {
                 "emptyTable":     "No data available in table",
-                "lengthMenu": "@lang('common.Show_Entries_No') _MENU_ ",
-                "zeroRecords": "@lang('common.Nothing_found')",
-                "info": "@lang('common.Showing_Page') _PAGE_ @lang('common.of') _PAGES_",
+                "lengthMenu": "@lang('common_lang.Show_Entries_No') _MENU_ ",
+                "zeroRecords": "@lang('common_lang.Nothing_found')",
+                "info": "@lang('common_lang.Showing_Page') _PAGE_ @lang('common_lang.of') _PAGES_",
                 "infoEmpty": "No records available",
-                "loadingRecords": "@lang('common.loadingRecords')",
-                "processing":     "@lang('common.Processing...')",
-                "search":         "@lang('common.Search')",
+                "loadingRecords": "@lang('common_lang.loadingRecords')",
+                "processing":     "@lang('common_lang.Processing...')",
+                "search":         "@lang('common_lang.Search')",
                 "paginate": {
-                    "first":      "@lang('common.First')",
-                    "last":       "@lang('common.Last')",
-                    "next":       "@lang('common.Next')",
-                    "previous":   "@lang('common.Previous')"
+                    "first":      "@lang('common_lang.First')",
+                    "last":       "@lang('common_lang.Last')",
+                    "next":       "@lang('common_lang.Next')",
+                    "previous":   "@lang('common_lang.Previous')"
                 },
                 "aria": {
                     "sortAscending":  ": activate to sort column ascending",
@@ -84,7 +84,7 @@
                     render: function (id) {
                         var commentListRoute = '{{route("CommentController.viewList", "id")}}';
                         commentListRoute = commentListRoute.replace("id", id);
-                        var button = '<a class="btn btn-primary" title="Show comments list" href="'+ commentListRoute +'">@lang('common.Comments_List')</a>';
+                        var button = '<a class="btn btn-primary" title="Show comments list" href="'+ commentListRoute +'">@lang('common_lang.Comments_List')</a>';
 
                         return button;
                     }

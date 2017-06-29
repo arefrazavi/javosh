@@ -67,16 +67,17 @@ class RegistrationController extends Controller
         // Send the activation email
         $code = $result->activation->getCode();
         $email = $result->user->email;
-        Mail::to($email)->queue(new CentaurWelcomeEmail($email, $code, 'Your account has been created!'));
+        Mail::to($email)->queue(new CentaurWelcomeEmail($email, $code, trans('user.Your_account_has_been_created')));
 
         // Ask the user to check their email for the activation link
-        $result->setMessage('Registration complete.  Please check your email for activation instructions.');
+        $message = trans('user.Registration_Complete'). " ". trans('user.check_your_email_for_activation');
+        $result->setMessage($message);
 
         // There is no need to send the payload data to the end user
         $result->clearPayload();
 
         // Return the appropriate response
-        return $result->dispatch(route('dashboard'));
+        return $result->dispatch(route('auth.login.form'));
     }
 
     /**
