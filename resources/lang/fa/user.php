@@ -33,5 +33,6 @@ return [
     "Registration_Complete" => "ثبت نام موفقیت آمیز بود.",
     "check_your_email_for_activation" => "لطفا ایمیل خود را برای فعالسازی حساب بررسی کنید.",
     "Login" => 'ورود',
-    "Your_account_has_been_created" => "حساب کاربری شما ایجاد شده است."
+    "Your_account_has_been_created" => "حساب کاربری شما ایجاد شده است.",
+
 ];

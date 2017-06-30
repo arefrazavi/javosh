@@ -94,9 +94,15 @@ class SummaryLib
         $recommendedSentences = [];
         //$product = Product::fetch($productId);
         $comments = Comment::fetchComments("id, text", "product_id = $productId");
+        if (!$comments->count()) {
+            return $recommendedSentences;
+        }
         $firstSentence = $comments{0}->sentences{0};
         $firstSentence->aspect_frequency = unserialize($firstSentence->aspect_frequency);
-        $firstSentence->weighted_aspect_freq = $firstSentence->aspect_frequency[$aspectId];
+        $firstSentence->weighted_aspect_freq = 0;
+        if ($firstSentence->aspect_frequency && isset($firstSentence->aspect_frequency[$aspectId])) {
+            $firstSentence->weighted_aspect_freq = $firstSentence->aspect_frequency[$aspectId];
+        }
         $recommendedSentences[0] = $firstSentence;
         unset($comments{0}->sentences{0});
         $i = 1;
@@ -108,10 +114,13 @@ class SummaryLib
             $sentences = Sentence::fetchSentencesWithSummary($selectRaw, $whereRaw);
             foreach ($sentences as $sentence) {
                 $aspectFrequency = unserialize($sentence->aspect_frequency);
-                if (!$aspectFrequency[$aspectId]) {
+                if (!isset($aspectFrequency[$aspectId])) {
+                    $sentence->weighted_aspect_freq = 0;
+                } else if (!$aspectFrequency[$aspectId]) {
                     continue;
+                } else {
+                    $sentence->weighted_aspect_freq = $aspectFrequency[$aspectId];
                 }
-                $sentence->weighted_aspect_freq = $aspectFrequency[$aspectId];
                 $sentence->comment_text = $comment->text;
                 $recommendedSentences[] = $sentence;
 

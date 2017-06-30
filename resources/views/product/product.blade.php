@@ -19,8 +19,8 @@
                         @lang('common_lang.Comments_Summary')
                     </h3>
                     <div class="pull-left">
-                        <b><a href="{{ route("CommentController.viewList", $product->id) }}" >@lang("common.Comments_List")</a> | </b>
-                        <b><a class="gold-text" href="{{ route("ProductController.viewGoldSummaryRecommendation", $product->id) }}">@lang("common.Gold_Summary_Suggestion")</a></b>
+                        <b><a href="{{ route("CommentController.viewList", $product->id) }}" >@lang("common_lang.Comments_List")</a> | </b>
+                        <b><a class="gold-text" href="{{ route("ProductController.viewGoldSummaryRecommendation", $product->id) }}">@lang("common_lang.Gold_Summary_Suggestion")</a></b>
                     </div>
                 </div>
                 @foreach($aspects as $aspect)

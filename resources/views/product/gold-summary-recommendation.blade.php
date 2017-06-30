@@ -15,7 +15,7 @@
             <div class="box-header" style="cursor: move;">
                 <div class="form-group">
                     <select class="form-control gold" id="aspect_id" name="aspect_id">
-                        <option value="">@lang("common.Select_an_aspect")</option>
+                        <option value="">@lang("common_lang.Select_an_aspect")</option>
                         @foreach($aspects as $aspect)
                             <option value="{{ $aspect->id }}">{!! $aspect->title !!}</option>
                         @endforeach

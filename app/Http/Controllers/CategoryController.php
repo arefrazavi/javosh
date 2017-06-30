@@ -32,8 +32,8 @@ class CategoryController extends Controller
             $products = $category->products;
             $newCategories[$category->id]->productsCount += $products->count();
             foreach ($products as $product) {
-                $newCategories[$category->id]->commentsCount += Comment::fetchComments("COUNT(*) AS count",
-                    PHP_INT_MAX, 0, "product_id = " . $product->id)[0]->count;
+                $comments = Comment::fetchComments("COUNT(*) AS count","product_id = " . $product->id, PHP_INT_MAX, 0)[0];
+                $newCategories[$category->id]->commentsCount += $comments->count;
             }
 
             if (isset($newCategories[$category->parent_id])) {
