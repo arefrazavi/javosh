@@ -49,12 +49,16 @@ class RegistrationController extends Controller
         $result = $this->validate($request, [
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|confirmed|min:6',
+            'first_name' => 'required',
+            'last_name' => 'required',
         ]);
 
         // Assemble registration credentials
         $credentials = [
             'email' => trim($request->get('email')),
             'password' => $request->get('password'),
+            'first_name' => $request->get('first_name'),
+            'last_name' => $request->get('last_name'),
         ];
 
         // Attempt the registration
