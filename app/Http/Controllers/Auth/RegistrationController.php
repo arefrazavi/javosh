@@ -109,7 +109,7 @@ class RegistrationController extends Controller
         $result->clearPayload();
 
         // Return the appropriate response
-        return $result->dispatch(route('dashboard'));
+        return $result->dispatch(route('home'));
     }
 
     /**
@@ -153,6 +153,6 @@ class RegistrationController extends Controller
         }
 
         Session::flash('success', $message);
-        return redirect('/dashboard');
+        return redirect(route('home'));
     }
 }

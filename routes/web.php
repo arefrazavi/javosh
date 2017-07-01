@@ -39,12 +39,20 @@ Route::resource('roles', 'RoleController');
 
 // Dashboard
 Route::get('dashboard', ['as' => 'dashboard', 'uses' => function() {
-    return view('dashboard');
-}])->middleware(['sentinel.auth'])->name('dashboard');
+    if (Sentinel::check()) {
+        return view('dashboard');
+    } else {
+        return view('Centaur::auth.login');
+    }
+}]);
 
-Route::get('/', ['as' => 'dashboard', 'uses' => function() {
-    return view('dashboard');
-}])->middleware(['sentinel.auth']);
+Route::get('/', ['as' => 'home', 'uses' => function() {
+    if (Sentinel::check()) {
+        return view('dashboard');
+    } else {
+        return view('Centaur::auth.login');
+    }
+}]);
 
 /** Category Controller **/
 Route::group(

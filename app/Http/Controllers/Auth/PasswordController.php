@@ -70,7 +70,7 @@ class PasswordController extends Controller
         }
 
         Session::flash('success', $message);
-        return redirect('/dashboard');
+        return redirect(route('home'));
     }
 
 
@@ -87,7 +87,7 @@ class PasswordController extends Controller
             // This route will not be accessed via ajax;
             // no need for a json response
             Session::flash('error', 'Invalid or expired password reset code; please request a new link.');
-            return redirect()->route('dashboard');
+            return redirect()->route('home');
         }
 
         return view('Centaur::auth.password')
