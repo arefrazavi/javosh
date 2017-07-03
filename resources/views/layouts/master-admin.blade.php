@@ -3,8 +3,11 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Javosh -> @yield('title')</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="google-site-verification" content="e02PAFaPzEXO676NK3hafXtKZ-pvuomVwfs-H8KB5b4">
+
+    <title>Javosh -> @yield('title')</title>
+
     <link rel="icon" href="{{ asset('image/favicon.ico') }}" type="image/gif" sizes="16x16">
     <link rel="stylesheet" href="{{ asset("admin-lte/bootstrap/css/bootstrap-rtl.css") }}">
     <link rel="stylesheet" href="{{ asset("admin-lte/bootstrap/css/bootstrap-theme-rtl.css") }}">
