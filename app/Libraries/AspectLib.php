@@ -6,6 +6,7 @@ use App\Helpers\Common;
 use App\Helpers\Tokenizer;
 use App\Models\Aspect;
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Sentence;
 use App\Models\Word;
 
@@ -81,185 +82,132 @@ class AspectLib
     }
 
     /**
-     * Find frequent item sets as pot aspects
-     * Apriori Algorithm
+     * @param $items
+     * @param $transactions
+     * @param float $minSupport
+     * @return array
      */
-    public static function findFrequentItemSets()
+    public static function findFrequentItemSets(&$items, &$transactions, $minSupport = 0.01)
     {
-
         $frequentItemSets = [];
-        $minSupport = 0.01;
-        $sentencesTexts = [];
-        $prosAndCons = [];
-        $aspects = [];
-
-
-        $words = Word::fetchWords("*", 'pos_tag IS NULL', PHP_INT_MAX, 0, 'count', 'DESC');
-        $sentences = Sentence::fetchSentences();
-        $sentencesCount = sizeof($sentences);
-
-        foreach ($sentences as $sentence) {
-            $text = Common::sanitizeString($sentence->text);
-            $sentencesTexts[$sentence->id] = $text;
-        }
+        $transactionsCount = sizeof($transactions);
 
         //Initialization - Itemset size 1
         $frequentItemSets[1] = [];
-        foreach ($words as $word) {
-            $wordValue = $word->value;
-            $probability = $word->count / $sentencesCount;
-            //Break when it comes to below min support, because words are in descending order of theirs counts,
-            if ($probability < $minSupport) {
-                break;
-            }
+        foreach ($items as $key => $item) {
             $frequency = 0;
-            $sentenceIds = [];
-            foreach ($sentencesTexts as $sentenceId => $sentenceText) {
-                if (strpos($sentenceText, $wordValue) !== false) {
+            $transactionIds = [];
+            foreach ($transactions as $transactionId => $transaction) {
+                if (strpos($transaction, $item) !== false) {
                     $frequency++;
-                    $sentenceIds[] = $sentenceId;
+                    $transactionIds[] = $transactionId;
                 }
             }
-            $support = $frequency / $sentencesCount;
+            $support = $frequency / $transactionsCount;
 
             if ($support >= $minSupport) {
-                print_r("\n frequent item:" . $wordValue . "\n");
-                $frequentItemSets[1][$wordValue]['support'] = $support;
-                $frequentItemSets[1][$wordValue]['sentenceIds'] = $sentenceIds;
-                $frequentItemSets[1][$wordValue]['frequency'] = $frequency;
+                print_r("\n frequent item: $item with support $support \n");
+                $frequentItemSet['support'] = $support;
+                $frequentItemSet['frequency'] = $frequency;
+                $frequentItemSet['items'] = [$item => $item];
+                $frequentItemSet['transactionIds'] = $transactionIds;
+                $frequentItemSets[1][] = $frequentItemSet;
+
             }
         }
         $preSize = 1;
         $currentSize = 2;
+        $sizeOneCount = sizeof($frequentItemSets[1]);
         while ($currentSize <= 3) {
-
-            print_r("Current size :" . $currentSize . "<br> \n");
-
-            if (!isset($frequentItemSets[$preSize]) || empty($frequentItemSets[$preSize])) {
+            print_r("Current size : $currentSize \n");
+            if (!isset($frequentItemSets[$preSize])) {
                 break;
             }
 
-            //$potFrequentItems = [];
-            foreach ($frequentItemSets[$preSize] as $frequentItem1 => $info1) {
-                $itemWords = explode(" ", $frequentItem1);
-                foreach ($frequentItemSets[1] as $itemWord => $info2) {
-                    if (in_array($itemWord, $itemWords)) {
+            $frequentItemSetsCount = sizeof($frequentItemSets[$preSize]);
+            for ($i = 0; $i < $frequentItemSetsCount; $i++) {
+                for ($j = 0; $j < $sizeOneCount; $j++) {
+                    $newItem = current($frequentItemSets[1][$j]['items']);
+                    //Check if the new item doesn't exist in items of previous frequent item set
+                    if (isset($frequentItemSets[$preSize][$i]['items'][$newItem])) {
                         continue;
                     }
+                    $transactionIds = array_intersect($frequentItemSets[$preSize][$i]['transactionIds'],
+                        $frequentItemSets[1][$j]['transactionIds']);
+                    $frequency = sizeof($transactionIds);
+                    $support = $frequency / $transactionsCount;
+                    if ($frequency >= $minSupport) {
+                        $frequentItemSet['support'] = $support;
+                        $frequentItemSet['frequency'] = $frequency;
+                        $newItems = $frequentItemSets[$preSize][$i]['items'];
+                        $newItems[$newItem] = $newItem;
+                        $frequentItemSet['items'] = $newItems;
+                        $frequentItemSet['transactionIds'] = $transactionIds;
+                        $frequentItemSets[$currentSize][] = $frequentItemSet;
 
-                    $potFrequentItem = $frequentItem1 . " " . $itemWord;
-                    print_r("\n pot frequent item:" . $potFrequentItem . "\n");
-
-                    $frequency = 0;
-                    $sentenceIds = [];
-                    foreach ($info1['sentenceIds'] as $sentenceId) {
-                        if (strpos($sentencesTexts[$sentenceId], $potFrequentItem) !== false) {
-                            $frequency++;
-                            $sentenceIds[] = $sentenceId;
-                        }
-                    }
-
-                    $support = $frequency / $sentencesCount;
-                    if ($support >= $minSupport) {
-                        $frequentItemSets[$currentSize][$potFrequentItem]['support'] = $support;
-                        $frequentItemSets[$currentSize][$potFrequentItem]['sentenceIds'] = $sentenceIds;
-                        $frequentItemSets[$currentSize][$potFrequentItem]['frequency'] = $frequency;
-                        print_r("\n frequent item:" . $potFrequentItem . "\n");
-
+                        print_r("\n frequent item found \n");
                     }
                 }
             }
-
             $preSize = $currentSize;
             $currentSize++;
-
         }
 
-
-        $frequentItems = [];
-        foreach ($frequentItemSets as $frequentItemSet) {
-            foreach ($frequentItemSet as $item => $info) {
-                $frequentItems[] = [
-                    'item' => $item,
-                    'support' => $info['support'],
-                    'frequency' => $info['frequency'],
-                    'sentenceIds' => serialize($info['sentenceIds'])
-                ];
-            }
-        }
-
-        $filePath = base_path('data/aspects/Mobile-Phone/frequent_item_sets.csv');
-        $writingMode = 'w';
-        Common::writeToCsv($frequentItems, $filePath, $writingMode);
-
+        return $frequentItemSets;
     }
 
     /**
-     *
+     * @param $frequentItemSets
+     * @param $sentenceTexts
+     * @param float $minAdjSupport
+     * @return array
      */
-    public static function findDynamicAspects()
+    public static function findDynamicAspects(&$frequentItemSets, &$sentenceTexts, $minAdjSupport = 0.01)
     {
-        $minAdjSupport = 0.01;
-
-        $filePath = base_path('data/aspects/Mobile-Phone/frequent_item_sets.csv');
-        $frequentItems = Common::readFromCsv($filePath);
-        unset($frequentItems[0]); // remove title row
-
-        $sentences = Sentence::fetchSentences();
         $sentencesWords = [];
-        foreach ($sentences as $sentence) {
-            //$text = Common::sanitizeString($sentence->text);
-            $sentencesWords[$sentence->id] = WordLib::extractWords($sentence->text);
+        foreach ($sentenceTexts as $sentenceId => $sentenceText) {
+            $sentencesWords[$sentenceId] = WordLib::extractWords($sentenceText);
         }
-        $adjWords = Word::fetchWords("*", "pos_tag = 'ADJ'");
+        $adjWords = Word::fetchWords("value", "pos_tag = 'ADJ'");
 
         $aspects = [];
-        foreach ($frequentItems as $frequentItem) {
-            $potAspect = $frequentItem[0];
-            $support = $frequentItem[1];
-            $frequency = $frequentItem[2];
-            $sentenceIds = unserialize($frequentItem[3]);
+        foreach ($frequentItemSets as $sizedFrequentItemSets) {
+            foreach ($sizedFrequentItemSets as $frequentItemSet) {
+                $adjCount = 0;
+                foreach ($frequentItemSet['transactionIds'] as $transactionId) {
+                    $lastItemVal = end($frequentItemSet['items']);
+                    $potAspectPos = array_search($lastItemVal, $sentencesWords[$transactionId]);
+                    print_r("Potential aspect ends in $lastItemVal \n");
 
-            print_r("Potential Aspect: " . $potAspect . "<br> \n");
+                    foreach ($adjWords as $adjWord) {
+                        $adj = $adjWord->value;
+                        $adjPos = array_search($adj, $sentencesWords[$transactionId]);
 
-            $adjCount = 0;
-            foreach ($sentenceIds as $sentenceId) {
-                $potAspectPos = array_search($potAspect, $sentencesWords[$sentenceId]);
-
-                foreach ($adjWords as $adjWord) {
-                    $adj = $adjWord->value;
-                    print_r("Adj:" . $adj . " <br> \n");
-
-                    $adjPos = array_search($adj, $sentencesWords[$sentenceId]);
-
-                    if ($adjPos !== false) {
-                        $posDiff = $potAspectPos - $adjPos;
-                        if (-3 <= $posDiff && $posDiff <= -1) {
-                            $adjCount++;
+                        if ($adjPos !== false) {
+                            $posDiff = $adjPos - $potAspectPos;
+                            if (0 < $posDiff && $posDiff <= 3) {
+                                $adjCount++;
+                                print_r("Adjective $adj found in neighborhood \n");
+                            }
                         }
                     }
+                    $adjSupport = $adjCount / $frequentItemSet['frequency'];
+                    if ($adjSupport >= $minAdjSupport) {
+                        $itemVal = implode(" ", $frequentItemSet['items']);
+                        $aspects[] = [
+                            'value' => $itemVal,
+                            'support' => $frequentItemSet['support'],
+                            'adjSupport' => $adjSupport,
+                            'frequency' => $frequentItemSet['frequency']
+                        ];
+
+                        print_r("*** Aspect found" . $itemVal . " **** \n");
+                    }
                 }
-
-            }
-
-            $adjSupport = $adjCount / $frequency;
-
-            print_r("\n" . $adjSupport . "\n");
-            if ($adjSupport >= $minAdjSupport) {
-                print_r("Aspect: " . $potAspect . "<br> \n");
-                $aspects[] = [
-                    'word' => $potAspect,
-                    'support' => $support,
-                    'adjSupport' => $adjSupport,
-                    'frequency' => $frequency
-                ];
             }
         }
 
-        $filePath = base_path('data/aspects/Mobile-Phone/potential_dynamic_aspects.csv');
-        $writingMode = 'w';
-        Common::writeToCsv($aspects, $filePath, $writingMode);
-
+        return $aspects;
     }
 
 

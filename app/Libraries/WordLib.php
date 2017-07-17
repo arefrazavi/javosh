@@ -508,4 +508,15 @@ class WordLib
         print_r("\n********END******\n");
     }
 
+    public static function getWordValues($whereClause)
+    {
+        $wordValues = [];
+        $words = Word::fetchWords("id, value", $whereClause, PHP_INT_MAX, 0, "count", "DESC");
+        foreach ($words as $word) {
+            $wordValues[$word->id] = $word->value;
+        }
+
+        return $wordValues;
+    }
+
 }

@@ -1,0 +1,153 @@
+***********************
+//Install LAMP
+
+apt-get update
+
+apt-get install apache2
+
+nano /etc/apache2/apache2.conf
+    ServerName 78.46.245.121
+
+apt-get install curl
+
+apt-get install mysql-server
+
+apt-get install php libapache2-mod-php php-mcrypt php-mysql
+
+nano /etc/apache2/mods-enabled/dir.conf
+--------------------------
+<IfModule mod_dir.c>
+    DirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.htm
+</IfModule>
+--------------------------
+service apache2 restart
+
+apt-get install php-cli
+
+*********************************
+//Install GIT
+
+apt-get install git
+
+*********************************
+//Install composer
+
+curl -s https://getcomposer.org/installer | php
+
+mv composer.phar /usr/local/bin/composer
+
+****************************************
+//Access Ubuntu from Windows remotely.
+
+apt-get install xrdp
+
+apt-get install xfce4
+
+echo xfce4-session >~/.xsession
+
+nano /etc/xrdp/startwm.sh
+------------------------------
+#!/bin/sh
+
+if [ -r /etc/default/locale ]; then
+  . /etc/default/locale
+  export LANG LANGUAGE
+fi
+
+startxfce4
+------------------------------
+
+service xrdp restart
+
+*******************************************
+//virtual host
+
+chmod -R 755 /var/www
+
+a2enmod rewrite
+
+cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/javosh.com.conf
+
+nano /etc/apache2/sites-available/javosh.com.conf
+-----------------
+NameVirtualHost *:80
+<VirtualHost *:80>
+    ServerName javosh.com
+    ServerAlias www.javosh.com
+    ServerAdmin arefrazavi@gmail.com
+    DocumentRoot /var/www/javosh/public
+    ErrorLog /var/log/javosh.com_error_log
+    CustomLog /var/log/javosh.com_access_log combined
+    DirectoryIndex index.html index.htm index.php index.php4 index.php5
+    SetOutputFilter DEFLATE
+    <Directory /var/www/javosh/public>
+        RewriteEngine On
+        RewriteBase /var/www/javosh/public
+        Options -Indexes +IncludesNOEXEC +SymLinksifOwnerMatch +ExecCGI
+        allow from all
+        AllowOverride All
+    </Directory>
+</VirtualHost>
+------------------
+
+a2ensite javosh.com.conf
+
+a2dissite 000-default.conf
+
+nano /etc/hosts
+78.46.245.121 javosh.com
+
+//Install and run project
+cd /var/www/
+git clone https://github.com/arefrazavi/javosh.git
+chgrp -R www-data storage bootstrap/cache
+chmod -R ug+rwx storage bootstrap/cache
+cd javosh/
+apt-get install php-mbstring php-curl php-zip php-xml php-dom
+composer install
+
+cp .env.example .env
+nano .env
+------------
+APP_ENV=local
+APP_KEY=base64:KkFUFF65dKS3fOIh1+Msy7UV8IaSCLF6RLpvYm53I0E=
+APP_DEBUG=true
+APP_LOG_LEVEL=debug
+APP_URL=http://www.javosh.com
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=arcrawler_db
+DB_USERNAME=root
+DB_PASSWORD=fill
+
+DB_ENGINE=InnoDB
+---------------
+
+php artisan key:generate
+
+mysql -u -p
+CREATE DATABASE javosh_db
+  DEFAULT CHARACTER SET utf8
+  DEFAULT COLLATE utf8_general_ci;
+
+php artisan migrate --seed
+
+
+************************
+//install chrome
+
+wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+
+sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+
+apt-get update
+
+apt-get install google-chrome-stable
+
+nano /usr/bin/google-chrome
+------------------
+(add --no-sandbox to both exec es in last lines of the file)
+-----------------
+

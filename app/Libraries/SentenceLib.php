@@ -335,4 +335,41 @@ class SentenceLib
         }
     }
 
+    public static function getTextSentencesTexts($whereClause)
+    {
+        $textSentenceTexts = [];
+        $comments = Comment::fetchComments("id", $whereClause, 1);
+
+        foreach ($comments as $comment) {
+            $whereClause = "comment_id = $comment->id";
+            $commentTextSentences = Sentence::fetchSentences("*", $whereClause);
+            foreach ($commentTextSentences as $commentTextSentence) {
+                $commentTextSentenceText = Common::sanitizeString($commentTextSentence->text);
+                $textSentenceTexts[$commentTextSentence->id] = $commentTextSentenceText ;
+            }
+        }
+
+        return $textSentenceTexts;
+
+    }
+
+
+    public static function getPointsSentencesTexts($whereClause)
+    {
+        $pointSentenceTexts = [];
+        $comments = Comment::fetchComments("id", $whereClause, 1);
+        $sentenceId = 1;
+        foreach ($comments as $comment) {
+            $pointsText = $comment->positive_points . ". " . $comment->negative_points;
+            $commentPointsSentenceTexts = Tokenizer::segmentize($pointsText);
+            foreach ($commentPointsSentenceTexts as $commentPointsSentenceText) {
+                $commentPointsSentenceText = Common::sanitizeString($commentPointsSentenceText);
+                $pointSentenceTexts[$sentenceId] = $commentPointsSentenceText;
+                $sentenceId++;
+            }
+        }
+
+        return $pointSentenceTexts;
+    }
+
 }
