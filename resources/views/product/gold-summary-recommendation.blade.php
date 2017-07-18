@@ -31,7 +31,6 @@
                                 <th class="hidden">@lang('common_lang.af')</th>
                                 <th class="hidden">@lang('common_lang.Text')</th>
                                 <th class="hidden">@lang('common_lang.Aspect_Selection_For_Gold_Standard')</th>
-                                <th class="hidden">@lang('common_lang.Polarity')</th>
                             </tr>
                             </thead>
                         </table>
@@ -101,36 +100,30 @@
                             }
                         },
                         {
-                            data: {id: "id", aspect_id: "aspect_id"}, width: "100px",
+                            data: {id: "id", aspect_id: "aspect_id"}, class: "suggestBtnCol",
                             render: function (data) {
-                                var goldSuggestClass = "gold-suggest-disabled";
+                                var suggestBtns;
+                                var startWrapper = "<div data-sentence-id='" + data.id + "'> ";
+                                var positiveSuggestBtn = "<i title='@lang('common_lang.Positive')' data-polarity = '1' class='fa fa-plus-circle gold-suggest gold-suggest-disabled'></i> ";
+                                var neutralSuggestBtn = "<i title='@lang('common_lang.Neutral')' data-polarity = '0' class='fa fa-dot-circle-o gold-suggest gold-suggest-disabled'></i> ";
+                                var negativeSuggestBtn = "<i title='@lang('common_lang.Negative')' data-polarity = '-1' class='fa fa-minus-circle gold-suggest gold-suggest-disabled'></i> ";
+                                var endWrapper = "</div>";
                                 if (data.aspect_id == aspectId) {
-                                    goldSuggestClass = "gold-suggest-enabled";
-                                }
-                                var suggestBtn = "<div class='gold-suggest " + goldSuggestClass + "' data-sentence-id='" + data.id + "'> ";
-                                suggestBtn += "<i class='fa fa-check-circle'> </i> </div>";
-                                return suggestBtn;
-                            }
-                        },
-                        {
-                            data: {polarity: "polarity", id: "id"},
-                            render: function (data) {
-                                var selectField = "<select data-sentence-id=" + data.id + " name='polarity' class='form-control'>";
-                                var polarities = {
-                                    "-1": "@lang('common_lang.Negative')",
-                                    "0": "@lang('common_lang.Neutral')",
-                                    "1": "@lang('common_lang.Positive')"
-                                };
-                                $.each(polarities, function (polarity, text) {
-                                    var selected = '';
-                                    if (polarity == data.polarity) {
-                                        selected = 'selected';
+                                    switch (data.polarity){
+                                        case "1":
+                                            positiveSuggestBtn = "<i title='@lang('common_lang.Positive') 'data-polarity = '1'  class='fa fa-plus-circle gold-suggest gold-suggest-enabled'></i> ";
+                                            break;
+                                        case "0":
+                                            neutralSuggestBtn = "<i title='@lang('common_lang.Neutral')' data-polarity = '0' class='fa fa-dot-circle-o gold-suggest gold-suggest-enabled'></i> ";
+                                            break;
+                                        case "-1":
+                                            negativeSuggestBtn = "<i title='@lang('common_lang.Negative')' data-polarity = '-1' class='fa fa-minus-circle gold-suggest gold-suggest-enabled'></i> ";
+                                            break;
                                     }
-                                    selectField += "<option " + selected + " value='" + polarity + "'>" + text + "</option>";
-                                });
-                                selectField += "</select>";
+                                }
+                                suggestBtns = startWrapper + positiveSuggestBtn + neutralSuggestBtn + negativeSuggestBtn + endWrapper;
 
-                                return selectField;
+                                return suggestBtns;
                             }
                         }
                     ],
@@ -151,8 +144,9 @@
 
         $("#sentence-list-table").on("click", ".gold-suggest", function (e) {
             var targetSuggestBtn = $(this);
-            var sentenceId = targetSuggestBtn.data('sentence-id');
-            var polarity = targetSuggestBtn.parent('td').siblings('td').children("select[name='polarity']").val();
+            var previousGoldSibling = targetSuggestBtn.siblings(".gold-suggest.gold-suggest-enabled");
+            var sentenceId = targetSuggestBtn.parent('div').data('sentence-id');
+            var polarity = targetSuggestBtn.data('polarity');
             var goldRequest = {'sentenceId': sentenceId, 'aspectId': aspectId, 'polarity': polarity, 'action': 0};
             if ($(this).hasClass("gold-suggest-disabled")) {
                 goldRequest.action = 1; //1 = Add
@@ -168,6 +162,10 @@
             })
                 .done(function (result) {
                     if (result.success) {
+                        if (goldRequest.action) {
+                            previousGoldSibling.removeClass("gold-suggest-enabled");
+                            previousGoldSibling.addClass("gold-suggest-disabled");
+                        }
                         targetSuggestBtn.toggleClass("gold-suggest-disabled");
                         targetSuggestBtn.toggleClass("gold-suggest-enabled");
                     } else {

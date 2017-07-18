@@ -97,7 +97,24 @@ a2dissite 000-default.conf
 nano /etc/hosts
 78.46.245.121 javosh.com
 
-//Install and run project
+************************
+//install chrome
+
+wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+
+sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+
+apt-get update
+
+apt-get install google-chrome-stable
+
+nano /usr/bin/google-chrome
+------------------
+(add --no-sandbox to both exec es in last lines of the file)
+-----------------
+
+********************************************************************************************************
+//Install and run project and database
 cd /var/www/
 git clone https://github.com/arefrazavi/javosh.git
 chgrp -R www-data storage bootstrap/cache
@@ -127,27 +144,25 @@ DB_ENGINE=InnoDB
 
 php artisan key:generate
 
-mysql -u -p
-CREATE DATABASE javosh_db
-  DEFAULT CHARACTER SET utf8
-  DEFAULT COLLATE utf8_general_ci;
+mysql -u root -p
+    CREATE DATABASE javosh_db
+      DEFAULT CHARACTER SET utf8
+      DEFAULT COLLATE utf8_general_ci;
 
 php artisan migrate --seed
 
-
-************************
-//install chrome
-
-wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-
-sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
-
-apt-get update
-
-apt-get install google-chrome-stable
-
-nano /usr/bin/google-chrome
-------------------
-(add --no-sandbox to both exec es in last lines of the file)
------------------
+gunzip /var/www/javosh/data/dumps/products.sql
+gunzip /var/www/javosh/data/dumps/comments.sql
+.
+.
+.
+mysql -u root -p
+    use javosh_db;
+    SET FOREIGN_KEY_CHECKS = 0;
+    source /var/www/javosh/data/dumps/sentences.sql;
+    source /var/www/javosh/data/dumps/comments.sql;
+    .
+    .
+    .
+    SET FOREIGN_KEY_CHECKS = 1;
 

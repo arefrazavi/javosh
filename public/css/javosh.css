@@ -116,6 +116,7 @@ a {
     color: black;
 }
 .gold-suggest {
+    padding: 0 3px;
     font-size: x-large;
     cursor: hand;
     cursor: pointer;
@@ -152,4 +153,7 @@ h1, h2, h3, h4, h5 {
 .box, .box-default, .box-description {
     padding-top: 3px;
     padding-bottom: 3px;
+}
+.suggestBtnCol {
+    width: 10%;
 }

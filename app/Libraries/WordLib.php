@@ -421,7 +421,6 @@ class WordLib
                 }
             }
         }
-
     }
 
     public static function resolveNonStopWords()
