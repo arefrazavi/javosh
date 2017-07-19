@@ -4,9 +4,9 @@
     <!-- Logo -->
     <a href="index2.html" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><img class="img-circle" style="width: 30px; height:30px" src="{{ asset('image/Javosh.png') }}"></span>
+        <span class="logo-mini"><img class="img-circle" style="width: 30px; height:30px" src="{{ asset('images/Javosh.png') }}"></span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><img class="img-circle" style="width: 30px; height:30px" src="{{ asset('image/Javosh.png') }}"> <b>Javosh</b></span>
+        <span class="logo-lg"><img class="img-circle" style="width: 30px; height:30px" src="{{ asset('images/Javosh.png') }}"> <b>Javosh</b></span>
     </a>
 
     <!-- Header Navbar -->

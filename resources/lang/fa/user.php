@@ -29,11 +29,13 @@ return [
     "Sign_Up" => "ثبت نام",
     "password" => "رمز عبور",
     "email" => "ایمیل",
-    "Registration_Complete" => "ثبت نام موفقیت آمیز بود.",
-    "check_your_email_for_activation" => "لطفا ایمیل خود را برای فعالسازی حساب بررسی کنید.",
+    "Registration_Complete" => "احسنت!",
+    "check_your_email_for_activation" => "لطفا کن اون ایملیتو چک کن و رو لینک فعالسازی کلیک کن. مرسی",
     "Login" => 'ورود',
     "Your_account_has_been_created" => "حساب کاربری شما ایجاد شده است.",
     "first_name" => "نام",
     "last_name" => "نام خانوادگی",
-    "password_confirmation" => "تکرار رمز عبور"
+    "password_confirmation" => "تکرار رمز عبور",
+    'user_logout' => 'خروج از حساب کاربری'
+
 ];

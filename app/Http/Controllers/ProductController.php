@@ -71,7 +71,7 @@ class ProductController extends Controller
             $summaryData['aspect_id'] = $aspect->id;
             foreach ($summarizationMethods as $summarizationMethod) {
                 $summaryData['method_id'] = $summarizationMethod->id;
-                $summary = Summary::fetchProductSummarySentences($summaryData);
+                $summary = SummaryLib::getProductSummary($summaryData);
 
                 if (!empty($summary)) {
                     $summaries[$summaryData['aspect_id']][$summaryData['method_id']]['method'] = $summarizationMethod;

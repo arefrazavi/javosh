@@ -19,7 +19,6 @@ class SummaryLib
 {
     const REMOVE_FROM_SUMMARY_ACTION = 0;
     const ADD_TO_SUMMARY_ACTION = 1;
-    const MAX_SUMMARY_SIZE = 10;
 
     /**
      * @param $summaryData
@@ -92,28 +91,33 @@ class SummaryLib
     public static function getRecommendedSentences($productId, $aspectId)
     {
         $recommendedSentences = [];
-        //$product = Product::fetch($productId);
+        $goldSentences = [];
+        $userId = Sentinel::getUser()->id;
+
+        //Fetch product comments
         $comments = Comment::fetchComments("id, text", "product_id = $productId");
         if (!$comments->count()) {
             return $recommendedSentences;
         }
-        $firstSentence = $comments{0}->sentences{0};
-        $firstSentence->aspect_frequency = unserialize($firstSentence->aspect_frequency);
-        $firstSentence->weighted_aspect_freq = 0;
-        if ($firstSentence->aspect_frequency && isset($firstSentence->aspect_frequency[$aspectId])) {
-            $firstSentence->weighted_aspect_freq = $firstSentence->aspect_frequency[$aspectId];
+
+        // Get product gold sentences already selected by user
+        $selectRaw = "sentence_id, aspect_id, polarity";
+        $whereRaw = "product_id = $productId  AND user_id = $userId AND method_id = ". Summary::GOLD_STANDARD_METHOD_ID;
+        $userSummaries = Summary::fetchSummaries($selectRaw, $whereRaw);
+        foreach ($userSummaries as $userSummary) {
+            $goldSentences[$userSummary->sentence_id] = $userSummary;
         }
-        $recommendedSentences[0] = $firstSentence;
-        unset($comments{0}->sentences{0});
-        $i = 1;
+
+        // fetch sentences and add attributes to them for recommendation
         foreach ($comments as $comment) {
-            //$sentences = $comment->sentences;
-            $selectRaw = "sentences.id, text, aspect_frequency, aspect_id, polarity";
-            $whereRaw = 'comment_id = '. $comment->id .' AND ' . '(user_id = '. Sentinel::getUser()->id . " OR user_id IS NULL) 
-        AND (method_id = ". Summary::GOLD_STANDARD_METHOD_ID . ' OR  method_id IS NULL)';
-            $sentences = Sentence::fetchSentencesWithSummary($selectRaw, $whereRaw);
+            $selectRaw = "id, text, aspect_frequency";
+            $whereRaw = 'comment_id = '. $comment->id;
+            $sentences = Sentence::fetchSentences($selectRaw, $whereRaw);
+
             foreach ($sentences as $sentence) {
                 $aspectFrequency = unserialize($sentence->aspect_frequency);
+
+                //Assign value to weighted_aspect_freq for recommendation ordering
                 if (!isset($aspectFrequency[$aspectId])) {
                     $sentence->weighted_aspect_freq = 0;
                 } else if (!$aspectFrequency[$aspectId]) {
@@ -122,9 +126,20 @@ class SummaryLib
                     $sentence->weighted_aspect_freq = $aspectFrequency[$aspectId];
                 }
                 $sentence->comment_text = $comment->text;
-                $recommendedSentences[] = $sentence;
 
-                /*Sorting based on by datatables is faster*/
+                //Check if sentence is gold
+                if (isset($goldSentences[$sentence->id])) {
+                    $sentence->user_gold_selected = 1;
+                    $sentence->aspect_id = $goldSentences[$sentence->id]->aspect_id;
+                    $sentence->polarity = $goldSentences[$sentence->id]->polarity;
+                } else {
+                    $sentence->user_gold_selected = 0;
+                    $sentence->apsect_id = 0;
+                    $sentence->polarity = null;
+                }
+                $recommendedSentences[$sentence->id] = $sentence;
+
+                /*Sorting based on datatables is faster*/
 //                $k = $i;
 //                $j = $i - 1;
 //                if ($recommendedSentences[$j]->aspect_frequency[$aspectId] >= $aspectFrequency) {
@@ -145,8 +160,6 @@ class SummaryLib
         return $recommendedSentences;
     }
 
-
-
     public static function validateGoldSummaryAddition($summaryData)
     {
         $whereRaw = "method_id = " . $summaryData['method_id'] . " AND " .
@@ -156,10 +169,23 @@ class SummaryLib
 
         $summarySentences = Summary::fetchSummary($whereRaw);
 
-        if ($summarySentences->count() >= SummaryLib::MAX_SUMMARY_SIZE) {
+        if ($summarySentences->count() >= Summary::MAX_SUMMARY_SIZE) {
             return false;
         }
 
         return true;
+    }
+
+    public static function getProductSummary($summaryData) {
+        $selectRaw = "COUNT(*) AS summary_count, sentences.text AS text, sentences.id AS id, comments.text AS comment_text, comments.id AS comment_id";
+        $whereRaw = 'comments.product_id = ' . $summaryData['product_id'] . ' AND summaries.method_id = ' . $summaryData['method_id'];
+
+        if (isset($summaryData['aspect_id'])) {
+            $whereRaw .= ' AND summaries.aspect_id = ' . $summaryData['aspect_id'];
+        }
+
+        $summary = Summary::fetchProductSummary($selectRaw , $whereRaw);
+
+        return $summary;
     }
 }

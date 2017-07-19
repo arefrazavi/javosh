@@ -13,6 +13,7 @@ return [
     |
     */
 
-    'failed' => 'These credentials do not match our records.',
-    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'user_logout' => 'می بینمت ;)',
+    'user_not_activated' => 'هنوز اکانتت فعال نشده :( . برو رو اون لینک فعالسازی ارسال شده به ایمیلت کلیک کن، تموم شه بره!',
+
 ];

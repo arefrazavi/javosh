@@ -16,6 +16,8 @@ class Summary extends Model
     const SCB_METHOD_ID = 3;
     const RANDOM_METHOD_ID = 4;
 
+    const MAX_SUMMARY_SIZE = 10;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -72,30 +74,20 @@ class Summary extends Model
         return $results;
     }
 
-    public static function fetchProductSummarySentences($summaryData)
+    public static function fetchProductSummary($selectRaw = "*", $whereRaw = "1", $limit = self::MAX_SUMMARY_SIZE, $offset = 0)
     {
-        $whereRaw = 'comments.product_id = ' . $summaryData['product_id'] . ' AND ' . 'summaries.user_id = ' . $summaryData['user_id'] .
-            ' AND summaries.method_id = ' . $summaryData['method_id'];
-
-        if (isset($summaryData['aspect_id'])) {
-            $whereRaw .= ' AND summaries.aspect_id = ' . $summaryData['aspect_id'];
-        }
-
-        $summarySentences = DB::table('sentences')
+        $summary = DB::table('sentences')
             ->leftjoin('comments', 'comments.id', '=', 'sentences.comment_id')
             ->leftjoin('summaries', 'summaries.sentence_id', '=', 'sentences.id')
-            ->select("sentences.text AS text", "sentences.id AS id", "comments.text AS comment_text", "comments.id AS comment_id")
+            ->selectRaw($selectRaw)
             ->whereRaw($whereRaw)
+            ->groupBy("sentence_id")
+            ->orderBy("summary_count", "DESC")
+            ->skip($offset)
+            ->take($limit)
             ->get();
 
-
-        //
-//        $summary = self::where('product_id', $summaryData['product_id'])
-//            ->where('method_id', $summaryData['method_id'])
-//            ->where('user_id', $summaryData['user_id'])
-//            ->get();
-
-        return $summarySentences;
+        return $summary;
     }
 
     public static function fetchSentence($summaryData)
@@ -148,7 +140,19 @@ class Summary extends Model
 
     }
 
-    public function deleteSummarySentences($whereRaw)
+    public static function fetchSummaries($selectRaw = '*', $whereClause = "1", $limit = PHP_INT_MAX, $offset = 0, $orderBy = 'id', $order = 'ASC')
+    {
+        $summaries = self::select(DB::raw($selectRaw))
+            ->whereRaw($whereClause)
+            ->skip($offset)
+            ->take($limit)
+            ->orderBy($orderBy, $order)
+            ->get();
+
+        return $summaries;
+    }
+
+    public function deleteSummaries($whereRaw)
     {
         $result = self::whereRaw($whereRaw)->delete();
 

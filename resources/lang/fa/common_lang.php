@@ -12,7 +12,7 @@ return [
     | these language lines according to your application's requirements.
     |
     */
-
+    "Javosh" => "ژاوُش",
     'Create' => 'ایجاد',
     'Edit' => 'ویرایش',
     'Delete' => 'حذف',
@@ -91,4 +91,12 @@ return [
     "Aspect" => "جنبه",
     "Gold_Summary_Suggestion" => "پیشنهاد خلاصه طلایی",
     "Max_Summary_Size_Exceed" => "تجاوز از حداکثر اندازه خلاصه",
+    "Guide" => "راهنما",
+    "Aspect_Selection_Guide" => "اول یک جنبه رو انتخاب کن",
+    "Sentence_Selection_Guide" => "بعد هر جمله ای رو که برای گنجوندن در خلاصه نهایی اون جنبه مفید می دونی، با انتخاب یکی از سه گزینه زیر انتخاب کن: ",
+    "Positive_Guide" => "نقاط مثبت اون جنبه رو داره می گه.",
+    "Neutral_Guide" => "اطلاعات مفیدی (نه مثبت یا منفی) درباره اون جنبه می ده.",
+    "Negative_Guide" => "نقاط منفی اون جنبه رو داره می گه.",
+    "Max_Summary_Size_Guide" => "یادت باشه حداکثر 10 جمله رو می تونی برای خلاصه هر جنبه انتخاب کنی. پس در انتخاب هات دقت کن!",
+    "Summarization_Guide" => "راهنمای خلاصه سازی"
 ];
