@@ -311,9 +311,9 @@ class SentenceLib
                 foreach ($sentences as $sentence) {
                     $sentenceText = $sentence->text;
                     print_r("  Sentence: $sentence->id \n");
-                    if ($sentence->aspect_frequency) {
-                        continue;
-                    }
+//                    if ($sentence->aspect_frequency) {
+//                        continue;
+//                    }
                     $aspectFrequency = [];
                     foreach ($aspects as $aspect) {
                         print_r("   Aspect: $aspect->id \n");
