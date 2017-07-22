@@ -12,7 +12,7 @@ use App\Console\Commands\FindDynamicAspects;
 use App\Console\Commands\FindVerbs;
 use App\Console\Commands\GenerateWord2Vec;
 use App\Console\Commands\StoreComments;
-use App\Console\Commands\StoreKeywords;
+use App\Console\Commands\StoreAspects;
 use App\Console\Commands\StoreProducts;
 use App\Console\Commands\StoreResults;
 use App\Console\Commands\StoreSentences;
@@ -38,7 +38,7 @@ class Kernel extends ConsoleKernel
         FindAttributes::class,
         FindVerbs::class,
         UpdatePosTag::class,
-        StoreKeywords::class,
+        StoreAspects::class,
         StoreSentences::class,
         FindDynamicAspects::class,
         StoreSummaries::class,

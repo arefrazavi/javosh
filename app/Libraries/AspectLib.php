@@ -9,12 +9,45 @@ use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Sentence;
 use App\Models\Word;
+use Illuminate\Support\Facades\DB;
 
 class AspectLib
 {
     /**
      * @return string
      */
+    public static function storeAspects($baseDir)
+    {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+        DB::table('aspects')->truncate();
+        $categories = Category::fetchCategories();
+
+        foreach ($categories as $category) {
+            $basePath = base_path($baseDir . $category->title . "/aspect_keywords/*.csv");
+            print_r($basePath."\n");
+            $files = glob($basePath);
+            $aspectData['category_id'] = $category->id;
+            foreach ($files as $fileName) {
+                $results = Common::readFromCsv($fileName);
+                $aspectData['title'] = trim($results[0][0]);
+                $aspectData['type'] = intval($results[0][1]);
+                unset($results[0]);
+                $keywords = [];
+                foreach ($results as $result) {
+                    $keyword = trim($result[0]);
+                    $weight = $result[1];
+                    $keywords[$keyword] = floatval($weight);
+                }
+                $aspectData['keywords'] = serialize($keywords);
+                $aspect = Aspect::updateOrInsert($aspectData);
+                print_r("Aspect: " . $aspect->id . " is stored\n");
+
+            }
+
+        }
+        print_r("\n********END of storeAspects******\n");
+    }
+
     public static function storeKeywords()
     {
         $categoryId = 4;
