@@ -16,22 +16,28 @@
                             class="fa fa-angle-down"></i>
                 </h5>
                 <ol id="gold-selection-guide-description" class="hidden">
-                    <li>@lang("common_lang.Aspect_Selection_Guide")</li>
+                    <li><span>@lang("common_lang.Aspect_Selection_Guide")</span></li>
                     <li>
-                        @lang("common_lang.Sentence_Selection_Guide")
-                            <ul class="no-list-style">
-                                <li>
-                                    <i class="fa fa-plus-circle"></i> : @lang("common_lang.Positive_Guide")
-                                </li>
-                                <li>
-                                    <i class="fa fa-dot-circle-o"></i> : @lang("common_lang.Neutral_Guide")
-                                </li>
-                                <li>
-                                    <i class="fa fa-minus-circle"></i> : @lang("common_lang.Negative_Guide")
-                                </li>
-                            </ul>
+                        <span>@lang("common_lang.Sentence_Selection_Guide")</span>
+                        <ul class="no-list-style">
+                            <li>
+                                <i class="fa fa-plus-circle"></i> : @lang("common_lang.Positive_Guide")
+                            </li>
+                            <li>
+                                <i class="fa fa-dot-circle-o"></i> : @lang("common_lang.Neutral_Guide")
+                            </li>
+                            <li>
+                                <i class="fa fa-minus-circle"></i> : @lang("common_lang.Negative_Guide")
+                            </li>
+                        </ul>
                     </li>
-                    <li><b> @lang("common_lang.Max_Summary_Size_Guide") </b></li>
+                    <li>
+                        <span>@lang("common_lang.Important_Points")</span>
+                        <ul class="list-style-checkmark">
+                            <li><b> @lang("common_lang.Max_Summary_Size_Guide") </b></li>
+                            <li><b> @lang("common_lang.Diversity_Guide") </b></li>
+                        </ul>
+                    </li>
                 </ol>
             </div>
             <div class="box box-warning">
@@ -120,7 +126,7 @@
                         },
                     },
                     columns: [
-                        {data: 'weighted_aspect_freq', name: 'weighted_aspect_freq', "visible": true,},
+                        {data: 'weighted_aspect_freq', name: 'weighted_aspect_freq', "visible": false},
                         {
                             data: {text: 'text', comment_text: 'comment_text'}, class: 'rtl-text',
                             render: function (data) {

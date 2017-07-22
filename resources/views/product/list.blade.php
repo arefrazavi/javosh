@@ -13,6 +13,7 @@
                                 <th>@lang('common_lang.Id')</th>
                                 <th>@lang('common_lang.Title')</th>
                                 <th>@lang('common_lang.Category')</th>
+                                <th>@lang('common_lang.Gold_Summary')</th>
                                 <th>@lang('common_lang.Comments')</th>
                             </tr>
                             </thead>
@@ -36,22 +37,22 @@
     $(function () {
         $("#product-list-table").DataTable({
             "language": {
-                "emptyTable":     "No data available in table",
+                "emptyTable": "No data available in table",
                 "lengthMenu": "@lang('common_lang.Show_Entries_No') _MENU_ ",
                 "zeroRecords": "@lang('common_lang.Nothing_found')",
                 "info": "@lang('common_lang.Showing_Page') _PAGE_ @lang('common_lang.of') _PAGES_",
                 "infoEmpty": "No records available",
                 "loadingRecords": "@lang('common_lang.loadingRecords')",
-                "processing":     "@lang('common_lang.Processing...')",
-                "search":         "@lang('common_lang.Search')",
+                "processing": "@lang('common_lang.Processing...')",
+                "search": "@lang('common_lang.Search')",
                 "paginate": {
-                    "first":      "@lang('common_lang.First')",
-                    "last":       "@lang('common_lang.Last')",
-                    "next":       "@lang('common_lang.Next')",
-                    "previous":   "@lang('common_lang.Previous')"
+                    "first": "@lang('common_lang.First')",
+                    "last": "@lang('common_lang.Last')",
+                    "next": "@lang('common_lang.Next')",
+                    "previous": "@lang('common_lang.Previous')"
                 },
                 "aria": {
-                    "sortAscending":  ": activate to sort column ascending",
+                    "sortAscending": ": activate to sort column ascending",
                     "sortDescending": ": activate to sort column descending"
                 }
             },
@@ -68,23 +69,34 @@
             },
             columns: [
                 {data: 'id', class: 'rtl-text', name: 'id'},
-                {data: {title: 'title', id: 'id'}, class: 'rtl-text', searchable: true,
+                {
+                    data: {title: 'title', id: 'id'}, class: 'rtl-text text-wrap',
                     render: function (data) {
                         var commentListRoute = '{{route("ProductController.viewProduct", "id")}}';
                         commentListRoute = commentListRoute.replace("id", data.id);
-                        return "<a href='"+ commentListRoute +"'>"+ data.title + "</a>";
+                        return "<a href='" + commentListRoute + "'>" + data.title + "</a>";
                     }
                 },
-                {data: {category: "category"}, class: 'rtl-text',
+                {
+                    data: {category: "category"}, class: 'rtl-text',
                     render: function (data) {
-                        return "<a href='#'>"+ "<span title='"+ data.category.title +"'>"+ data.category.alias +"</span>" + "</a>";
+                        return "<a href='#'>" + "<span title='" + data.category.title + "'>" + data.category.alias + "</span>" + "</a>";
                     }
                 },
-                {data: "id",
+                {
+                    data: "id",
+                    render: function (id) {
+                        var suggestRoute = '{{route("ProductController.viewGoldSummaryRecommendation", "id")}}';
+                        suggestRoute = suggestRoute.replace("id", id);
+                        return "<a class='gold-text' href='" + suggestRoute + "'> @lang('common_lang.Suggest') </a>";
+                    }
+                },
+                {
+                    data: "id",
                     render: function (id) {
                         var commentListRoute = '{{route("CommentController.viewList", "id")}}';
                         commentListRoute = commentListRoute.replace("id", id);
-                        var button = '<a class="btn btn-primary" title="Show comments list" href="'+ commentListRoute +'">@lang('common_lang.Comments_List')</a>';
+                        var button = '<a class="btn btn-primary" title="Show comments list" href="' + commentListRoute + '">@lang('common_lang.Comments_List')</a>';
 
                         return button;
                     }

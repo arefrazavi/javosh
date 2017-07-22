@@ -41,7 +41,17 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 .no-list-style {
     list-style-type: none;
 }
+ul.list-style-checkmark {
+    list-style: none;
+}
 
+ul.list-style-checkmark li:before {
+    content: '✓';
+}
+
+.text-wrap {
+    white-space: normal !important;
+}
 .logo {
     font-family: 'AbeatbyKai', sans-serif;
     font-weight: 900;
@@ -70,6 +80,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
 
 .block {
+    display: block;
     margin: 5px 0;
     padding: 5px;
 }
