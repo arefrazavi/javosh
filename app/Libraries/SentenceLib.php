@@ -306,7 +306,8 @@ class SentenceLib
             foreach ($comments as $comment) {
                 print_r(" Comment: $comment->id \n");
                 //$sentences = $comment->sentences;
-                $sentences = Sentence::fetchSentences("*", "comment_id = $comment->id AND aspect_frequency IS NULL ");
+                //$sentences = Sentence::fetchSentences("*", "comment_id = $comment->id AND aspect_frequency IS NULL ");
+                $sentences = Sentence::fetchSentences("*", "comment_id = $comment->id ");
                 foreach ($sentences as $sentence) {
                     $sentenceText = $sentence->text;
                     print_r("  Sentence: $sentence->id \n");
