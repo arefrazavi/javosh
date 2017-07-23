@@ -44,6 +44,8 @@
                 @else
                     <li><a href="{{ route('auth.login.form') }}">@lang('common_lang.Login')</a></li>
                     <li><a href="{{ route('auth.register.form') }}">@lang('common_lang.Register')</a></li>
+                    <li><a href="{{ route("help") }}"><span> @lang("common_lang.Help") </span></a>
+                    </li>
                 @endif
             </ul>
         </div><!-- /.navbar-collapse -->
