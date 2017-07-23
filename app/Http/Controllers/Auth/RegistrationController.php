@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Mail;
+use Illuminate\Support\Facades\Mail;
 use Session;
 use Sentinel;
 use Activation;
@@ -103,7 +103,7 @@ class RegistrationController extends Controller
         }
 
         // Ask the user to check their email for the activation link
-        $result->setMessage('Registration complete.  You may now log in.');
+        $result->setMessage(trans("user.Registration_complete_log_in"));
 
         // There is no need to send the payload data to the end user
         $result->clearPayload();

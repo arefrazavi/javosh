@@ -47,6 +47,8 @@ ul.list-style-checkmark {
 
 ul.list-style-checkmark li:before {
     content: '✓';
+    color: #00a65a;
+    font-weight: bolder;
 }
 
 .text-wrap {
@@ -182,5 +184,9 @@ h1, h2, h3, h4, h5 {
 }
 .suggestBtnCol {
     width: 10%;
+}
+
+#gold-selection-guide-description > li , .gold-selection-guide-description > li > span {
+    line-height: 2em;
 }
 

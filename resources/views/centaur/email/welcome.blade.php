@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="fa">
 	<head>
 		<meta charset="utf-8">
 	</head>
-	<body>
-		<h2>Welcome</h2>
+	<body style="direction: rtl; text-align: right">
+		<h2 style="text-align: right">@lang("user.Welcome_To_Javosh")</h2>
 
-		<p><b>Account:</b> {{ $email }}</p>
-		<p>To activate your account, <a href="{{ route('auth.activation.attempt', urlencode($code)) }}">click here.</a></p>
-		<p>Or point your browser to this address: <br /> {!! route('auth.activation.attempt', urlencode($code)) !!} </p>
-		<p>Thank you!</p>
+		<p style="direction: rtl; text-align: right">@lang("user.Account"): {{ $email }}</p>
+		<p style="direction: rtl; text-align: right">@lang("user.To_activate_your_account") <a href="{{ route('auth.activation.attempt', urlencode($code)) }}">@lang("user.this_link")</a> @lang("user.click")</p>
+		<p style="direction: rtl; text-align: right">@lang("user.point_your_browser_to_this_address")
+		</p>
+		<p style="direction: ltr">{!! route('auth.activation.attempt', urlencode($code)) !!}</p>
+		<p style="direction: rtl; text-align: right">@lang("user.Thank_you!")</p>
 	</body>
 </html>

@@ -4,9 +4,11 @@
     <!-- Logo -->
     <a href="{{ route('home') }}" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><img class="img-circle" style="width: 30px; height:30px" src="{{ asset('images/Javosh.png') }}"></span>
+        <span class="logo-mini"><img class="img-circle" style="width: 30px; height:30px"
+                                     src="{{ asset('images/Javosh.png') }}"></span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo"><img  style="width: 27px; height:40px" src="{{ asset('images/Javosh.png') }}"> @lang("common_lang.avosh")</span>
+        <span class="logo"><img style="width: 27px; height:40px"
+                                src="{{ asset('images/Javosh.png') }}"> @lang("common_lang.avosh")</span>
     </a>
 
     <!-- Header Navbar -->
@@ -18,64 +20,12 @@
         <!-- Navbar left Menu -->
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
-                <!-- Messages: style can be found in dropdown.less-->
-                <li class="dropdown messages-menu">
-                    <!-- Menu toggle button -->
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-envelope-o"></i>
-                        <span class="label label-success"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li class="header"></li>
-                        <li>
-                            <!-- inner menu: contains the messages -->
-                            <ul class="menu">
-                                <li><!-- start message -->
-                                    <a href="#">
-                                        <div class="pull-right">
-                                            <!-- User Image -->
-                                            <img src="{{ asset("admin-lte/dist/img/user-img.png") }}" class="img-circle" alt="User Image">
-                                        </div>
-                                        <!-- Message title and timestamp -->
-                                        <h4>
-                                            Support Team
-                                            <small><i class="fa fa-clock-o"></i></small>
-                                        </h4>
-                                        <!-- The message -->
-                                        <p></p>
-                                    </a>
-                                </li>
-                                <!-- end message -->
-                            </ul>
-                            <!-- /.menu -->
-                        </li>
-                        <li class="footer"><a href="#"></a></li>
-                    </ul>
-                </li>
-                <!-- /.messages-menu -->
-
                 <!-- Notifications Menu -->
-                <li class="dropdown notifications-menu">
+                <li>
                     <!-- Menu toggle button -->
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-bell-o"></i>
-                        <span class="label label-warning"></span>
+                    <a class="block" href="{{ route("help") }}">
+                        <span> @lang("common_lang.Help") </span>
                     </a>
-                    <ul class="dropdown-menu">
-                        <li class="header"></li>
-                        <li>
-                            <!-- Inner Menu: contains the notifications -->
-                            <ul class="menu">
-                                <li><!-- start notification -->
-                                    <a href="#">
-                                        <i class="fa fa-users text-aqua"></i>
-                                    </a>
-                                </li>
-                                <!-- end notification -->
-                            </ul>
-                        </li>
-                        <li class="footer"><a href="#">View all</a></li>
-                    </ul>
                 </li>
                 <!-- User Account Menu -->
                 <li class="dropdown user user-menu">
@@ -89,7 +39,8 @@
                     <ul class="dropdown-menu">
                         <!-- The user image in the menu -->
                         <li class="user-header">
-                            <img src="{{ asset("admin-lte/dist/img/user-img.png") }}" class="img-circle" alt="User Image">
+                            <img src="{{ asset("admin-lte/dist/img/user-img.png") }}" class="img-circle"
+                                 alt="User Image">
 
                             <p>
                                 {{ Sentinel::getUser()->first_name }} {{ Sentinel::getUser()->last_name }}
@@ -98,10 +49,12 @@
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-right">
-                                <a href="{{ route('users.edit', Sentinel::getUser()->id) }}" class="btn btn-default btn-flat">@lang('user.Profile')</a>
+                                <a href="{{ route('users.edit', Sentinel::getUser()->id) }}"
+                                   class="btn btn-default btn-flat">@lang('user.Profile')</a>
                             </div>
                             <div class="pull-left">
-                                <a href="{{ route('auth.logout') }}" class="btn btn-default btn-flat">@lang('user.Log_Out')</a>
+                                <a href="{{ route('auth.logout') }}"
+                                   class="btn btn-default btn-flat">@lang('user.Log_Out')</a>
                             </div>
                         </li>
                     </ul>

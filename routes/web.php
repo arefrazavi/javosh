@@ -11,6 +11,20 @@
 |
 */
 
+
+// Main Page
+Route::get('dashboard', ['as' => 'dashboard', 'uses' => function() {
+    if (Sentinel::check()) {
+        return view('dashboard');
+    } else {
+        return view('Centaur::auth.login');
+    }
+}]);
+
+// Main Page
+Route::get('/help', ['as' => 'help', 'uses' => 'Controller@viewHelp']);
+
+
 // Authorization
 Route::get('/login', ['as' => 'auth.login.form', 'uses' => 'Auth\SessionController@getLogin']);
 Route::post('/login', ['as' => 'auth.login.attempt', 'uses' => 'Auth\SessionController@postLogin']);
@@ -37,14 +51,6 @@ Route::resource('users', 'UserController');
 // Roles
 Route::resource('roles', 'RoleController');
 
-// Dashboard
-Route::get('dashboard', ['as' => 'dashboard', 'uses' => function() {
-    if (Sentinel::check()) {
-        return view('dashboard');
-    } else {
-        return view('Centaur::auth.login');
-    }
-}]);
 
 Route::get('/', ['as' => 'home', 'uses' => function() {
     if (Sentinel::check()) {
