@@ -6,7 +6,7 @@
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><img class="img-circle" style="width: 30px; height:30px" src="{{ asset('images/Javosh.png') }}"></span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><img class="img-circle" style="width: 30px; height:30px" src="{{ asset('images/Javosh.png') }}"> <b>Javosh</b></span>
+        <span class="logo"><img  style="width: 27px; height:40px" src="{{ asset('images/Javosh.png') }}"> @lang("common_lang.avosh")</span>
     </a>
 
     <!-- Header Navbar -->
@@ -34,7 +34,7 @@
                                     <a href="#">
                                         <div class="pull-right">
                                             <!-- User Image -->
-                                            <img src="{{ asset("admin-lte/dist/img/aref-icon-160.jpg") }}" class="img-circle" alt="User Image">
+                                            <img src="{{ asset("admin-lte/dist/img/user-img.png") }}" class="img-circle" alt="User Image">
                                         </div>
                                         <!-- Message title and timestamp -->
                                         <h4>
@@ -82,14 +82,14 @@
                     <!-- Menu Toggle Button -->
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <!-- The user image in the navbar-->
-                        <img src="{{ asset("admin-lte/dist/img/aref-icon-160.jpg") }}" class="user-image" alt="User Image">
+                        <img src="{{ asset("admin-lte/dist/img/user-img.png") }}" class="user-image" alt="User Image">
                         <!-- hidden-xs hides the username on small devices so only the image appears. -->
                         <span class="hidden-xs">{{ Sentinel::getUser()->first_name }} {{ Sentinel::getUser()->last_name }}</span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- The user image in the menu -->
                         <li class="user-header">
-                            <img src="{{ asset("admin-lte/dist/img/aref-icon-160.jpg") }}" class="img-circle" alt="User Image">
+                            <img src="{{ asset("admin-lte/dist/img/user-img.png") }}" class="img-circle" alt="User Image">
 
                             <p>
                                 {{ Sentinel::getUser()->first_name }} {{ Sentinel::getUser()->last_name }}

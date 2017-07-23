@@ -12,6 +12,7 @@ return [
     | these language lines according to your application's requirements.
     |
     */
+    "avosh" => "اوُش",
     "Javosh" => "ژاوُش",
     'Create' => 'ایجاد',
     'Edit' => 'ویرایش',

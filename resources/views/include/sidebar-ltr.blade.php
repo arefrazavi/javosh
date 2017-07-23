@@ -7,7 +7,7 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="{{ asset("admin-lte/dist/img/aref-icon-160.jpg") }}" class="img-circle" alt="User Image">
+                <img src="{{ asset("admin-lte/dist/img/user-img.png") }}" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
                 <p>{{ Sentinel::getUser()->first_name }} {{ Sentinel::getUser()->last_name }}</p>
