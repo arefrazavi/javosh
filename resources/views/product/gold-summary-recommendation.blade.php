@@ -44,7 +44,7 @@
                 <div class="box-body">
                     <div class="form-group">
                         <select class="form-control gold" id="aspect_id" name="aspect_id">
-                            <option value="">@lang("common_lang.Select_an_aspect")</option>
+                            <option value="0">@lang("common_lang.Select_an_aspect")</option>
                             @foreach($aspects as $aspect)
                                 <option value="{{ $aspect->id }}">{!! $aspect->title !!}</option>
                             @endforeach
@@ -80,9 +80,10 @@
         $("select[name='aspect_id']").on("change",
             function () {
                 var table = $('#sentence-list-table').DataTable();
+                table.clear();
                 table.destroy();
                 aspectId = $(this).val();
-                if (!aspectId) {
+                if (aspectId == 0) {
                     return false;
                 }
                 $("#sentence-list-table").DataTable({
@@ -107,7 +108,6 @@
                         }
                     },
                     order: [[0, 'desc']],
-
                     searching: false,
                     serverSide: true,
                     scrollY: 600,

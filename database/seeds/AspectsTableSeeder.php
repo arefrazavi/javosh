@@ -51,16 +51,6 @@ class AspectsTableSeeder extends Seeder
                 'category_id' => 4
 
             ],
-            [
-                'title' => 'دوربین',
-                'type' => 1,
-                'category_id' => 4
-            ],
-            [
-                'title' => 'باتری',
-                'type' => 1,
-                'category_id' => 4
-            ]
         ]);
     }
 }

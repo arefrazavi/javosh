@@ -23,7 +23,8 @@ class ProductController extends Controller
 {
     public function viewList($categoryId = 0)
     {
-        return view('product.list', compact('categoryId'));
+        $category = Category::fetch($categoryId);
+        return view('product.list', compact('category', 'categoryId'));
     }
 
     public function getList(Request $request)

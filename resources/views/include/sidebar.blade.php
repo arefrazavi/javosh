@@ -24,6 +24,7 @@
                 </a>
             </li>
             <!-- ACL menu -->
+            @if(Sentinel::getUser()->inRole('administrator'))
             <li class="treeview {{ Request::is('users*') || Request::is('roles*') ? 'active' : '' }}">
                 <a href="#">
                     <i class="fa fa-users"></i>
@@ -39,6 +40,7 @@
                     </li>
                 </ul>
             </li>
+            @endif
             <!-- End ACL menu -->
             <!-- Category Menu -->
             <li class="treeview {{ Request::is('category*') || Request::is('roles*') ? 'active' : '' }}">
@@ -77,12 +79,15 @@
                     <li class="{{ Request::is('product/list*') ? 'active' : '' }}">
                         <a href="{{ route('ProductController.viewList') }}">@lang('common_lang.Products_List')</a>
                     </li>
+                    @if(Sentinel::getUser()->inRole('administrator'))
                     <li class="{{ Request::is('product/upload-panel') ? 'active' : '' }}">
                         <a href="{{ route('ProductController.viewUploadPanel') }}">@lang('common_lang.Products_Manager_Panel')</a>
                     </li>
+                    @endif
                 </ul>
             </li>
             <!-- Comment menu -->
+            @if(Sentinel::getUser()->inRole('administrator'))
             <li class="treeview {{ Request::is('comment*') || Request::is('comment*') ? 'active' : '' }}">
                 <a href="#">
                     <i class="fa fa-comments"></i>
@@ -95,7 +100,9 @@
                     </li>
                 </ul>
             </li>
+            @endif
             <!-- Sentence menu -->
+            @if(Sentinel::getUser()->inRole('administrator'))
             <li class="treeview {{ Request::is('sentence*') || Request::is('sentence*') ? 'active' : '' }}">
                 <a href="#">
                     <i class="fa fa-file-text"></i>
@@ -105,6 +112,7 @@
                 <ul class="treeview-menu {{ Request::is('sentence*') || Request::is('sentence*') ? 'menu-open' : '' }}">
                 </ul>
             </li>
+
             <!-- Word menu -->
             <li class="treeview {{ Request::is('word*') || Request::is('word*') ? 'active' : '' }}">
                 <a href="#">
@@ -121,8 +129,9 @@
                     </li>
                 </ul>
             </li>
-
+            @endif
             <!-- Result menu -->
+            @if(Sentinel::getUser()->inRole('administrator'))
             <li class="treeview {{ Request::is('statistics*') || Request::is('statistics*') ? 'active' : '' }}">
                 <a href="#">
                     <i class="fa fa-bar-chart"></i>
@@ -135,6 +144,7 @@
                     </li>
                 </ul>
             </li>
+            @endif
         </ul>
         <!-- /.sidebar-menu -->
     </section>

@@ -144,7 +144,7 @@ Route::group(
 
 /** statistics **/
 Route::group(
-    ['middleware' => ['web','sentinel.auth'], 'prefix' => 'statistics'],
+    ['middleware' => ['web','sentinel.access:users.create'], 'prefix' => 'statistics'],
     function () {
         Route::get('evaluation_results', 'StatisticsController@viewResults')->name('StatisticsController.viewResults');
 

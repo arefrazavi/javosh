@@ -5,6 +5,11 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="box box-default">
+                @if($category)
+                    <div class="box-header">
+                        <h3> {{ $category->alias }} </h3>
+                    </div>
+                @endif
                 <div class="box-body">
                     <div class="table-responsive">
                         <table id="product-list-table" class="table table-bordered table-hover">
@@ -34,8 +39,9 @@
 
 @push('scripts')
 <script type="text/javascript">
+    var categoryId = "{{ $categoryId }}";
     $(function () {
-        $("#product-list-table").DataTable({
+        var table = $("#product-list-table").DataTable({
             "language": {
                 "emptyTable": "No data available in table",
                 "lengthMenu": "@lang('common_lang.Show_Entries_No') _MENU_ ",
@@ -56,6 +62,7 @@
                     "sortDescending": ": activate to sort column descending"
                 }
             },
+            searching: false,
             processing: true,
             serverSide: true,
             ajax: {
@@ -63,7 +70,7 @@
                 method: 'POST',
                 data: {
                     "datatable": true,
-                    "categoryId": "{{$categoryId }}",
+                    "categoryId": categoryId,
                     "_token": "{{ csrf_token() }}"
                 },
             },
@@ -103,6 +110,9 @@
                 }
             ],
             initComplete: function () {
+                if (categoryId != 0) {
+                    this.api().column(2).visible(false);
+                }
                 this.api().columns().every(function () {
                     var column = this;
                     var input = document.createElement("input");
@@ -115,6 +125,5 @@
             }
         });
     });
-
 </script>
 @endpush
