@@ -166,3 +166,11 @@ mysql -u root -p
     .
     SET FOREIGN_KEY_CHECKS = 1;
 
+//Install PHPMYADMIN
+apt-get update
+apt-get install phpmyadmin php-mbstring php-gettext
+phpenmod mcrypt
+phpenmod mbstring
+nano /etc/apache2/apache2.conf
+    Include /etc/phpmyadmin/apache.conf
+service apache2 restart

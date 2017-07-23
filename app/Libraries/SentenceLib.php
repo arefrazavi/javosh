@@ -194,10 +194,12 @@ class SentenceLib
         $aspectType = Type::fetch('aspects');
         $ratingTypeId = $aspectType->id;
 
-        $whereClause = "`entropy` IS NULL";
-        $sentences = Sentence::fetchSentences(PHP_INT_MAX, 0, $whereClause);
+        //$whereClause = "`entropy` IS NULL";
+        $whereClause = 1;
+        $sentences = Sentence::fetchSentences("*", $whereClause);
         foreach ($sentences as $sentence) {
-            print_r($sentence->id . " : " . $sentence->text . "\n");
+            print_r("step 1 \n");
+            print_r($sentence->id . "\n");
             $sentenceWords = WordLib::extractWords($sentence->text);
             $sentenceEntropies = [];
             $newWord = 0;
