@@ -25,8 +25,11 @@ class CommentLib
         $likeType = Type::fetch('like');
         $dislikeType = Type::fetch('dislike');
         $aspectsType = Type::fetch('aspects');
-
         foreach ($files as $file) {
+            $commentData['product_id'] = $file['categoryId'];
+            $category = Category::fetch($file['categoryId']);
+            $aspects = $category->aspects;
+
             foreach ($file['filePaths'] as $filePath) {
                 $fileName = basename($filePath);
                 if (!empty(FileLog::fetch($fileName))) {
@@ -36,10 +39,6 @@ class CommentLib
 
                 $rows = Common::readFromCsv($filePath);
                 unset($rows[0]);
-
-                $category = Category::fetch($file['categoryId']);
-                $aspects = $category->aspects;
-
 
                 //Fetch product
                 $productId = current(explode("-", $fileName));
