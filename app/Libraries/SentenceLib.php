@@ -292,7 +292,7 @@ class SentenceLib
     {
         $whereRaw = 'comment_id = '. $commentId .' AND ' . '(user_id = '. $userId . " OR user_id IS NULL) 
         AND (method_id = ". $methodId . ' OR  method_id IS NULL)';
-        $sentences = Sentence::fetchSentencesWithSummary("sentence.*, summaries.aspect_id, summaries.polarity", $whereRaw);
+        $sentences = Sentence::fetchSentencesWithSummary("sentences.*, summaries.aspect_id, summaries.polarity", $whereRaw);
 
         return $sentences;
     }
