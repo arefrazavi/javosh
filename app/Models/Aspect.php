@@ -15,7 +15,8 @@ class Aspect extends Model
     protected $fillable = [
         'title',
         'keywords',
-        'category_id'
+        'category_id',
+        'type'
     ];
 
     public $timestamps = false;

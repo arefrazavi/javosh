@@ -31,6 +31,7 @@ class AspectLib
                 $results = Common::readFromCsv($fileName);
                 $aspectData['title'] = trim($results[0][0]);
                 $aspectData['type'] = intval($results[0][1]);
+                print_r("type: ". $aspectData['type'] . "\n");
                 unset($results[0]);
                 $keywords = [];
                 foreach ($results as $result) {
