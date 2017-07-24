@@ -15,16 +15,14 @@ class StopWordsSeeder extends Seeder
 
         $stopWords = [];
         foreach ($stopWordsFile as $row) {
-            if ($row[0]) {
-                $stopWord = trim($row[0]);
+            foreach($row as $value) {
+                $stopWord = trim($value);
+                if ($stopWord) {
+                    $stopWords[$stopWord] = ['value' => $stopWord];
+                }
             }
-            $stopWords[$stopWord] = ['value' => $stopWord];
-
-            if ($row[1]) {
-                $stopWord = trim($row[1]);
-            }
-            $stopWords[$stopWord] = ['value' => $stopWord];
         }
+
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
         DB::table('stop_words')->truncate();
         DB::table('stop_words')->insert($stopWords);
