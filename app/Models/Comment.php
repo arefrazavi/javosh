@@ -19,7 +19,8 @@ class Comment extends Model
         'negative_points',
         'is_analysed',
         'gold_selected',
-        'sentiment_polarity'
+        'sentiment_polarity',
+        'category_id'
     ];
 
     /**
