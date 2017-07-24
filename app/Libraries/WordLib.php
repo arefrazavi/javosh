@@ -10,6 +10,7 @@ use App\Models\Rating;
 use App\Models\Sentence;
 use App\Models\Type;
 use App\Models\Word;
+use Illuminate\Support\Facades\DB;
 
 class WordLib
 {
@@ -19,6 +20,7 @@ class WordLib
      */
     public function storeWords()
     {
+        DB::connection()->disableQueryLog();
         $selectRaw = "categories.id";
         $categories = Category::fetchCategories($selectRaw);
 
