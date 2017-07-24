@@ -56,7 +56,7 @@ class StoreComments extends Command
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
         $whereClause = "category_id = 6";
         Comment::deleteComments($whereClause);
-        $statement = "ALTER TABLE comments AUTO_INCREMENT = 1;";
+        $statement = "ALTER TABLE comments AUTO_INCREMENT = 22660;";
         DB::unprepared($statement);
         //end temp
 
