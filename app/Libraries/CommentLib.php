@@ -20,6 +20,7 @@ class CommentLib
 
     public static function storeComments($files)
     {
+
         $commentType = Type::fetch('comment');
         $likeType = Type::fetch('like');
         $dislikeType = Type::fetch('dislike');

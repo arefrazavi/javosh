@@ -4,7 +4,9 @@ namespace App\Console\Commands;
 
 use App\Helpers\Common;
 use App\Libraries\CommentLib;
+use App\Models\Comment;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class StoreComments extends Command
 {
@@ -49,6 +51,14 @@ class StoreComments extends Command
                 'categoryId' => 6
             ]
         ];
+
+        //temp
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+        $whereClause = "category_id = 6";
+        Comment::deleteComments($whereClause);
+        $statement = "ALTER TABLE comments AUTO_INCREMENT = 1;";
+        DB::unprepared($statement);
+        //end temp
 
         CommentLib::storeComments($files);
     }
