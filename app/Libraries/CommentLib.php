@@ -26,7 +26,7 @@ class CommentLib
         $dislikeType = Type::fetch('dislike');
         $aspectsType = Type::fetch('aspects');
         foreach ($files as $file) {
-            $commentData['product_id'] = $file['categoryId'];
+            $commentData['category_id'] = $file['categoryId'];
             $category = Category::fetch($file['categoryId']);
             $aspects = $category->aspects;
 
