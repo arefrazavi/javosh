@@ -174,3 +174,12 @@ phpenmod mbstring
 nano /etc/apache2/apache2.conf
     Include /etc/phpmyadmin/apache.conf
 service apache2 restart
+
+//cron job for dumping database
+mkdir /home/backups
+mkdir /home/backups/mysql
+/home/backups
+touch backup.sh
+crontab -e
+    #run in 3am everyday
+    0 3 * * * /home/backups/backup.sh
