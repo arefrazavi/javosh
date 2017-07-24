@@ -26,9 +26,13 @@ class AspectLib
             $basePath = base_path($baseDir . $category->title . "/aspect_keywords/*.csv");
             print_r($basePath."\n");
             $files = glob($basePath);
+            if (empty($files)) {
+                continue;
+            }
             $aspectData['category_id'] = $category->id;
             foreach ($files as $fileName) {
                 $results = Common::readFromCsv($fileName);
+                print_r("filename $fileName \n");
                 $aspectData['title'] = trim($results[0][0]);
                 $aspectData['type'] = intval($results[0][1]);
                 print_r("type: ". $aspectData['type'] . "\n");
