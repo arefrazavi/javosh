@@ -42,7 +42,7 @@ class StoreComments extends Command
     public function handle()
     {
 
-        $fileDir = base_path("data/comments/Laptop/");
+        $fileDir = base_path("data/comments/Laptop-Ultrabook/");
         $filePaths = Common::getDirFiles($fileDir);
 
         $files = [
