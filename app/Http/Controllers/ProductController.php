@@ -24,8 +24,6 @@ class ProductController extends Controller
 {
     public function viewList($categoryId = 0, $limit = 0)
     {
-
-        echo $limit;
         $category = Category::fetch($categoryId);
          if ($limit) {
              return view('product.lucky-list', compact('category', 'categoryId', 'limit'));
