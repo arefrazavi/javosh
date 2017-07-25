@@ -145,7 +145,7 @@ class SentenceLib
             $commentDislikeRating = Rating::fetch($ratingData);
 
             $sentences = $comment->sentences;
-            print_r("Sentences Count:". sizeof($sentences) ."<br> \n");
+            print_r("Sentences Count: ". sizeof($sentences) ."<br> \n");
 
             foreach ($sentences as $sentence) {
                 $sentenceId = $sentence->id;
@@ -205,8 +205,8 @@ class SentenceLib
             $newWord = 0;
             $categoryID = $sentence->comment->category_id;
             foreach ($sentenceWords as $sentenceWord) {
-                $whereRaw = "value = '$sentenceWord' AND category_id = $categoryID";
-                $word = Word::fetch($whereRaw);
+                $whereClause = "value = '$sentenceWord' AND category_id = $categoryID";
+                $word = Word::fetch($whereClause);
                 if ($word && $word->entropy) {
                     print_r("step 2 \n");
 
@@ -290,9 +290,9 @@ class SentenceLib
      */
     public static function getSentencesWihSummary($commentId, $userId, $methodId = Summary::GOLD_STANDARD_METHOD_ID)
     {
-        $whereRaw = 'comment_id = '. $commentId .' AND ' . '(user_id = '. $userId . " OR user_id IS NULL) 
+        $whereClause = 'comment_id = '. $commentId .' AND ' . '(user_id = '. $userId . " OR user_id IS NULL) 
         AND (method_id = ". $methodId . ' OR  method_id IS NULL)';
-        $sentences = Sentence::fetchSentencesWithSummary("sentences.*, summaries.aspect_id, summaries.polarity", $whereRaw);
+        $sentences = Sentence::fetchSentencesWithSummary("sentences.*, summaries.aspect_id, summaries.polarity", $whereClause);
 
         return $sentences;
     }

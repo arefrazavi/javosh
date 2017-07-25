@@ -67,20 +67,20 @@ class Summary extends Model
     }
 
 
-    public static function fetch($whereRaw)
+    public static function fetch($whereClause)
     {
-        $results = self::whereRaw($whereRaw)->first();
+        $results = self::whereRaw($whereClause)->first();
 
         return $results;
     }
 
-    public static function fetchProductSummary($selectRaw = "*", $whereRaw = "1", $limit = self::MAX_SUMMARY_SIZE, $offset = 0)
+    public static function fetchProductSummary($selectClause = "*", $whereClause = "1", $limit = self::MAX_SUMMARY_SIZE, $offset = 0)
     {
         $summary = DB::table('sentences')
             ->leftjoin('comments', 'comments.id', '=', 'sentences.comment_id')
             ->leftjoin('summaries', 'summaries.sentence_id', '=', 'sentences.id')
-            ->selectRaw($selectRaw)
-            ->whereRaw($whereRaw)
+            ->selectRaw($selectClause)
+            ->whereRaw($whereClause)
             ->groupBy("sentence_id")
             ->orderBy("summary_count", "DESC")
             ->skip($offset)
@@ -101,9 +101,9 @@ class Summary extends Model
         return $sentence;
     }
 
-    public static function deleteSummary($whereRaw)
+    public static function deleteSummary($whereClause)
     {
-        $result = self::whereRaw($whereRaw)->delete();
+        $result = self::whereRaw($whereClause)->delete();
 
         return $result;
     }
@@ -132,17 +132,17 @@ class Summary extends Model
         return $methods;
     }
 
-    public static function fetchSummary($whereRaw)
+    public static function fetchSummary($whereClause)
     {
-        $summary = self::whereRaw($whereRaw)->get();
+        $summary = self::whereRaw($whereClause)->get();
 
         return $summary;
 
     }
 
-    public static function fetchSummaries($selectRaw = '*', $whereClause = "1", $limit = PHP_INT_MAX, $offset = 0, $orderBy = 'id', $order = 'ASC')
+    public static function fetchSummaries($selectClause = '*', $whereClause = "1", $limit = PHP_INT_MAX, $offset = 0, $orderBy = 'id', $order = 'ASC')
     {
-        $summaries = self::select(DB::raw($selectRaw))
+        $summaries = self::select(DB::raw($selectClause))
             ->whereRaw($whereClause)
             ->skip($offset)
             ->take($limit)
@@ -152,9 +152,9 @@ class Summary extends Model
         return $summaries;
     }
 
-    public function deleteSummaries($whereRaw)
+    public function deleteSummaries($whereClause)
     {
-        $result = self::whereRaw($whereRaw)->delete();
+        $result = self::whereRaw($whereClause)->delete();
 
         return $result;
     }

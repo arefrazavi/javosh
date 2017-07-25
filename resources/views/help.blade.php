@@ -18,7 +18,8 @@
                             </span>
                         </li>
                         <li>
-                            <span>@lang("common_lang.Go_TO_Product_List")</span>
+                            <div>@lang("common_lang.Go_TO_Product_List")</div>
+                            <div><span class="alert-lucky"> @lang("common_lang.Go_TO_10_lucky_products") </span></div>
                         </li>
                         <li>
                             <span>@lang("common_lang.Go_TO_Suggestion_Page")</span>
@@ -43,6 +44,7 @@
                             <ul class="list-style-checkmark">
                                 <li><b> @lang("common_lang.Max_Summary_Size_Guide") </b></li>
                                 <li><b> @lang("common_lang.Diversity_Guide") </b></li>
+                                <li><b> @lang("common_lang.See_comments_list_On_Hover") </b></li>
                             </ul>
                         </li>
                     </ol>

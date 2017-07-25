@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Common;
 use App\Libraries\AspectLib;
+use App\Libraries\ProductLib;
 use App\Libraries\SummaryLib;
 use App\Models\Aspect;
 use App\Models\Category;
@@ -21,34 +22,34 @@ use Yajra\Datatables\Datatables;
 
 class ProductController extends Controller
 {
-    public function viewList($categoryId = 0)
+    public function viewList($categoryId = 0, $limit = 0)
     {
+
+        echo $limit;
         $category = Category::fetch($categoryId);
-        return view('product.list', compact('category', 'categoryId'));
+         if ($limit) {
+             return view('product.lucky-list', compact('category', 'categoryId', 'limit'));
+         } else {
+             return view('product.list', compact('category', 'categoryId'));
+         }
     }
 
     public function getList(Request $request)
     {
-        $whereRaw = "1";
+        $categoryId = 0;
+        $limit = 0;
         if ($request->categoryId) {
             $categoryId = $request->categoryId;
-            $whereRaw = "category_id IN (". $categoryId;
-            $descendants = Category::fetchDescendants($categoryId);
-            foreach ($descendants as $descendant) {
-                $whereRaw .= ", $descendant->id";
-            }
-            $whereRaw .= ")";
+        }
+        if ($request->limit) {
+            $limit = $request->limit;
         }
 
-        $products = Product::fetchProducts("*", $whereRaw);
-        foreach ($products as &$product) {
-            $category = $product->category;
-            $product->category = $category;
-        }
-        unset($product);
+        $products = ProductLib::getProducts($categoryId, $limit);
 
         return Datatables::of($products)->make(true);
     }
+
 
     public function viewProduct($productId)
     {

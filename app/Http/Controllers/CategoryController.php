@@ -17,8 +17,8 @@ class CategoryController extends Controller
 
     public function getList()
     {
-        $selectRaw = "categories.*, c2.alias as parent_alias";
-        $categories = Category::fetchCategories($selectRaw, "1", PHP_INT_MAX, 0, "id", "DSC");
+        $selectClause = "categories.*, c2.alias as parent_alias";
+        $categories = Category::fetchCategories($selectClause, "1", PHP_INT_MAX, 0, "id", "DSC");
 
         $newCategories = [];
 

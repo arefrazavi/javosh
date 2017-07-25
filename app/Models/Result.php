@@ -46,17 +46,17 @@ class Result extends Model
     }
 
 
-    public static function fetchResult($whereRaw)
+    public static function fetchResult($whereClause)
     {
-        $results = self::whereRaw($whereRaw)->first();
+        $results = self::whereRaw($whereClause)->first();
 
         return $results;
     }
 
 
-    public static function fetchResults($whereRaw)
+    public static function fetchResults($whereClause)
     {
-        $results = self::whereRaw($whereRaw)->get();
+        $results = self::whereRaw($whereClause)->get();
 
         return $results;
     }

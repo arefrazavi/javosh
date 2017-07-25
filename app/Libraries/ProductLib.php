@@ -4,10 +4,13 @@ namespace App\Libraries;
 
 use App\Helpers\Common;
 use App\Models\Aspect;
+use App\Models\Category;
 use App\Models\FileLog;
 use App\Models\Product;
 use App\Models\Rating;
+use App\Models\Summary;
 use App\Models\Type;
+use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 
 class ProductLib
 {
@@ -92,8 +95,8 @@ class ProductLib
 
 
     public static function SaveProductsIntoFile() {
-        $whereRaw = "title = ''";
-        $products = Product::fetchProducts("*", $whereRaw);
+        $whereClause = "title = ''";
+        $products = Product::fetchProducts("*", $whereClause);
         $uncrawledProducts = [];
         foreach ($products as $product) {
             $uncrawledProducts[] = ['id' => $product->id, 'categoryTitle' =>  $product->category->title];
@@ -104,6 +107,58 @@ class ProductLib
         Common::writeToCsv($uncrawledProducts, $filePath, $writingMode);
 
 
+    }
+
+
+    public static function getProducts($categoryId, $limit)
+    {
+        $whereClause = "1";
+        if ($categoryId) {
+            $whereClause = "category_id IN (". $categoryId;
+            $descendants = Category::fetchDescendants($categoryId);
+            foreach ($descendants as $descendant) {
+                $whereClause .= ", $descendant->id";
+            }
+            $whereClause .= ")";
+        }
+
+        if ($limit) {
+            $products = ProductLib::getProductsWihSummary($userId = Sentinel::getUser()->id,Summary::GOLD_STANDARD_METHOD_ID, $whereClause, $limit);
+        } else {
+            $products = ProductLib::getProductsWihSummary(0, Summary::GOLD_STANDARD_METHOD_ID, $whereClause);
+
+            foreach ($products as &$product) {
+                $product->category = Category::fetch($product->category_id);
+                //$summaries = $product->summaries;
+                //$product->summary_count = $summaries->count();
+            }
+            unset($product);
+        }
+
+        return $products;
+    }
+
+
+
+    /**
+     * @param int $userId
+     * @param int $methodId
+     * @param string $whereClause
+     * @param int $limit
+     * @return mixed
+     */
+    public static function getProductsWihSummary($userId = 0, $methodId = Summary::GOLD_STANDARD_METHOD_ID, $whereClause = "1", $limit = PHP_INT_MAX)
+    {
+        $selectClause = "products.id AS id, ANY_VALUE(products.title) AS title, ANY_VALUE(products.category_id) AS category_id, COUNT(*) AS summary_count";
+        $whereClause .= " AND (method_id = $methodId OR method_id IS NULL)";
+
+        if ($userId) {
+            $whereClause .= " AND (user_id = $userId OR user_id IS NULL)";
+        }
+
+        $products = Product::fetchProductsWithSummary($selectClause, $whereClause, $limit);
+
+        return $products;
     }
 
 

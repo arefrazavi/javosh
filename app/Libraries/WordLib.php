@@ -21,8 +21,8 @@ class WordLib
     public function storeWords()
     {
         DB::connection()->disableQueryLog();
-        $selectRaw = "categories.id";
-        $categories = Category::fetchCategories($selectRaw);
+        $selectClause = "categories.id";
+        $categories = Category::fetchCategories($selectClause);
 
         foreach ($categories as $category) {
 
@@ -87,8 +87,8 @@ class WordLib
             //Save or update unique words into database
             foreach ($uniqueWords as $uniqueWord) {
                 $wordVal = $uniqueWord['value'];
-                $whereRaw = "value = '$wordVal' AND category_id = $category->id";
-                $word = Word::fetch($whereRaw);
+                $whereClause = "value = '$wordVal' AND category_id = $category->id";
+                $word = Word::fetch($whereClause);
                 if (!$word) {
                     $uniqueWord['occurrences'] = serialize($uniqueWord['occurrences']);
                     $word = Word::insert($uniqueWord);
@@ -120,8 +120,8 @@ class WordLib
      */
     public function storeWord($value)
     {
-        $selectRaw = "categories.id";
-        $categories = Category::fetchCategories($selectRaw);
+        $selectClause = "categories.id";
+        $categories = Category::fetchCategories($selectClause);
 
         foreach ($categories as $category) {
             $word = Word::fetch("value = '$value' AND category_id = $category->id");
@@ -317,8 +317,8 @@ class WordLib
 
             foreach ($words as $word) {
                 print_r("\n  $word[0] <br> \n");
-                $whereRaw = "value = '" . trim($word[0]) . "'";
-                $word = Word::fetch($whereRaw);
+                $whereClause = "value = '" . trim($word[0]) . "'";
+                $word = Word::fetch($whereClause);
                 if ($word) {
                     $word->pos_tag = $posTag;
                     $word->save();

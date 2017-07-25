@@ -23,8 +23,8 @@ class StatisticsController extends Controller
         }
 
         foreach ($categories as $category) {
-            $whereRaw = 'category_id ='. $category->id;
-            $results = Result::fetchResults($whereRaw);
+            $whereClause = 'category_id ='. $category->id;
+            $results = Result::fetchResults($whereClause);
             if (!$results->count()) {
                 continue;
             }
@@ -40,9 +40,9 @@ class StatisticsController extends Controller
                 $resultData['measure_id'] = $measure->id;
                 $datasets = [];
                 foreach ($methods as $method) {
-                    $whereRaw = 'category_id = ' . $category->id . ' AND measure_id = '
+                    $whereClause = 'category_id = ' . $category->id . ' AND measure_id = '
                         . $measure->id . ' AND method_id = ' . $method->id;
-                    $results = Result::fetchResults($whereRaw);
+                    $results = Result::fetchResults($whereClause);
 
                     if (!$results->count()) {
                         continue;

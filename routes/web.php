@@ -83,7 +83,7 @@ Route::group(
 Route::group(
     ['middleware' => ['web','sentinel.auth'], 'prefix' => 'product'],
     function () {
-        Route::get('list/{categoryId?}', 'ProductController@viewList')->name('ProductController.viewList');
+        Route::get('list/{categoryId?}/{limit?}', 'ProductController@viewList')->name('ProductController.viewList');
         Route::get('upload-panel', 'ProductController@viewUploadPanel')->name('ProductController.viewUploadPanel');
         Route::get('product/{productId}', 'ProductController@viewProduct')->name('ProductController.viewProduct');
         Route::get('gold-summary-recommendation/{productId}', 'ProductController@viewGoldSummaryRecommendation')

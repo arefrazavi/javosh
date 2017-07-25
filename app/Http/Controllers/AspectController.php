@@ -16,18 +16,18 @@ class AspectController extends Controller
 
     public function getList(Request $request)
     {
-        $whereRaw = "1";
+        $whereClause = "1";
         if ($request->categoryId) {
             $categoryId = $request->categoryId;
-            $whereRaw = "category_id IN (". $categoryId;
+            $whereClause = "category_id IN (". $categoryId;
             $descendants = Category::fetchDescendants($categoryId);
             foreach ($descendants as $descendant) {
-                $whereRaw .= ", $descendant->id";
+                $whereClause .= ", $descendant->id";
             }
-            $whereRaw .= ")";
+            $whereClause .= ")";
         }
 
-        $aspects = Aspect::fetchAspects("*", $whereRaw);
+        $aspects = Aspect::fetchAspects("*", $whereClause);
         foreach ($aspects as &$aspect) {
             $category = $aspect->category;
             $aspect->category = $category;

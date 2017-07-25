@@ -54,7 +54,7 @@ class Sentence extends Model
     }
 
     /**
-     * @param string $selectRaw
+     * @param string $selectClause
      * @param int $limit
      * @param int $offset
      * @param string $whereClause
@@ -62,9 +62,9 @@ class Sentence extends Model
      * @param string $order
      * @return mixed
      */
-    public static function fetchSentences($selectRaw = '*', $whereClause = "1", $limit = PHP_INT_MAX, $offset = 0, $orderBy = 'id', $order = 'ASC')
+    public static function fetchSentences($selectClause = '*', $whereClause = "1", $limit = PHP_INT_MAX, $offset = 0, $orderBy = 'id', $order = 'ASC')
     {
-        $sentences = self::select(DB::raw($selectRaw))
+        $sentences = self::select(DB::raw($selectClause))
             ->whereRaw($whereClause)
             ->skip($offset)
             ->take($limit)
@@ -75,15 +75,15 @@ class Sentence extends Model
     }
 
     /**
-     * @param string $selectRaw
-     * @param int $whereRaw
+     * @param string $selectClause
+     * @param int $whereClause
      * @return mixed
      */
-    public static function fetchSentencesWithSummary($selectRaw = "*", $whereRaw = 1) {
+    public static function fetchSentencesWithSummary($selectClause = "*", $whereClause = 1) {
         $sentences = DB::table('sentences')
             ->leftjoin('summaries', 'summaries.sentence_id', '=', 'sentences.id')
-            ->select(DB::raw($selectRaw))
-            ->whereRaw($whereRaw)
+            ->select(DB::raw($selectClause))
+            ->whereRaw($whereClause)
             ->get();
 
         return $sentences;

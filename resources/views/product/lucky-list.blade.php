@@ -1,5 +1,5 @@
 @extends('layouts.master-admin')
-@section('title', trans('common_lang.Products_List'))
+@section('title', trans('common_lang.10_lucky_products'))
 
 @section('content')
     <div class="row">
@@ -18,17 +18,10 @@
                                 <th>@lang('common_lang.summary_count')</th>
                                 <th>@lang('common_lang.Id')</th>
                                 <th>@lang('common_lang.Title')</th>
-                                <th>@lang('common_lang.Category')</th>
                                 <th>@lang('common_lang.Gold_Summary')</th>
                                 <th>@lang('common_lang.Comments')</th>
                             </tr>
                             </thead>
-                            <tfoot>
-                            <tr>
-                                <th>@lang('common_lang.summary_count')</th>
-                                <th>@lang('common_lang.Id')</th>
-                            </tr>
-                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -62,9 +55,11 @@
                     "sortDescending": ": activate to sort column descending"
                 }
             },
-            order: [[0, 'ASC']],
+            order: [[0, 'asc']],
             processing: true,
             serverSide: true,
+            paging: false,
+            searching: false,
             scrollX: false,
             ajax: {
                 url: '{!! route('ProductController.getList') !!}',
@@ -72,6 +67,7 @@
                 data: {
                     "datatable": true,
                     "categoryId": categoryId,
+                    "limit": "{{ $limit }}",
                     "_token": "{{ csrf_token() }}"
                 },
             },
@@ -84,12 +80,6 @@
                         var commentListRoute = '{{route("ProductController.viewProduct", "id")}}';
                         commentListRoute = commentListRoute.replace("id", data.id);
                         return "<a href='" + commentListRoute + "'>" + data.title + "</a>";
-                    }
-                },
-                {
-                    data: {category: "category"}, class: 'rtl-text',
-                    render: function (data) {
-                        return "<a href='#'>" + "<span title='" + data.category.title + "'>" + data.category.alias + "</span>" + "</a>";
                     }
                 },
                 {
@@ -112,9 +102,6 @@
                 }
             ],
             initComplete: function () {
-                if (categoryId != 0) {
-                    this.api().column(3).visible(false);
-                }
                 this.api().columns().every(function () {
                     var column = this;
                     var input = document.createElement("input");

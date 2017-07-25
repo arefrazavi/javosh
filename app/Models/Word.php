@@ -23,16 +23,16 @@ class Word extends Model
     ];
 
     /**
-     * @param $whereRaw
+     * @param $whereClause
      * @param int $id
      * @return mixed
      */
-    public static function fetch($whereRaw = "1", $id = 0)
+    public static function fetch($whereClause = "1", $id = 0)
     {
         if ($id != 0) {
             $word = self::find($id);
         } else {
-            $word = self::whereRaw($whereRaw)->first();
+            $word = self::whereRaw($whereClause)->first();
         }
         return $word;
     }

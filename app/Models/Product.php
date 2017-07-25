@@ -14,10 +14,10 @@ class Product extends Model
     public $incrementing = false;
 
     /**
-    * The attributes that are mass assignable.
-    *
-    * @var array
-    */
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'id',
         'title',
@@ -70,7 +70,7 @@ class Product extends Model
     }
 
     /**
-     * @param string $selectRaw
+     * @param string $selectClause
      * @param string $whereClause
      * @param int $limit
      * @param int $offset
@@ -78,9 +78,9 @@ class Product extends Model
      * @param string $order
      * @return mixed
      */
-    public static function fetchProducts($selectRaw = "*", $whereClause = '1', $limit = PHP_INT_MAX, $offset = 0, $orderBy = 'id', $order = 'ASC')
+    public static function fetchProducts($selectClause = "*", $whereClause = '1', $limit = PHP_INT_MAX, $offset = 0, $orderBy = 'id', $order = 'ASC')
     {
-        $products = self::select(DB::raw($selectRaw))
+        $products = self::select(DB::raw($selectClause))
             ->whereRaw($whereClause)
             ->skip($offset)
             ->take($limit)
@@ -89,6 +89,7 @@ class Product extends Model
 
         return $products;
     }
+
 
     public static function insert($newProduct)
     {
@@ -100,5 +101,29 @@ class Product extends Model
         $product = self::updateOrCreate($productData, $updateData);
 
         return $product;
+    }
+
+    /**
+     * @param string $selectClause
+     * @param int $whereClause
+     * @param int $limit
+     * @param int $offset
+     * @param string $orderBy
+     * @param string $order
+     * @return mixed
+     */
+    public static function fetchProductsWithSummary($selectClause = "*", $whereClause = 1, $limit = PHP_INT_MAX, $offset = 0, $orderBy = "summary_count", $order = "ASC")
+    {
+        $products = DB::table('products')
+            ->leftjoin('summaries', 'summaries.product_id', '=', 'products.id')
+            ->selectRaw($selectClause)
+            ->whereRaw($whereClause)
+            ->groupBy("id")
+            ->orderBy($orderBy, $order)
+            ->skip($offset)
+            ->take($limit)
+            ->get();
+
+        return $products;
     }
 }

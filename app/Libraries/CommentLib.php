@@ -57,8 +57,8 @@ class CommentLib
                     $commentData['negative_points'] = $row[1];
                     $commentData['text'] = $row[2];
                     $comment = Comment::updateOrInsert($commentData);
-                    $whereRaw = "entity_id = $comment->id AND entity_type_id = $commentType->id";
-                    Rating::deleteRatings($whereRaw);
+                    $whereClause = "entity_id = $comment->id AND entity_type_id = $commentType->id";
+                    Rating::deleteRatings($whereClause);
 
                     print_r("Comment $comment->id  of product $product->id in line $key of file $fileName has been inserted/updated \n");
 

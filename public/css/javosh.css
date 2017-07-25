@@ -190,3 +190,21 @@ h1, h2, h3, h4, h5 {
     line-height: 2em;
 }
 
+.dataTables_filter, .dataTables_info {
+    display: none;
+}
+
+.alert-lucky {
+    background-color: #00a65a;
+    color: #ffffff;
+    transition: all 0.5s ease;
+}
+
+.alert-lucky:hover {
+    color: goldenrod;
+}
+
+.btn-gold-suggest {
+    background-color: goldenrod;
+    color: #fff;
+}

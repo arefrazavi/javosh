@@ -26,8 +26,8 @@ class ResultLib
             $aspects = AspectLib::getAspects($category->id);
             $evaluatedProductsNum = 0;
             foreach ($products as $product) {
-                $whereRaw = 'product_id = ' . $product->id  . ' AND user_id = ' . User::ADMIN_USER_ID;
-                $summary = Summary::fetchSummary($whereRaw);
+                $whereClause = 'product_id = ' . $product->id  . ' AND user_id = ' . User::ADMIN_USER_ID;
+                $summary = Summary::fetchSummary($whereClause);
 
                 //If there is no summary for product, it must not be evaluated
                 if (!$summary->count()) {
@@ -35,12 +35,12 @@ class ResultLib
                     continue;
                 }
                 foreach ($aspects as $aspect) {
-                    $whereRaw .= ' AND aspect_id = ' . $aspect->id;
+                    $whereClause .= ' AND aspect_id = ' . $aspect->id;
 
-                    $goldWhereRaw = $whereRaw . ' AND method_id = ' . Summary::GOLD_STANDARD_METHOD_ID;
+                    $goldWhereRaw = $whereClause . ' AND method_id = ' . Summary::GOLD_STANDARD_METHOD_ID;
                     $goldAspectSummary = Summary::fetchSummary($goldWhereRaw);
 
-                    $methodWhereRaw = $whereRaw . ' AND method_id = ' . $methodId;
+                    $methodWhereRaw = $whereClause . ' AND method_id = ' . $methodId;
                     $methodAspectSummary = Summary::fetchSummary($methodWhereRaw);
 
                     //Calculate Precision, Recall and F-Measure for each aspect

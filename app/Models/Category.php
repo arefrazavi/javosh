@@ -71,16 +71,16 @@ class Category extends Model
     public static function fetchDescendants($categoryId)
     {
         $descendants = [];
-        $whereRaw = "categories.parent_id = " . $categoryId;
-        $categories = self::fetchCategories("categories.*", $whereRaw);
+        $whereClause = "categories.parent_id = " . $categoryId;
+        $categories = self::fetchCategories("categories.*", $whereClause);
         $new = 1;
         while ($new) {
             $newCategories = [];
             $new = 0;
             foreach ($categories as $category) {
                 $descendants[] = $category;
-                $whereRaw = "categories.parent_id = " . $category->id;
-                $newCats = self::fetchCategories("categories.*", $whereRaw);
+                $whereClause = "categories.parent_id = " . $category->id;
+                $newCats = self::fetchCategories("categories.*", $whereClause);
                 foreach ($newCats as $newCat) {
                     $newCategories[] = $newCat;
                 }
@@ -95,12 +95,12 @@ class Category extends Model
     }
 
 
-    public static function fetchCategories($selectRaw = "categories.*, c2.alias as parent_alias", $whereRaw = "1", $limit = PHP_INT_MAX,
+    public static function fetchCategories($selectClause = "categories.*, c2.alias as parent_alias", $whereClause = "1", $limit = PHP_INT_MAX,
                                            $offset = 0, $orderBy = "categories.id", $order = "ASC")
     {
-        $categories = self::select(DB::raw($selectRaw))
+        $categories = self::select(DB::raw($selectClause))
             ->leftjoin('categories as c2', 'c2.id', '=', 'categories.parent_id')
-            ->whereRaw($whereRaw)
+            ->whereRaw($whereClause)
             ->skip($offset)
             ->take($limit)
             ->orderBy($orderBy, $order)

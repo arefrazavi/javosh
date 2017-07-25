@@ -68,7 +68,7 @@ class Comment extends Model
     }
 
     /**
-     * @param string $selectRaw
+     * @param string $selectClause
      * @param int $limit
      * @param int $offset
      * @param string $whereClause
@@ -76,9 +76,9 @@ class Comment extends Model
      * @param string $order
      * @return mixed
      */
-    public static function fetchComments($selectRaw = "*", $whereClause = "1", $limit = PHP_INT_MAX, $offset = 0, $orderBy = 'id', $order = 'ASC')
+    public static function fetchComments($selectClause = "*", $whereClause = "1", $limit = PHP_INT_MAX, $offset = 0, $orderBy = 'id', $order = 'ASC')
     {
-        $comments = self::select(DB::raw($selectRaw))
+        $comments = self::select(DB::raw($selectClause))
             ->whereRaw($whereClause)
             ->skip($offset)
             ->take($limit)

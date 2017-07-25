@@ -57,7 +57,7 @@ class Aspect extends Model
     }
 
     /**
-     * @param string $selectRaw
+     * @param string $selectClause
      * @param string $whereClause
      * @param int $limit
      * @param int $offset
@@ -65,9 +65,9 @@ class Aspect extends Model
      * @param string $order
      * @return mixed
      */
-    public static function fetchAspects($selectRaw = "*", $whereClause = '1', $limit = PHP_INT_MAX, $offset = 0, $orderBy = 'id', $order = 'ASC')
+    public static function fetchAspects($selectClause = "*", $whereClause = '1', $limit = PHP_INT_MAX, $offset = 0, $orderBy = 'id', $order = 'ASC')
     {
-        $aspects = self::select(DB::raw($selectRaw))
+        $aspects = self::select(DB::raw($selectClause))
             ->whereRaw($whereClause)
             ->skip($offset)
             ->take($limit)

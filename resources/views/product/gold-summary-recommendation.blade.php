@@ -110,6 +110,7 @@
                     order: [[0, 'desc']],
                     searching: false,
                     serverSide: true,
+                    scrollX: false,
                     scrollY: 600,
                     info: false,
                     scroller: {
