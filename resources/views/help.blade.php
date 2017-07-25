@@ -45,6 +45,7 @@
                                 <li><b> @lang("common_lang.Max_Summary_Size_Guide") </b></li>
                                 <li><b> @lang("common_lang.Diversity_Guide") </b></li>
                                 <li><b> @lang("common_lang.See_comments_list_On_Hover") </b></li>
+                                <li><b> @lang("common_lang.No_need_to_fill_all") </b></li>
                             </ul>
                         </li>
                     </ol>
