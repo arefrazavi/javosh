@@ -23,7 +23,7 @@
                 <!-- Notifications Menu -->
                 <li>
                     <!-- Menu toggle button -->
-                    <a class="block" href="{{ route("help") }}">
+                    <a href="{{ route("help") }}">
                         <span> @lang("common_lang.Help") </span>
                     </a>
                 </li>

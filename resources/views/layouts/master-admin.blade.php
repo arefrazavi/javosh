@@ -25,7 +25,7 @@
     <script src="{{ asset('admin-lte/bootstrap/js/html5shiv.min.js') }}"></script>
     <![endif]-->
 </head>
-<body class="hold-transition skin-black sidebar-mini">
+<body class="hold-transition skin-black sidebar-mini sidebar-collapse">
 <div class="wrapper">
     <!-- Header -->
 @include('include.header')

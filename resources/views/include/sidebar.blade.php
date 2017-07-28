@@ -2,7 +2,7 @@
 <aside class="main-sidebar">
 
     <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
+    <section class="sidebar" style="height: auto">
 
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel">
@@ -16,9 +16,9 @@
             </div>
         </div>
 
-        <ul class="sidebar-menu">
+        <ul class="sidebar-menu tree">
             <!-- Optionally, you can add icons to the links -->
-            <li class="{{ Request::is('dashboard') ? 'active' : '' }}">
+            <li class="treeview {{ Request::is('dashboard') ? 'active' : '' }}">
                 <a href="/dashboard">
                     <i class="fa fa-tachometer"></i><span>@lang('common_lang.Dashboard')</span>
                 </a>
