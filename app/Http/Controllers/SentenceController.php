@@ -119,7 +119,7 @@ class SentenceController extends Controller
 
         if (!$updateResult) {
             $result['success'] = 0;
-            $result['message'] = trans("common.Max_Summary_Size_Exceed");
+            $result['message'] = trans("common_lang.Max_Summary_Size_Exceed");
         }
 
         return $result;

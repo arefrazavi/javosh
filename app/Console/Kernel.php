@@ -11,6 +11,7 @@ use App\Console\Commands\FindAttributes;
 use App\Console\Commands\FindDynamicAspects;
 use App\Console\Commands\FindVerbs;
 use App\Console\Commands\GenerateWord2Vec;
+use App\Console\Commands\StoreClosestAspect;
 use App\Console\Commands\StoreComments;
 use App\Console\Commands\StoreAspects;
 use App\Console\Commands\StoreProducts;
@@ -47,7 +48,8 @@ class Kernel extends ConsoleKernel
         StoreProducts::class,
         StoreComments::class,
         GenerateWord2Vec::class,
-        ComputeSentenceAspectFrequency::class
+        ComputeSentenceAspectFrequency::class,
+        StoreClosestAspect::class
     ];
 
     /**

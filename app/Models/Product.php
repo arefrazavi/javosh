@@ -104,7 +104,7 @@ class Product extends Model
     }
 
     /**
-     * @param string $selectClause
+     * @paraam string $selectClause
      * @param int $whereClause
      * @param int $limit
      * @param int $offset

@@ -16,7 +16,8 @@ class Aspect extends Model
         'title',
         'keywords',
         'category_id',
-        'type'
+        'type',
+        'closest_aspect_id'
     ];
 
     public $timestamps = false;

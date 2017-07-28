@@ -26,16 +26,6 @@ class ClassifySentences extends Command
     protected $description = 'Command description';
 
     /**
-     * ClassifySentences constructor.
-     * @param SentenceLib $sentenceLib
-     */
-    public function __construct(SentenceLib $sentenceLib)
-    {
-        parent::__construct();
-        $this->sentenceLib = $sentenceLib;
-    }
-
-    /**
      * Execute the console command.
      *
      * @return mixed
@@ -46,7 +36,7 @@ class ClassifySentences extends Command
         $products = Product::fetchProducts('*', $whereClause);
 
         foreach ($products as $product) {
-            $this->sentenceLib->classifySentences(-1.4, $product->id);
+           SentenceLib::classifySentences($product->id, 0.4, 0.6, 0.64);
         }
     }
 }

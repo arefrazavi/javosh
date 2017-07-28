@@ -24,7 +24,7 @@ class AspectLib
 
         foreach ($categories as $category) {
             $basePath = base_path($baseDir . $category->title . "/aspect_keywords/*.csv");
-            print_r($basePath."\n");
+            print_r($basePath . "\n");
             $files = glob($basePath);
             if (empty($files)) {
                 continue;
@@ -35,7 +35,7 @@ class AspectLib
                 print_r("filename $fileName \n");
                 $aspectData['title'] = trim($results[0][0]);
                 $aspectData['type'] = intval($results[0][1]);
-                print_r("type: ". $aspectData['type'] . "\n");
+                print_r("type: " . $aspectData['type'] . "\n");
                 unset($results[0]);
                 $keywords = [];
                 foreach ($results as $result) {
@@ -53,29 +53,29 @@ class AspectLib
         print_r("\n********END of storeAspects******\n");
     }
 
-    public static function storeKeywords()
+    public static function storeClosetAspects($baseDir)
     {
-        $categoryId = 4;
-        $aspects = Aspect::fetchAspects("*", "category_id = $categoryId");
-        foreach ($aspects as $aspect) {
-            $keywords = [];
-            $filePath = base_path('data/aspects/Mobile-Phone/' . strval($aspect->id) . '_seed.csv');
-            $keywordsFile = Common::readFromCsv($filePath);
-            dump($keywordsFile);
-            foreach ($keywordsFile[0] as $key => $keyword) {
-                $keyword = trim($keyword);
-                $weight = floatval($keywordsFile[1][$key]);
-                if (!isset($keywords[$keyword]) || ($keywords[$keyword] < $weight)) {
-                    $keywords[$keyword] = $weight;
-                }
-                print_r("\n Word: " . $keyword . " , weight: " . $weight . "<br> \n");
-            }
+        $categories = Category::fetchCategories();
 
-            $aspect->keywords = serialize($keywords);
-            $aspect->save();
+        foreach ($categories as $category) {
+            $fileName = base_path($baseDir . $category->title . "/closet_aspects.csv");
+            if (!file_exists($fileName)) {
+                continue;
+            }
+            print_r("filename $fileName \n");
+            $results = Common::readFromCsv($fileName);
+            unset($results[0]);
+            foreach ($results as $result) {
+                $aspectId = intval($result[0]);
+                $closestAspectId = intval($result[1]);
+                $aspect = Aspect::fetch($aspectId);
+                $aspect->closest_aspect_id = $closestAspectId;
+                $aspect->save();
+                print_r("closest aspect ($closestAspectId) for aspect: $aspect->id is stored\n");
+            }
         }
 
-        print_r("\n********END of storeKeywords******\n");
+        print_r("\n********END of storeClosetAspects******\n");
     }
 
 
@@ -125,7 +125,8 @@ class AspectLib
      * @param float $minSupport
      * @return array
      */
-    public static function findFrequentItemSets(&$items, &$transactions, $minSupport = 0.01)
+    public
+    static function findFrequentItemSets(&$items, &$transactions, $minSupport = 0.01)
     {
         $frequentItemSets = [];
         $transactionsCount = sizeof($transactions);
@@ -200,11 +201,12 @@ class AspectLib
      * @param float $minAdjSupport
      * @return array
      */
-    public static function findDynamicAspects(&$frequentItemSets, &$sentenceTexts, $minAdjSupport = 0.01)
+    public
+    static function findDynamicAspects(&$frequentItemSets, &$sentenceTexts, $minAdjSupport = 0.01)
     {
         $sentencesWords = [];
         foreach ($sentenceTexts as $sentenceId => $sentenceText) {
-            $sentencesWords[$sentenceId] = WordLib::extractWords($sentenceText);
+            $sentencesWords[$sentenceId] = WordLib::extractNonStopWords($sentenceText);
         }
         $adjWords = Word::fetchWords("value", "pos_tag = 'ADJ'");
 

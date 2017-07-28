@@ -13,7 +13,7 @@ class ComputeSentencesEntropy extends Command
      *
      * @var string
      */
-    protected $signature = 'sentence:compute-entropy';
+    protected $signature = 'sentence:entropy';
 
     /**
      * The console command description.

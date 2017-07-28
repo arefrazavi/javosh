@@ -4,6 +4,7 @@ namespace App\Libraries;
 
 use App\Helpers\Common;
 use App\Helpers\Tokenizer;
+use App\Models\Aspect;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Product;
@@ -105,7 +106,7 @@ class SentenceLib
             }
         }
 
-        print_r("Number of sentences:" .sizeof($limitedSizeSentences) ."\n");
+        print_r("Number of sentences:" . sizeof($limitedSizeSentences) . "\n");
 
         return $limitedSizeSentences;
     }
@@ -114,7 +115,7 @@ class SentenceLib
      * @param $threshold
      * @param $productId
      */
-    public function classifySentences($threshold, $productId)
+    public static function classifySentences($productId, $wEscore, $wSscore, $threshold)
     {
         $selectedSentences = [];
         $commentType = Type::fetch('comment');
@@ -125,12 +126,13 @@ class SentenceLib
         $likeTypeId = $likeType->id;
         $dislikeType = Type::fetch('dislike');
         $dislikeTypeId = $dislikeType->id;
-
         $product = Product::fetch($productId);
+        $category = $product->category;
+        $adjectives = Word::fetchWords("value", "pos_tag = 'ADJ' AND category_id = $category->id");
+        $aspects = $category->aspects;
 
         $comments = $product->comments;
         foreach ($comments as $comment) {
-
             $ratingData['entity_id'] = $comment->id;
             $ratingData['entity_type_id'] = $entityTypeId;
             $ratingData['rating_type_id'] = $ratingTypeId;
@@ -145,41 +147,72 @@ class SentenceLib
             $commentDislikeRating = Rating::fetch($ratingData);
 
             $sentences = $comment->sentences;
-            print_r("Sentences Count: ". sizeof($sentences) ."<br> \n");
+            //print_r("Sentences Count: " . sizeof($sentences) . " \n");
 
             foreach ($sentences as $sentence) {
-                $sentenceId = $sentence->id;
+                $sentenceWords = WordLib::extractNonStopWords($sentence->text);
+                if (empty($sentenceWords)) {
+                    continue;
+                }
+
                 $entropies = unserialize($sentence->entropy);
-                $bestEntropyAspectId = Common::findMin($entropies);
-                if ($bestEntropyAspectId['value'] <= $threshold) {
-                    $bestEntropyAspectId = $bestEntropyAspectId['key'];
-                    $sentenceWords = WordLib::extractWords($sentence->text);
-                    $preprocessedSentenceText = implode(" ", $sentenceWords);
+                if (empty($entropies)) {
+                    continue;
+                }
+                $minEntropy = Common::findMin($entropies);
+                $eScore = $minEntropy['value'];
+                $sScore = WordLib::calculateSScore($sentence->text, $adjectives);
+                print_r("s-score: $sScore, escore: $eScore \n");
+
+                $rScore = ((abs($eScore) * $wEscore) + ($sScore * $wSscore)) / ($wEscore + $wSscore);
+                print_r("R-score: " . $rScore . "\n");
+
+                if ($rScore >= $threshold) {
+                    $sentenceId = $sentence->id;
+                    //$preprocessedSentenceText = implode(" ", $sentenceWords);
                     $selectedSentences[$sentenceId]['id'] = $sentenceId;
-                    $selectedSentences[$sentenceId]['bestEntropyAspectId'] = $bestEntropyAspectId;
-                    $selectedSentences[$sentenceId]['text'] = $preprocessedSentenceText;
+                    $selectedSentences[$sentenceId]['text'] = $sentence->text;
                     $selectedSentences[$sentenceId]['like'] = $commentLikeRating->rate;
                     $selectedSentences[$sentenceId]['dislike'] = $commentDislikeRating->rate;
-                    $commentAspectsRates = unserialize($commentAspectsRating->rate);
-                    foreach ($commentAspectsRates as $aspectId => $rate) {
-                        $selectedSentences[$sentenceId][$aspectId . '-rate'] = $rate;
-                    }
-                    foreach ($entropies as $aspectId => $entropy) {
-                        $selectedSentences[$sentenceId][$aspectId . '-entropy'] = $entropy;
-                    }
-                    print_r("Sentence with id: <br> \n". $sentenceId . " is selected <br> \n");
+                    $selectedSentences[$sentenceId]['sScore'] = $sScore;
+                    $selectedSentences[$sentenceId]['eScore'] = $eScore;
 
+
+                    $commentAspectsRates = unserialize($commentAspectsRating->rate);
+
+                    foreach ($aspects as $aspect) {
+                        $aspectClosestId = $aspect->closest_aspect_id;
+                        if (isset($commentAspectsRates[$aspect->id])) {
+                            $selectedSentences[$sentenceId][$aspect->id . '-rate'] = $commentAspectsRates[$aspect->id];
+                        } else {
+                            print_r("closet of $aspect->id: $aspectClosestId \n");
+                            $selectedSentences[$sentenceId][$aspect->id. '-rate'] = $commentAspectsRates[$aspectClosestId];
+                        }
+
+                    }
+
+                    foreach ($aspects as $aspect) {
+                        $aspectClosestId = $aspect->closest_aspect_id;
+                        if (isset($entropies[$aspect->id])) {
+                            $selectedSentences[$sentenceId][$aspect->id . '-entropy'] = $entropies[$aspect->id];
+                        } else {
+                            $selectedSentences[$sentenceId][$aspect->id. '-entropy'] = $entropies[$aspectClosestId];
+                        }
+                    }
+                    print_r("Sentence with id: $sentenceId is related \n");
                 }
             }
 
-            print_r("Selected Sentences Count: ". sizeof($selectedSentences) ."<br> \n");
+            print_r("Related Sentences Count: " . sizeof($selectedSentences) . " \n");
 
         }
 
-        $filePath = base_path('data/sentences/selected-sentences/' . $product->id . '.csv');
+        $outputDir = "data/summaries/SCB/related/$category->title";
+        $filePath = base_path($outputDir);
+        Common::makeDirectory($filePath);
         $writingMode = 'w';
-
-        Common::writeToCsv($selectedSentences, $filePath, $writingMode);
+        $fileName = "$outputDir/$product->id.csv";
+        Common::writeToCsv($selectedSentences, $fileName, $writingMode);
 
         print_r("\n Sentences of product $productId has been classified \n");
     }
@@ -194,13 +227,13 @@ class SentenceLib
         $aspectType = Type::fetch('aspects');
         $ratingTypeId = $aspectType->id;
 
-        $whereClause = "`entropy` IS NULL";
+        $whereClause = "`entropy` IS NULL OR `entropy` = 'a:0:{}'";
         //$whereClause = 1;
         $sentences = Sentence::fetchSentences("*", $whereClause);
         foreach ($sentences as $sentence) {
             print_r("step 1 \n");
             print_r($sentence->id . "\n");
-            $sentenceWords = WordLib::extractWords($sentence->text);
+            $sentenceWords = WordLib::extractNonStopWords($sentence->text);
             $sentenceEntropies = [];
             $newWord = 0;
             $categoryID = $sentence->comment->category_id;
@@ -217,7 +250,6 @@ class SentenceLib
                         } else {
                             $sentenceEntropies[$aspectId] = doubleval($entropy);
                         }
-
                     }
                 } else {
                     print_r("step 3 \n");
@@ -290,8 +322,8 @@ class SentenceLib
      */
     public static function getSentencesWihSummary($commentId, $userId, $methodId = Summary::GOLD_STANDARD_METHOD_ID)
     {
-        $whereClause = 'comment_id = '. $commentId .' AND ' . '(user_id = '. $userId . " OR user_id IS NULL) 
-        AND (method_id = ". $methodId . ' OR  method_id IS NULL)';
+        $whereClause = 'comment_id = ' . $commentId . ' AND ' . '(user_id = ' . $userId . " OR user_id IS NULL) 
+        AND (method_id = " . $methodId . ' OR  method_id IS NULL)';
         $sentences = Sentence::fetchSentencesWithSummary("sentences.*, summaries.aspect_id, summaries.polarity", $whereClause);
 
         return $sentences;
@@ -348,7 +380,7 @@ class SentenceLib
             $commentTextSentences = Sentence::fetchSentences("*", $whereClause);
             foreach ($commentTextSentences as $commentTextSentence) {
                 $commentTextSentenceText = Common::sanitizeString($commentTextSentence->text);
-                $textSentenceTexts[$commentTextSentence->id] = $commentTextSentenceText ;
+                $textSentenceTexts[$commentTextSentence->id] = $commentTextSentenceText;
             }
         }
 
@@ -374,5 +406,6 @@ class SentenceLib
 
         return $pointSentenceTexts;
     }
+
 
 }

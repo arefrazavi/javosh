@@ -47,7 +47,7 @@ class WordLib
                 $commentRating = Rating::fetch($ratingData);
                 $text = $comment->text . '. ' . $comment->positive_points . '. ' . $comment->negative_points;
 
-                $commentWords = self::extractWords($text);
+                $commentWords = self::extractNonStopWords($text);
 
                 $bowComments[$key]['words'] = $commentWords;
                 $bowComments[$key]['rating'] = unserialize($commentRating->rate);
@@ -309,19 +309,24 @@ class WordLib
     /**
      * @param $files
      */
-    public function updatePosTag($files)
+    public static function updatePosTag($files)
     {
         foreach ($files as $file) {
-            $words = Common::readFromCsv($file['filePath']);
+            $content = Common::readFromCsv($file['filePath']);
             $posTag = $file['posTag'];
 
-            foreach ($words as $word) {
-                print_r("\n  $word[0] <br> \n");
-                $whereClause = "value = '" . trim($word[0]) . "'";
-                $word = Word::fetch($whereClause);
-                if ($word) {
-                    $word->pos_tag = $posTag;
-                    $word->save();
+            if ($file['header']) {
+                unset($content[0]);
+            }
+            foreach ($content as $row) {
+                foreach ($row as $wordVal) {
+                    print_r("\n  $wordVal \n");
+                    $whereClause = "value = '" . trim($wordVal) . "'";
+                    $words = Word::fetchWords("*", $whereClause);
+                    foreach ($words as $word) {
+                            $word->pos_tag = $posTag;
+                            $word->save();
+                    }
                 }
             }
         }
@@ -359,7 +364,7 @@ class WordLib
      * @param $text
      * @return array
      */
-    public static function extractWords($text)
+    public static function extractNonStopWords($text)
     {
         $text = Common::sanitizeString($text);
         $words = Tokenizer::tokenize($text);
@@ -367,7 +372,20 @@ class WordLib
 
         return $words;
     }
-    
+
+    /**
+     * @param $text
+     * @return array
+     */
+    public static function extractWords($text)
+    {
+        $text = Common::sanitizeString($text);
+        $words = Tokenizer::tokenize($text);
+        return $words;
+    }
+
+
+
     public static function cleanWords()
     {
         $categoryId = 4;
@@ -444,7 +462,7 @@ class WordLib
             $text = $comment->text . '. ' . $comment->positive_points . '. ' . $comment->negative_points;
             print_r("\n comment id:" . $comment->id . "<br> \n");
 
-            $rawCommentWords = self::extractWords($text);
+            $rawCommentWords = self::extractNonStopWords($text);
             $commentWords = [];
 
             foreach ($rawCommentWords as $commentWord) {
@@ -518,6 +536,27 @@ class WordLib
         }
 
         return $wordValues;
+    }
+
+    public static function calculateSScore($text, &$adjectives)
+    {
+        $sCount = 0;
+        $textWords = WordLib::extractWords($text);
+        $wordsCount = count($textWords);
+        if (!$wordsCount) {
+            return $sCount;
+        }
+
+        $wordsCount = array_count_values($textWords);
+        foreach ($adjectives as $adjective) {
+            if (isset($wordsCount[$adjective->value])) {
+                $sCount += $wordsCount[$adjective->value];
+            }
+        }
+
+        $sScore = $sCount / count($textWords);
+
+        return $sScore;
     }
 
 }

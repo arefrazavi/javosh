@@ -26,17 +26,6 @@ class UpdatePosTag extends Command
     protected $wordLib;
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct(WordLib $wordLib)
-    {
-        parent::__construct();
-        $this->wordLib = $wordLib;
-    }
-
-    /**
      * Execute the console command.
      *
      * @return mixed
@@ -46,21 +35,17 @@ class UpdatePosTag extends Command
         $files = [
             [
                 'filePath' => base_path('data/words/verbs.csv'),
-                'posTag' => 'V'
+                'posTag' => 'V',
+                'header' => 0
             ],
 
             [
-                'filePath' => base_path('data/words/positive-attributes.csv'),
-                'posTag' => 'ADJ'
+                'filePath' => base_path('data/words/adjectives.csv'),
+                'posTag' => 'ADJ',
+                'header' => 1
             ],
-
-            [
-                'filePath' => base_path('data/words/negative-attributes.csv'),
-                'posTag' => 'ADJ'
-            ]
         ];
-
-        $this->wordLib->updatePosTag($files);
+        WordLib::updatePosTag($files);
 
 
 
