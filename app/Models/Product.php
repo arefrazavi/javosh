@@ -112,14 +112,14 @@ class Product extends Model
      * @param string $order
      * @return mixed
      */
-    public static function fetchProductsWithSummary($selectClause = "*", $whereClause = 1, $limit = PHP_INT_MAX, $offset = 0, $orderBy = "summary_count", $order = "ASC")
+    public static function fetchProductsWithSummary($selectClause = "*", $whereClause = 1, $limit = PHP_INT_MAX, $offset = 0, $orderBy = "summary_count")
     {
         $products = DB::table('products')
             ->leftjoin('summaries', 'summaries.product_id', '=', 'products.id')
             ->selectRaw($selectClause)
             ->whereRaw($whereClause)
             ->groupBy("id")
-            ->orderBy($orderBy, $order)
+            ->orderByRaw($orderBy)
             ->skip($offset)
             ->take($limit)
             ->get();

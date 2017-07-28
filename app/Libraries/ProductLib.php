@@ -156,7 +156,7 @@ class ProductLib
             $whereClause .= " AND (user_id = $userId OR user_id IS NULL)";
         }
 
-        $products = Product::fetchProductsWithSummary($selectClause, $whereClause, $limit);
+        $products = Product::fetchProductsWithSummary($selectClause, $whereClause, $limit, 0, "RAND()");
 
         return $products;
     }
