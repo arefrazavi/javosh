@@ -4,7 +4,7 @@
     <div class='row'>
         <div class='col-md-6'>
             <a class="block" href="{{ route("ProductController.viewList", ['categoryId' => 4]) }}">
-                <div><img src="{{ asset('images/cellphones.jpg') }}" class="img-responsive img-bordered"/></div>
+                <div><img src="{{ asset('images/cellphones.jpg') }}" class="img-responsive img-bordered cat-img"/></div>
                 <h4 class="text-center">@lang('common_lang.Products_List') @lang('common_lang.Category') @lang('common_lang.Mobile')</h4>
             </a>
             <a class="block alert alert-lucky text-center" href="{{ route("ProductController.viewList", ['categoryId' => 4, 'limit' => 10]) }}">
@@ -13,7 +13,7 @@
         </div><!-- /.col -->
         <div class='col-md-6'>
             <a class="block" href="{{ route("ProductController.viewList", ['categoryId' => 6]) }}">
-                <div><img src="{{ asset('images/laptops.jpg') }}" class="img-responsive img-bordered"/></div>
+                <div><img src="{{ asset('images/laptops.jpg') }}" class="img-responsive img-bordered cat-img"/></div>
                 <h4 class="text-center">@lang('common_lang.Products_List') @lang('common_lang.Category') @lang('common_lang.Laptop')</h4>
             </a>
 

@@ -213,6 +213,12 @@ h1, h2, h3, h4, h5 {
     text-align: center;
 }
 
+.cat-img {
+    max-height: 350px;
+    text-align: center;
+    margin: auto;
+}
+
 @media only screen and (max-width: 780px) {
     .main-sidebar {
         display: none !important;
