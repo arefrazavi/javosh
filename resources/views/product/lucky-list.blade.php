@@ -36,7 +36,7 @@
     $(function () {
         var table = $("#product-list-table").DataTable({
             "language": {
-                "emptyTable": "@lang('common_lang.No_sentence_for_recommendation')",
+                "emptyTable": "No product available",
                 "lengthMenu": "@lang('common_lang.Show_Entries_No') _MENU_ ",
                 "zeroRecords": "@lang('common_lang.Nothing_found')",
                 "info": "@lang('common_lang.Showing_Page') _PAGE_ @lang('common_lang.of') _PAGES_",
