@@ -123,9 +123,9 @@ class ProductLib
         }
 
         if ($limit) {
-            $products = ProductLib::getProductsWihSummary($userId = Sentinel::getUser()->id,Summary::GOLD_STANDARD_METHOD_ID, $whereClause, $limit);
+            $products = ProductLib::getProductsWihSummary($userId = Sentinel::getUser()->id,Summary::GOLD_STANDARD_METHOD_ID, $whereClause, $limit, "RAND()");
         } else {
-            $products = ProductLib::getProductsWihSummary(0, Summary::GOLD_STANDARD_METHOD_ID, $whereClause);
+            $products = ProductLib::getProductsWihSummary(0, Summary::GOLD_STANDARD_METHOD_ID, $whereClause, PHP_INT_MAX, "summary_count");
 
             foreach ($products as &$product) {
                 $product->category = Category::fetch($product->category_id);
@@ -138,25 +138,24 @@ class ProductLib
         return $products;
     }
 
-
-
     /**
      * @param int $userId
      * @param int $methodId
      * @param string $whereClause
      * @param int $limit
+     * @param string $orderBy
      * @return mixed
      */
-    public static function getProductsWihSummary($userId = 0, $methodId = Summary::GOLD_STANDARD_METHOD_ID, $whereClause = "1", $limit = PHP_INT_MAX)
+    public static function getProductsWihSummary($userId = 0, $methodId = Summary::GOLD_STANDARD_METHOD_ID, $whereClause = "1", $limit = PHP_INT_MAX, $orderBy = "id")
     {
         $selectClause = "products.id AS id, ANY_VALUE(products.title) AS title, ANY_VALUE(products.category_id) AS category_id, COUNT(*) AS summary_count";
-        $whereClause .= " AND (method_id = $methodId OR method_id IS NULL)";
+        $whereClause .= " AND (method_id = $methodId OR method_id IS NULL) AND has_comment = 1";
 
         if ($userId) {
             $whereClause .= " AND (user_id = $userId OR user_id IS NULL)";
         }
 
-        $products = Product::fetchProductsWithSummary($selectClause, $whereClause, $limit, 0, "RAND()");
+        $products = Product::fetchProductsWithSummary($selectClause, $whereClause, $limit, 0, $orderBy);
 
         return $products;
     }

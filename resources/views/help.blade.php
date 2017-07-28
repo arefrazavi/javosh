@@ -46,6 +46,8 @@
                                 <li><b> @lang("common_lang.Diversity_Guide") </b></li>
                                 <li><b> @lang("common_lang.See_comments_list_On_Hover") </b></li>
                                 <li><b> @lang("common_lang.No_need_to_fill_all") </b></li>
+                                <li><b> @lang("common_lang.Sentences_Ordering_Guide") </b></li>
+                                <li>@lang("common_lang.Let_Go_No_Sentences_Product_Guide")</li>
                             </ul>
                         </li>
                     </ol>
