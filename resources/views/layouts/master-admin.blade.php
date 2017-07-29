@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{{ asset("admin-lte/dist/css/AdminLTE-rtl.css") }}">
     <link rel="stylesheet" href="{{ asset("admin-lte/dist/css/skins/_all-skins-rtl.css") }}">
     <link rel="stylesheet" href="{{ asset("css/jquery.dataTables.1.10.15.min.css") }}">
+    <link rel="stylesheet" href="{{ asset("css/responsive.dataTables.min.css") }}">
     <link rel="stylesheet" href="{{ asset("css/javosh.css") }}">
     <link rel="stylesheet" href="{{ asset("css/scroller.dataTables.css") }}">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -70,8 +71,8 @@
 <script src="{{ asset ("admin-lte/dist/js/modified-app.js") }}" type="text/javascript"></script>
 
 <!-- DataTables REQUIRED JS SCRIPTS -->
-
 <script src="{{ asset ("js/jquery.dataTables.1.10.15.min.js") }}"></script>
+<script src="{{ asset ("js/dataTables.responsive.min.js") }}"></script>
 <script src="{{ asset ("js/dataTables.scroller.min.js") }}"></script>
 <!-- Bootstrap JavaScript -->
 <!-- App scripts -->

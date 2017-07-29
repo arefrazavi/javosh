@@ -43,7 +43,7 @@
             <div class="box box-warning">
                 <div class="box-body">
                     <div class="form-group">
-                        <select class="form-control gold" id="aspect_id" name="aspect_id">
+                        <select class="form-control gold" id="aspect_id" name="aspect_id" >
                             <option value="0">@lang("common_lang.Select_an_aspect")</option>
                             @foreach($aspects as $aspect)
                                 <option value="{{ $aspect->id }}">{!! $aspect->title !!}</option>
@@ -51,7 +51,7 @@
                         </select>
                     </div>
                     <div class="table-responsive">
-                        <table id="sentence-list-table" class="table table-bordered table-hover">
+                        <table id="sentence-list-table" class="display responsive" cellspacing="0" width="100%">
                             <thead>
                             <tr>
                                 <th class="hidden">@lang('common_lang.af')</th>

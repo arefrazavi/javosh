@@ -12,15 +12,14 @@
                 @endif
                 <div class="box-body">
                     <div class="table-responsive">
-                        <table id="product-list-table" class="table table-bordered table-hover">
+                        <table id="product-list-table" class="display responsive" cellspacing="0" width="100%">
                             <thead>
                             <tr>
-                                <th>@lang('common_lang.summary_count')</th>
-                                <th>@lang('common_lang.Id')</th>
+                                <th class="never">@lang('common_lang.summary_count')</th>
+                                <th class="desktop ">@lang('common_lang.Id')</th>
                                 <th>@lang('common_lang.Title')</th>
-                                <th>@lang('common_lang.Category')</th>
-                                <th>@lang('common_lang.Gold_Summary')</th>
-                                <th>@lang('common_lang.Comments')</th>
+                                <th class="all">@lang('common_lang.Gold_Summary')</th>
+                                <th class="min-tablet">@lang('common_lang.Comments')</th>
                             </tr>
                             </thead>
                             <tfoot>
@@ -76,7 +75,7 @@
                 },
             },
             columns: [
-                {data: 'summary_count' , name: 'summary_count', visible : false},
+                {data: 'summary_count', name: 'summary_count', visible: false},
                 {data: 'id', class: 'rtl-text', name: 'id'},
                 {
                     data: {title: 'title', id: 'id'}, class: 'rtl-text text-wrap',
