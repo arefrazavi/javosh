@@ -125,6 +125,7 @@ class SummaryLib
                 }
                 $sentence->comment_text = $comment->text;
 
+
                 //Check if sentence is gold
                 if (isset($goldSentences[$sentence->id])) {
                     $sentence->user_gold_selected = 1;
