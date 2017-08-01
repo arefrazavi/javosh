@@ -18,16 +18,11 @@
                                 <th class="never">@lang('common_lang.summary_count')</th>
                                 <th class="desktop ">@lang('common_lang.Id')</th>
                                 <th>@lang('common_lang.Title')</th>
+                                <th>@lang('common_lang.Category')</th>
                                 <th class="all">@lang('common_lang.Gold_Summary')</th>
                                 <th class="min-tablet">@lang('common_lang.Comments')</th>
                             </tr>
                             </thead>
-                            <tfoot>
-                            <tr>
-                                <th>@lang('common_lang.summary_count')</th>
-                                <th>@lang('common_lang.Id')</th>
-                            </tr>
-                            </tfoot>
                         </table>
                     </div>
                 </div>
