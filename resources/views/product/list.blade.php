@@ -73,8 +73,11 @@
                 {data: 'summary_count', name: 'summary_count', visible: false},
                 {data: 'id', class: 'rtl-text', name: 'id'},
                 {
-                    data: {title: 'title', id: 'id'}, class: 'rtl-text text-wrap',
+                    data: {title: 'title', id: 'id', category: 'category'}, class: 'rtl-text text-wrap',
                     render: function (data) {
+                        if (data.title == "") {
+                            data.title = "@lang('common_lang.Productofcategory')" + " " + data.category.alias;
+                        }
                         var commentListRoute = '{{route("ProductController.viewProduct", "id")}}';
                         commentListRoute = commentListRoute.replace("id", data.id);
                         return "<a href='" + commentListRoute + "'>" + data.title + "</a>";

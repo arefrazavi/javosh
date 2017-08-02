@@ -77,6 +77,9 @@
                 {
                     data: {title: 'title', id: 'id'}, class: 'rtl-text text-wrap',
                     render: function (data) {
+                        if (data.title == "") {
+                            data.title = "@lang('common_lang.Productofcategory')" + " " + "{{ $category->alias }}" ;
+                        }
                         var commentListRoute = '{{route("ProductController.viewProduct", "id")}}';
                         commentListRoute = commentListRoute.replace("id", data.id);
                         return "<a href='" + commentListRoute + "'>" + data.title + "</a>";

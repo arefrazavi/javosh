@@ -155,7 +155,7 @@ a {
 }
 
 .gold-suggest-disabled:hover {
-    color: #ffff00;
+    color: goldenrod;
 }
 
 .gold-suggest-enabled, .gold-text {
@@ -163,7 +163,7 @@ a {
 }
 
 .gold-suggest-enabled:hover {
-    color: grey;
+    color: #696969;
 }
 
 .breadcrumb {

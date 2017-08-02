@@ -53,6 +53,10 @@ class ProductController extends Controller
     {
         $product = Product::fetch($productId);
         $aspects = AspectLib::getAspects($product->category_id);
+        if (!$product->title) {
+            $category = $product->category;
+            $product->title = trans("common_lang.Productofcategory"). " " . $category->alias;
+        }
         $summarizationMethods = Summary::fetchMethods();
 
         //Get Summaries of different method for each aspect
