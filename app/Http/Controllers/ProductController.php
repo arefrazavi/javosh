@@ -201,6 +201,10 @@ class ProductController extends Controller
 
         $product = Product::fetch($productId);
         $aspects = $product->category->aspects;
+        foreach ($aspects as &$aspect) {
+            $aspect->keywords = unserialize($aspect->keywords);
+        }
+        unset($aspect);
         return view('product.gold-summary-recommendation', compact('product', 'aspects'));
     }
 
