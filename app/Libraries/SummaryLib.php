@@ -37,7 +37,7 @@ class SummaryLib
             Summary::updateOrInsert($summaryData, $updateData);
         } else {
             $whereClause = "method_id = " . $summaryData['method_id'] . " AND " .
-                "user_id = " . $summaryData['user_id'] . " AND ".
+                "user_id = " . $summaryData['user_id'] . " AND " .
                 "product_id = " . $summaryData['product_id'] . " AND " .
                 "sentence_id = " . $summaryData['sentence_id'];
             Summary::deleteSummary($whereClause);
@@ -46,46 +46,39 @@ class SummaryLib
         return true;
     }
 
-    public static function storeSummaries($filePaths)
+    public static function storeSummaries($filePath, $methodId)
     {
-        foreach ($filePaths as $filePath) {
-            $files = glob($filePath['filePath']);
-            foreach ($files as $fileName) {
-                $summary = Common::readFromCsv($fileName);
-                unset($summary[0]);
-                $summaryData['method_id'] = $filePath['method_id'];
-                $summaryData['user_id'] = User::ADMIN_USER_ID;
-                $summaryData['product_id'] = intval(basename($fileName, "csv"));
+        $files = glob($filePath);
+        foreach ($files as $fileName) {
+            $summary = Common::readFromCsv($fileName);
+            unset($summary[0]);
+            $summaryData['method_id'] = $methodId;
+            $summaryData['user_id'] = User::ADMIN_USER_ID;
+            $summaryData['product_id'] = intval(basename($fileName, "csv"));
 
-                $whereClause = "product_id = " . $summaryData['product_id'] . " AND user_id = " . $summaryData['user_id'] . " AND method_id = " . $summaryData['method_id'];
-                Summary::deleteSummary($whereClause); //Delete previous summary of the product in the method if exists
+            $whereClause = "product_id = " . $summaryData['product_id'] . " AND user_id = " . $summaryData['user_id'] . " AND method_id = " . $summaryData['method_id'];
+            Summary::deleteSummary($whereClause); //Delete previous summary of the product in the method if exists
 
-                foreach ($summary as &$aspectSummary) {
-                    $updateData['aspect_id'] = $aspectSummary[0]; // first field of each row contains aspect id
-                    unset($aspectSummary[0]);
+            foreach ($summary as &$aspectSummary) {
+                $updateData['aspect_id'] = $aspectSummary[0]; // first field of each row contains aspect id
+                unset($aspectSummary[0]);
 
-                    print_r("Aspect: " . $updateData['aspect_id'] . "\n");
+                print_r("Aspect: " . $updateData['aspect_id'] . "\n");
 
-                    foreach ($aspectSummary as $sentenceId) {
-                        if (intval($sentenceId)) {
-                            $summaryData['sentence_id'] = intval($sentenceId);
-                            $updateData['polarity'] = 0;
-                            print_r("Sentence: " . $summaryData['sentence_id'] . "\n");
-
-                            $whereClause = "sentence_id = " . $summaryData['sentence_id'] .
-                                " AND user_id = " . $summaryData['user_id'] . " AND product_id = " . $summaryData['product_id'] .
-                                " AND method_id = " . $summaryData['method_id'];
-                            if (!Summary::fetch($whereClause)) {
-                                Summary::updateOrInsert($summaryData, $updateData);
-                            }
-                        }
+                foreach ($aspectSummary as $sentenceId) {
+                    $sentenceId = intval($sentenceId);
+                    if ($sentenceId) {
+                        $summaryData['sentence_id'] = $sentenceId;
+                        $updateData['polarity'] = 0;
+                        print_r("Sentence: " . $summaryData['sentence_id'] . "\n");
+                        Summary::updateOrInsert($summaryData, $updateData);
                     }
                 }
-                unset($aspectSummary);
             }
+            unset($aspectSummary);
         }
 
-        print_r("*** End of  storeSummaries *** \n");
+        print_r("*** End of  storing summaries for method $methodId *** \n");
     }
 
     public static function getRecommendedSentences($productId, $aspectId)
@@ -102,7 +95,7 @@ class SummaryLib
 
         // Get product gold sentences already selected by user
         $selectClause = "sentence_id, aspect_id, polarity";
-        $whereClause = "product_id = $productId  AND user_id = $userId AND method_id = ". Summary::GOLD_STANDARD_METHOD_ID;
+        $whereClause = "product_id = $productId  AND user_id = $userId AND method_id = " . Summary::GOLD_STANDARD_METHOD_ID;
         $userSummaries = Summary::fetchSummaries($selectClause, $whereClause);
         foreach ($userSummaries as $userSummary) {
             $goldSentences[$userSummary->sentence_id] = $userSummary;
@@ -111,7 +104,7 @@ class SummaryLib
         // fetch sentences and add attributes to them for recommendation
         foreach ($comments as $comment) {
             $selectClause = "id, text, aspect_frequency";
-            $whereClause = 'comment_id = '. $comment->id;
+            $whereClause = 'comment_id = ' . $comment->id;
             $sentences = Sentence::fetchSentences($selectClause, $whereClause);
 
             foreach ($sentences as $sentence) {
@@ -163,8 +156,8 @@ class SummaryLib
     public static function validateGoldSummaryAddition($summaryData)
     {
         $whereClause = "method_id = " . $summaryData['method_id'] . " AND " .
-            "user_id = " . $summaryData['user_id'] . " AND ".
-            "product_id = " . $summaryData['product_id'] . " AND ".
+            "user_id = " . $summaryData['user_id'] . " AND " .
+            "product_id = " . $summaryData['product_id'] . " AND " .
             "aspect_id = " . $summaryData['aspect_id'];
 
         $summarySentences = Summary::fetchSummary($whereClause);
@@ -176,7 +169,8 @@ class SummaryLib
         return true;
     }
 
-    public static function getProductSummary($summaryData) {
+    public static function getProductSummary($summaryData)
+    {
         $selectClause = "COUNT(*) AS summary_count, sentences.text AS text, sentences.id AS id, comments.text AS comment_text, comments.id AS comment_id";
         $whereClause = 'comments.product_id = ' . $summaryData['product_id'] . ' AND summaries.method_id = ' . $summaryData['method_id'];
 
@@ -184,7 +178,7 @@ class SummaryLib
             $whereClause .= ' AND summaries.aspect_id = ' . $summaryData['aspect_id'];
         }
 
-        $summary = Summary::fetchProductSummary($selectClause , $whereClause);
+        $summary = Summary::fetchProductSummary($selectClause, $whereClause);
 
         return $summary;
     }

@@ -19,6 +19,10 @@ class SummarizationMethodsTableSeeder extends Seeder
                 'alias' => 'خلاصه طلایی',
             ],
             [
+                'title' => 'Random',
+                'alias' => 'خلاصه تصادفی'
+            ],
+            [
                 'title' => 'CB',
                 'alias' => 'خلاصه مبتنی بر مرکز'
             ],
@@ -27,8 +31,8 @@ class SummarizationMethodsTableSeeder extends Seeder
                 'alias' => 'خلاصه مبتنی بر مرکز با احساس'
             ],
             [
-                'title' => 'Random',
-                'alias' => 'خلاصه تصادفی'
+                'title' => 'SWECB',
+                'alias' => 'خلاصه مبتنی بر مرکز و تعبیه کلمه با احساس'
             ],
 
         ]);

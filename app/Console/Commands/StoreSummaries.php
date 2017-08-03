@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Libraries\SummaryLib;
+use App\Models\Category;
 use App\Models\Summary;
 use Illuminate\Console\Command;
 
@@ -39,25 +40,14 @@ class StoreSummaries extends Command
      */
     public function handle()
     {
-        $filePaths = [
-            [
-                'filePath' => base_path("data/summary/Mobile-Phone/CB/*.csv"),
-                'method_id' => Summary::CB_METHOD_ID,
-            ],
-            [
-                'filePath' => base_path("data/summary/Mobile-Phone/SCB/*.csv"),
-                'method_id' => Summary::SCB_METHOD_ID,
-            ],
-            [
-                'filePath' => base_path("data/summary/Mobile-Phone/Random/*.csv"),
-                'method_id' => Summary::RANDOM_METHOD_ID,
-            ],
-
-
-        ];
-
-        SummaryLib::storeSummaries($filePaths);
-
-
+        $summariesBasePath = "data/summaries/";
+        $categories = Category::fetchCategories();
+        $methods = Summary::fetchMethods();
+        foreach ($categories as $category) {
+            foreach ($methods as $method) {
+                $filePath = base_path($summariesBasePath . $method->title . "/" . $category->title . "/*.csv");
+                SummaryLib::storeSummaries($filePath, $method->id);
+            }
+        }
     }
 }
