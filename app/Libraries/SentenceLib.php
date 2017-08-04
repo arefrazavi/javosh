@@ -115,8 +115,9 @@ class SentenceLib
      * @param $threshold
      * @param $productId
      */
-    public static function classifySentences($productId, $wEscore, $wSscore, $threshold)
+    public static function classifySentences($product, $wEscore, $wSscore, $threshold)
     {
+
         $selectedSentences = [];
         $commentType = Type::fetch('comment');
         $entityTypeId = $commentType->id;
@@ -126,10 +127,20 @@ class SentenceLib
         $likeTypeId = $likeType->id;
         $dislikeType = Type::fetch('dislike');
         $dislikeTypeId = $dislikeType->id;
-        $product = Product::fetch($productId);
         $category = $product->category;
         $adjectives = Word::fetchWords("value", "pos_tag = 'ADJ' AND category_id = $category->id");
         $aspects = $category->aspects;
+
+        $outputDir = "data/sentences/$category->title/related";
+        $filePath = base_path($outputDir);
+        Common::makeDirectory($filePath);
+        $writingMode = 'w';
+        $fileName = "$outputDir/$product->id.csv";
+        if (file_exists($fileName)) {
+            print_r("Sentences of product $product->id has been already written. \n");
+            return true;
+        }
+
 
         $comments = $product->comments;
         foreach ($comments as $comment) {
@@ -182,23 +193,24 @@ class SentenceLib
 
                     foreach ($aspects as $aspect) {
                         $aspectClosestId = $aspect->closest_aspect_id;
-                        if (isset($commentAspectsRates[$aspect->id])) {
+                        if (isset($commentAspectsRates[$aspect->id]) && $aspect->id <= 16) {
                             $selectedSentences[$sentenceId][$aspect->id . '-rate'] = $commentAspectsRates[$aspect->id];
                         } else {
                             print_r("closet of $aspect->id: $aspectClosestId \n");
-                            $selectedSentences[$sentenceId][$aspect->id. '-rate'] = $commentAspectsRates[$aspectClosestId];
+                            $selectedSentences[$sentenceId][$aspect->id . '-rate'] = $commentAspectsRates[$aspectClosestId];
                         }
 
                     }
 
                     foreach ($aspects as $aspect) {
                         $aspectClosestId = $aspect->closest_aspect_id;
-                        if (isset($entropies[$aspect->id])) {
+                        if (isset($entropies[$aspect->id]) && $aspect->id <= 16) {
                             $selectedSentences[$sentenceId][$aspect->id . '-entropy'] = $entropies[$aspect->id];
                         } else {
-                            $selectedSentences[$sentenceId][$aspect->id. '-entropy'] = $entropies[$aspectClosestId];
+                            $selectedSentences[$sentenceId][$aspect->id . '-entropy'] = $entropies[$aspectClosestId];
                         }
                     }
+
                     print_r("Sentence with id: $sentenceId is related \n");
                 }
             }
@@ -207,14 +219,9 @@ class SentenceLib
 
         }
 
-        $outputDir = "data/summaries/SCB/related/$category->title";
-        $filePath = base_path($outputDir);
-        Common::makeDirectory($filePath);
-        $writingMode = 'w';
-        $fileName = "$outputDir/$product->id.csv";
         Common::writeToCsv($selectedSentences, $fileName, $writingMode);
 
-        print_r("\n Sentences of product $productId has been classified \n");
+        print_r("\n Sentences of product $product->id has been classified \n");
     }
 
     /**
@@ -329,7 +336,9 @@ class SentenceLib
         return $sentences;
     }
 
-
+    /**
+     *
+     */
     public static function computeAspectFrequency()
     {
         $categories = Category::fetchCategories();
@@ -370,6 +379,10 @@ class SentenceLib
         }
     }
 
+    /**
+     * @param $whereClause
+     * @return array
+     */
     public static function getTextSentencesTexts($whereClause)
     {
         $textSentenceTexts = [];
@@ -388,7 +401,10 @@ class SentenceLib
 
     }
 
-
+    /**
+     * @param $whereClause
+     * @return array
+     */
     public static function getPointsSentencesTexts($whereClause)
     {
         $pointSentenceTexts = [];
@@ -407,5 +423,100 @@ class SentenceLib
         return $pointSentenceTexts;
     }
 
+    /**
+     *
+     */
+    public static function writeSentencesIntoFile()
+    {
+        $products = Product::fetchProducts();
+        $commentType = Type::fetch('comment');
+        $entityTypeId = $commentType->id;
+        $aspectType = Type::fetch('aspects');
+        $ratingTypeId = $aspectType->id;
+        $likeType = Type::fetch('like');
+        $likeTypeId = $likeType->id;
+        $dislikeType = Type::fetch('dislike');
+        $dislikeTypeId = $dislikeType->id;
 
+
+        foreach ($products as $product) {
+
+            $category = $product->category;
+            $aspects = $category->aspects;
+            $comments = $product->comments;
+            $productSentences = [];
+
+            $outputDir = "data/sentences/$category->title/all";
+            $filePath = base_path($outputDir);
+            Common::makeDirectory($filePath);
+            $writingMode = 'w';
+            $fileName = "$outputDir/$product->id.csv";
+            if (file_exists($fileName)) {
+                print_r("Sentences of product $product->id has been already written. \n");
+                continue;
+            }
+
+            foreach ($comments as $comment) {
+                $ratingData['entity_id'] = $comment->id;
+                $ratingData['entity_type_id'] = $entityTypeId;
+                $ratingData['rating_type_id'] = $ratingTypeId;
+                $commentAspectsRating = Rating::fetch($ratingData);
+
+                $ratingData['entity_type_id'] = $entityTypeId;
+                $ratingData['rating_type_id'] = $likeTypeId;
+                $commentLikeRating = Rating::fetch($ratingData);
+
+                $ratingData['entity_type_id'] = $entityTypeId;
+                $ratingData['rating_type_id'] = $dislikeTypeId;
+                $commentDislikeRating = Rating::fetch($ratingData);
+
+                $sentences = $comment->sentences;
+                //print_r("Sentences Count: " . sizeof($sentences) . " \n");
+
+                foreach ($sentences as $sentence) {
+                    $sentenceId = $sentence->id;
+                    print_r("Gathering information of Sentence with id: $sentenceId \n");
+                    //$preprocessedSentenceText = implode(" ", $sentenceWords);
+                    $productSentences[$sentenceId]['id'] = $sentenceId;
+                    $productSentences[$sentenceId]['text'] = $sentence->text;
+                    $productSentences[$sentenceId]['like'] = $commentLikeRating->rate;
+                    $productSentences[$sentenceId]['dislike'] = $commentDislikeRating->rate;
+
+                    $commentAspectsRates = unserialize($commentAspectsRating->rate);
+
+                    foreach ($aspects as $aspect) {
+                        $aspectClosestId = $aspect->closest_aspect_id;
+                        if (isset($commentAspectsRates[$aspect->id]) && $aspect->id <= 16) {
+                            $productSentences[$sentenceId][$aspect->id . '-rate'] = $commentAspectsRates[$aspect->id];
+                        } else {
+                            print_r("closest aspect of $aspect->id: $aspectClosestId \n");
+                            $productSentences[$sentenceId][$aspect->id . '-rate'] = $commentAspectsRates[$aspectClosestId];
+                        }
+
+                    }
+
+                    $entropies = unserialize($sentence->entropy);
+                    foreach ($aspects as $aspect) {
+                        $aspectClosestId = $aspect->closest_aspect_id;
+                        if (isset($entropies[$aspect->id]) && $aspect->id <= 16) {
+                            $productSentences[$sentenceId][$aspect->id . '-entropy'] = $entropies[$aspect->id];
+                        } elseif (isset($entropies[$aspectClosestId])) {
+                            $productSentences[$sentenceId][$aspect->id . '-entropy'] = $entropies[$aspectClosestId];
+                        } else {
+                            $productSentences[$sentenceId][$aspect->id . '-entropy'] = null;
+                        }
+                    }
+                }
+            }
+            $sentenceCount = sizeof($productSentences);
+            print_r("Product Sentences Count: " . $sentenceCount . " \n");
+            if (!$sentenceCount) {
+                continue;
+            }
+
+            Common::writeToCsv($productSentences, $fileName, $writingMode);
+
+            print_r("\n Sentences of product $product->id has been written \n");
+        }
+    }
 }

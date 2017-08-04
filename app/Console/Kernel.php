@@ -20,6 +20,7 @@ use App\Console\Commands\StoreSentences;
 use App\Console\Commands\StoreSummaries;
 use App\Console\Commands\StoreWords;
 use App\Console\Commands\UpdatePosTag;
+use App\Console\Commands\WriteSentencesIntoFile;
 use App\Libraries\CommentLib;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -49,7 +50,8 @@ class Kernel extends ConsoleKernel
         StoreComments::class,
         GenerateWord2Vec::class,
         ComputeSentenceAspectFrequency::class,
-        StoreClosestAspect::class
+        StoreClosestAspect::class,
+        WriteSentencesIntoFile::class
     ];
 
     /**

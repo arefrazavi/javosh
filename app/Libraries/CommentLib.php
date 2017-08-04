@@ -80,8 +80,6 @@ class CommentLib
                     foreach ($aspects as $aspect) {
                         if (isset($row[$i])) {
                             $rates[$aspect->id] = intval($row[$i]);
-                        } else {
-                            $rates[$aspect->id] = 0;
                         }
                         $i++;
                     }

@@ -3,20 +3,16 @@
 namespace App\Console\Commands;
 
 use App\Libraries\SentenceLib;
-use App\Models\Product;
-use App\Models\Sentence;
 use Illuminate\Console\Command;
 
-class ClassifySentences extends Command
+class WriteSentencesIntoFile extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'product:classify-sentences';
-
-    protected $sentenceLib;
+    protected $signature = 'sentence:write';
 
     /**
      * The console command description.
@@ -26,18 +22,22 @@ class ClassifySentences extends Command
     protected $description = 'Command description';
 
     /**
+     * Create a new command instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
      * Execute the console command.
      *
      * @return mixed
      */
     public function handle()
     {
-        //$whereClause = 'id = 81294';
-        $whereClause = '1';
-        $products = Product::fetchProducts('*', $whereClause);
-
-        foreach ($products as $product) {
-           SentenceLib::classifySentences($product, 0.4, 0.6, 0.64);
-        }
+        SentenceLib::writeSentencesIntoFile();
     }
 }
