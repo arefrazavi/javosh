@@ -113,8 +113,6 @@ class SummaryLib
                 //Assign value to weighted_aspect_freq for recommendation ordering
                 if (!isset($aspectFrequency[$aspectId])) {
                     $sentence->weighted_aspect_freq = 0;
-                } else if (!$aspectFrequency[$aspectId]) {
-                    continue;
                 } else {
                     $sentence->weighted_aspect_freq = $aspectFrequency[$aspectId];
                 }
