@@ -211,6 +211,11 @@
                 .done(function (result) {
                     if (!result.success) {
                         alert(result.message);
+
+                        if (goldRequest.action) {
+                            previousGoldSibling.addClass("gold-suggest-enabled");
+                            previousGoldSibling.removeClass("gold-suggest-disabled");
+                        }
                         targetSuggestBtn.toggleClass("gold-suggest-disabled");
                         targetSuggestBtn.toggleClass("gold-suggest-enabled");
                     }
