@@ -183,6 +183,7 @@
         );
 
         $("#sentence-list-table").on("click", ".gold-suggest", function (e) {
+
             var targetSuggestBtn = $(this);
             var previousGoldSibling = targetSuggestBtn.siblings(".gold-suggest.gold-suggest-enabled");
             var sentenceId = targetSuggestBtn.parent('div').data('sentence-id');
@@ -191,7 +192,14 @@
             if ($(this).hasClass("gold-suggest-disabled")) {
                 goldRequest.action = 1; //1 = Add
             }
-            console.log(goldRequest);
+
+            if (goldRequest.action) {
+                previousGoldSibling.removeClass("gold-suggest-enabled");
+                previousGoldSibling.addClass("gold-suggest-disabled");
+            }
+            targetSuggestBtn.toggleClass("gold-suggest-disabled");
+            targetSuggestBtn.toggleClass("gold-suggest-enabled");
+
             $.ajax({
                 url: "{{ route('SentenceController.updateSentenceGoldStatus') }}",
                 data: {
@@ -201,15 +209,10 @@
                 type: "POST"
             })
                 .done(function (result) {
-                    if (result.success) {
-                        if (goldRequest.action) {
-                            previousGoldSibling.removeClass("gold-suggest-enabled");
-                            previousGoldSibling.addClass("gold-suggest-disabled");
-                        }
+                    if (!result.success) {
+                        alert(result.message);
                         targetSuggestBtn.toggleClass("gold-suggest-disabled");
                         targetSuggestBtn.toggleClass("gold-suggest-enabled");
-                    } else {
-                        alert(result.message);
                     }
                 });
         });
