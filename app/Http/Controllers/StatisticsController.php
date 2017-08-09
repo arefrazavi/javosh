@@ -74,6 +74,6 @@ class StatisticsController extends Controller
 
         }
 
-        return view('Statistics.evaluation_results', compact('charts'));
+        return view('statistics.evaluation_results', compact('charts'));
     }
 }
