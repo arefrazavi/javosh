@@ -4,7 +4,7 @@
 @section('content')
     <div class="row">
         <div class="col-lg-12">
-            <div class="box box-info">
+            <div class="box box-intro">
                 <div class="box box-header">
                     <h5> @lang('common_lang.Text') @lang('common_lang.Comment')</h5>
                 <div class="box-body"> {{ $comment->text }}

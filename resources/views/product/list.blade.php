@@ -94,7 +94,7 @@
                     render: function (id) {
                         var suggestRoute = '{{route("ProductController.viewGoldSummaryRecommendation", "id")}}';
                         suggestRoute = suggestRoute.replace("id", id);
-                        return "<a class='btn btn-warning' href='" + suggestRoute + "'> @lang('common_lang.Suggest') </a>";
+                        return "<a class='btn btn-gold' href='" + suggestRoute + "'> @lang('common_lang.Suggest') </a>";
                     }
                 },
                 {

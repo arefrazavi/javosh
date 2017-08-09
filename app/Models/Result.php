@@ -24,7 +24,8 @@ class Result extends Model
         'category_id',
         'method_id',
         'aspect_id',
-        'result'
+        'result',
+        'count'
     ];
 
 

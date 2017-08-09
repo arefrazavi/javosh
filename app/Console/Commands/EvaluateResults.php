@@ -39,6 +39,6 @@ class EvaluateResults extends Command
      */
     public function handle()
     {
-        ResultLib::evaluateResults(Summary::CENTROID_BASED_METHOD_ID);
+        ResultLib::evaluateResults();
     }
 }

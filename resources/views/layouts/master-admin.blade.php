@@ -26,7 +26,7 @@
     <script src="{{ asset('admin-lte/bootstrap/js/html5shiv.min.js') }}"></script>
     <![endif]-->
 </head>
-<body class="hold-transition skin-black sidebar-mini sidebar-collapse">
+<body class="hold-transition skin-black ivory-black sidebar-mini sidebar-collapse">
 <div class="wrapper">
     <!-- Header -->
 @include('include.header')
@@ -37,17 +37,17 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <div class="row">
-                <div class="col-lg-10">
+                <div class="col-lg-11">
                     <h4>
                         @yield('title')
                         <small>@yield('description')</small>
                     </h4>
                 </div>
-                <div class="col-lg-2">
+                <div class="col-lg-1">
                     <!-- You can dynamically generate breadcrumbs here -->
                     <ol class="breadcrumb">
                         <a class="previous-page-link" href="{{ url()->previous() }}" class="">
-                            @yield('previous_page', trans("common_lang.Back_To_Previous_Page"))
+                            @yield('previous_page', trans("common_lang.Back"))
                             <span class="fa fa-chevron-left"></span>
                         </a>
                     </ol>

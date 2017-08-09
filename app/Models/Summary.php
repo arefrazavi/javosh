@@ -12,10 +12,9 @@ class Summary extends Model
     const CENTROID_BASED_METHOD_ID = 2;
 
     const GS_METHOD_ID = 1;
-    const CB_METHOD_ID = 2;
-    const SCB_METHOD_ID = 3;
-    const RANDOM_METHOD_ID = 4;
-
+    const CB_METHOD_ID = 3;
+    const RANDOM_METHOD_ID = 2;
+    const E_WE_SCB_METHOD_ID = 3;
     const MAX_SUMMARY_SIZE = 10;
 
     /**
@@ -125,9 +124,12 @@ class Summary extends Model
         return $method;
     }
 
-    public static function fetchMethods()
+    public static function fetchMethods($selectClause = "*", $whereClause = "1")
     {
-        $methods = DB::table('summarization_methods')->get();
+        $methods = DB::table('summarization_methods')
+                ->select(DB::raw($selectClause))
+                ->whereRaw($whereClause)
+                ->get();
 
         return $methods;
     }
@@ -140,15 +142,25 @@ class Summary extends Model
 
     }
 
-    public static function fetchSummaries($selectClause = '*', $whereClause = "1", $limit = PHP_INT_MAX, $offset = 0, $orderBy = 'id', $order = 'ASC')
+    public static function fetchSummaries($selectClause = '*', $whereClause = "1", $limit = PHP_INT_MAX, $offset = 0, $orderBy = 'id', $order = 'ASC', $groupBy = '')
     {
-        $summaries = self::select(DB::raw($selectClause))
-            ->whereRaw($whereClause)
-            ->skip($offset)
-            ->take($limit)
-            ->orderBy($orderBy, $order)
-            ->get();
+        if (!$groupBy) {
+            $summaries = self::select(DB::raw($selectClause))
+                ->whereRaw($whereClause)
+                ->skip($offset)
+                ->take($limit)
+                ->orderBy($orderBy, $order)
+                ->get();
+        } else {
+            $summaries = self::select(DB::raw($selectClause))
+                ->whereRaw($whereClause)
+                ->groupBy("id")
+                ->orderBy($orderBy, $order)
+                ->skip($offset)
+                ->take($limit)
+                ->get();
 
+        }
         return $summaries;
     }
 

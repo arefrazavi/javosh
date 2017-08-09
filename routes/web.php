@@ -148,6 +148,16 @@ Route::group(
     }
 );
 
+
+/** Summary Controller **/
+Route::group(
+    ['middleware' => ['web','sentinel.auth'], 'prefix' => 'summary'],
+    function () {
+        Route::post('get-summary-list', 'SummaryController@getList')->name('SummaryController.getList');
+    }
+);
+
+
 /** statistics **/
 Route::group(
     ['middleware' => ['web','sentinel.access:users.create'], 'prefix' => 'statistics'],

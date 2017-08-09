@@ -13,7 +13,7 @@ class EvaluationMeasuresTableSeeder extends Seeder
     {
 
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
-        DB::table('evaluation_results')->truncate();
+        DB::table('evaluation_measures')->truncate();
         DB::table('evaluation_measures')->insert([
             [
                 'title' => 'Precision',

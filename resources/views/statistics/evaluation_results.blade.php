@@ -9,7 +9,7 @@
                         <i class="fa fa-info-circle"></i>
                         <h3 class="box-title rtl-text">{{ $chart['category'] }}</h3>
                     </div>
-                    <div class="box box-info rtl-text box-description">
+                    <div class="box box-intro rtl-text box-description">
                         @foreach($chart['measures'] as $measureChart)
                             <div class="box box-default">
                                 <h4 class="box-header aspect-header ltr-text">{{ $measureChart['measureTitle'] }}</h4>

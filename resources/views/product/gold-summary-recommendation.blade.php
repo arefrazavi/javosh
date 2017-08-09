@@ -4,7 +4,7 @@
 @section('content')
     <div class="row">
         <div class="col-lg-12">
-            <div class="box box-info rtl-text box-description">
+            <div class="box box-intro rtl-text box-description">
                 <h5><i class="fa fa-info-circle"></i> @lang('common_lang.Title') @lang('common_lang.Product')</h5>
                 <div class="box-body"><a
                             href="{{route("ProductController.viewProduct", $product->id)}}"> {{ $product->title }} </a>
@@ -43,7 +43,7 @@
             <div class="box box-warning">
                 <div class="box-body">
                     <div class="form-group">
-                        <select class="form-control gold" id="aspect_id" name="aspect_id" >
+                        <select class="form-control gold" id="aspect_id" name="aspect_id">
                             <option value="0">@lang("common_lang.Select_an_aspect")</option>
                             @foreach($aspects as $aspect)
                                 <option value="{{ $aspect->id }}">{!! $aspect->title !!}</option>
@@ -208,18 +208,18 @@
                 },
                 type: "POST"
             })
-                .done(function (result) {
-                    if (!result.success) {
-                        alert(result.message);
+            .done(function (result) {
+                if (!result.success) {
+                    alert(result.message);
 
-                        if (goldRequest.action) {
-                            previousGoldSibling.addClass("gold-suggest-enabled");
-                            previousGoldSibling.removeClass("gold-suggest-disabled");
-                        }
-                        targetSuggestBtn.toggleClass("gold-suggest-disabled");
-                        targetSuggestBtn.toggleClass("gold-suggest-enabled");
+                    if (goldRequest.action) {
+                        previousGoldSibling.addClass("gold-suggest-enabled");
+                        previousGoldSibling.removeClass("gold-suggest-disabled");
                     }
-                });
+                    targetSuggestBtn.toggleClass("gold-suggest-disabled");
+                    targetSuggestBtn.toggleClass("gold-suggest-enabled");
+                }
+            });
         });
     });
 

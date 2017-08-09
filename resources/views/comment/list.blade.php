@@ -6,7 +6,7 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <div class="box box-info">
+            <div class="box box-intro">
                 <div class="box box-header">
                     <h5> @lang('common_lang.Title') @lang('common_lang.Product')</h5>
                     <div class="box-body"> <a href="{{route("ProductController.viewProduct", $product->id)}}"> {{ $product->title }} </a> </div>

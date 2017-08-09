@@ -4,121 +4,133 @@ namespace App\Libraries;
 
 use App\Helpers\Common;
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\Result;
 use App\Models\Summary;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class ResultLib
 {
-    public static function evaluateResults($methodId)
+    public static function evaluateResults()
     {
+        DB::table('evaluation_results')->truncate();
+        $whereClause = "id <> " . Summary::GOLD_STANDARD_METHOD_ID;
+        $methods = Summary::fetchMethods("*", $whereClause);
         $categories = Category::fetchCategories();
         $results = [];
 
-        foreach ($categories as $category) {
+        $measures = Result::fetchEvaluationMeasures();
+
+        foreach ($categories as &$category) {
             $products = $category->products;
             $productCount = $products->count();
             print_r(" $productCount Products in category: $category->id \n");
             if (!$productCount) {
                 continue;
             }
-
             $aspects = AspectLib::getAspects($category->id);
-            $evaluatedProductsNum = 0;
-            foreach ($products as $product) {
-                $whereClause = 'product_id = ' . $product->id  . ' AND user_id = ' . User::ADMIN_USER_ID;
-                $summary = Summary::fetchSummary($whereClause);
 
-                //If there is no summary for product, it must not be evaluated
-                if (!$summary->count()) {
-                    print_r(  " No summary for product $product->id \n");
-                    continue;
-                }
-                foreach ($aspects as $aspect) {
-                    $whereClause .= ' AND aspect_id = ' . $aspect->id;
+            foreach ($products as &$product) {
 
-                    $goldWhereRaw = $whereClause . ' AND method_id = ' . Summary::GOLD_STANDARD_METHOD_ID;
-                    $goldAspectSummary = Summary::fetchSummary($goldWhereRaw);
+                foreach ($aspects as &$aspect) {
 
-                    $methodWhereRaw = $whereClause . ' AND method_id = ' . $methodId;
-                    $methodAspectSummary = Summary::fetchSummary($methodWhereRaw);
+                    //fetch gold summaries
+                    $whereClause = "method_id = " . Summary::GOLD_STANDARD_METHOD_ID . " AND product_id = $product->id AND aspect_id = $aspect->id";
+                    $selectClause = "sentence_id, COUNT(*) AS sentence_count";
+                    $goldSResults = [];
+                    $aspectSummaries = Summary::fetchSummaries($selectClause, $whereClause, Summary::MAX_SUMMARY_SIZE, 0,
+                        "sentence_count", "DESC", "sentence_id");
 
-                    //Calculate Precision, Recall and F-Measure for each aspect
-                    $matchedNum = 0;
-                    $goldSummarySize = sizeof($goldAspectSummary);
-                    $methodSummarySize = sizeof($methodAspectSummary);
+                    $goldCount = $aspectSummaries->count();
 
-                    $goldSentencesIds = [];
-                    foreach ($goldAspectSummary as $goldSentence) {
-                        $goldSentencesIds[$goldSentence->sentence_id] = $goldSentence->sentence_id;
+                    if (!$goldCount) {
+                        print_r(" No gold summary for product $product->id in aspect $aspect->id \n");
+                        continue;
                     }
-                    foreach ($methodAspectSummary as $methodSentence) {
-                        if (isset($goldSentencesIds[$methodSentence->sentence_id])) {
-                            $matchedNum++;
+
+                    foreach ($aspectSummaries as $goldSummary) {
+                        $goldSResults[$goldSummary->sentence_id] = $goldSummary->sentence_count;
+                    }
+
+                    foreach ($methods as &$method) {
+                        $whereClause = "method_id = $method->id AND product_id = $product->id AND aspect_id = $aspect->id";
+                        $selectClause = "sentence_id, COUNT(*) AS sentence_count";
+                        $aspectSummaries = Summary::fetchSummaries($selectClause, $whereClause, Summary::MAX_SUMMARY_SIZE, 0,
+                            "sentence_count", "DESC", "sentence_id");
+
+                        $datasetCount = $aspectSummaries->count();
+
+                        if (!$datasetCount) {
+                            print_r(" No summary for product $product->id in aspect $aspect->id in method $method->id \n");
+                            continue;
+                        }
+
+                        $correctCount = 0;
+                        foreach ($aspectSummaries as $aspectSummary) {
+                            if (isset($goldSResults[$aspectSummary->sentence_id])) {
+                                $correctCount++;
+                                print_r("     correct count $correctCount \n");
+                            }
+                        }
+                        $precision = $correctCount / $datasetCount;
+                        $recall = $correctCount / $goldCount;
+                        $fMeasure = ($precision || $recall) ? 2 * ($precision * $recall) / ($precision + $recall) : 0;
+
+                        if (isset($results[$category->id][$aspect->id][$method->id])) {
+                            $results[$category->id][$aspect->id][$method->id][Result::PRECISION_MEASURE_ID]->result += $precision;
+                            $results[$category->id][$aspect->id][$method->id][Result::PRECISION_MEASURE_ID]->count++;
+                            $results[$category->id][$aspect->id][$method->id][Result::RECALL_MEASURE_ID]->result += $recall;
+                            $results[$category->id][$aspect->id][$method->id][Result::RECALL_MEASURE_ID]->count++;
+                            $results[$category->id][$aspect->id][$method->id][Result::F_MEASURE_ID]->result += $fMeasure;
+                            $results[$category->id][$aspect->id][$method->id][Result::F_MEASURE_ID]->count++;
+                        } else {
+                            foreach ($measures as &$measure) {
+                                $result = new Result();
+                                $result->category_id = $category->id;
+                                $result->method_id = $method->id;
+                                $result->aspect_id = $aspect->id;
+                                $result->measure_id = $measure->id;
+                                $result->result = 0;
+                                $result->count = 0;
+                                $results[$category->id][$aspect->id][$method->id][$measure->id] = $result;
+                            }
+                            unset($measure);
+                        }
+
+                        print_r("\n precision: $precision, recall $recall\n");
+                    }
+                    unset($method);
+                }
+                unset($aspect);
+            }
+            unset($product);
+        }
+        unset($category);
+
+        foreach ($results as &$categoryResults) {
+            foreach ($categoryResults as &$aspectResults) {
+                foreach ($aspectResults as &$methodResults) {
+                    foreach ($methodResults as &$measureResult) {
+                        if ($measureResult->count) {
+                            $measureResult->result = $measureResult->result / $measureResult->count;
+                            $measureResult->save();
+                            print_r("\n Result for category $measureResult->category_id, aspect  $measureResult->aspect_id: measure $measureResult->measure_id ===> $measureResult->result  \n");
                         }
                     }
-
-                    if ($methodSummarySize == 0 && $goldSummarySize == 0) {
-                        $precision = 1;
-                        $recall = 1;
-                        $fMeasure = 1;
-                    } else {
-                        $precision = ($methodSummarySize) ? ($matchedNum / $methodSummarySize) : 0;
-                        $recall = ($goldSummarySize) ? ($matchedNum / $goldSummarySize) : 0;
-                        $fMeasure = ($precision || $recall) ? 2 * ($precision * $recall) / ($precision + $recall) : 0;
-                    }
-
-                    if (isset($results[$category->id][$aspect->id])) {
-                        $results[$category->id][$aspect->id][Result::PRECISION_MEASURE_ID] += $precision;
-                        $results[$category->id][$aspect->id][Result::RECALL_MEASURE_ID] += $recall;
-                        $results[$category->id][$aspect->id][Result::F_MEASURE_ID] += $fMeasure;
-                    } else {
-                        $results[$category->id][$aspect->id][Result::PRECISION_MEASURE_ID] = $precision;
-                        $results[$category->id][$aspect->id][Result::RECALL_MEASURE_ID] = $recall;
-                        $results[$category->id][$aspect->id][Result::F_MEASURE_ID] = $fMeasure;
-
-                    }
-                    $evaluatedProductsNum++;
-
-                    print_r(  "Precision: $precision and Recall: $recall in Aspect $aspect->id of Product $product->id \n");
-
+                    unset($measureResult);
                 }
+                unset($methodResults);
             }
-
-            if (!$evaluatedProductsNum) {
-                print_r("Category $category->id doesn't have any product with summary \n");
-                continue;
-            }
-
-            foreach ($aspects as $aspect) {
-                $results[$category->id][$aspect->id][Result::PRECISION_MEASURE_ID] /= $evaluatedProductsNum;
-                $results[$category->id][$aspect->id][Result::RECALL_MEASURE_ID] /= $evaluatedProductsNum;
-                $results[$category->id][$aspect->id][Result::F_MEASURE_ID] /= $evaluatedProductsNum;
-            }
+            unset($aspectResults);
         }
+        unset($categoryResults);
 
-        dump($results);
-
-        $resultData['method_id'] = $methodId;
-        foreach ($results as $categoryId => $aspectResults) {
-            $resultData['category_id'] = $categoryId;
-            foreach ($aspectResults as $aspectId => $aspectResult) {
-                $resultData['aspect_id'] = $aspectId;
-                foreach ($aspectResult as $measureId => $measureResult) {
-                    $resultData['measure_id'] = $measureId;
-                    $updateData = ['result' => $measureResult];
-                    Result::updateOrInsert($resultData, $updateData);
-
-                    print_r(  " Result for aspect $aspectId of category $categoryId in measure $measureId has been updated\n");
-                }
-            }
-
-        }
-
-        print_r("*** End of evaluateResults *** \n");
+        print_r("*** End of evaluating results *** \n");
     }
 
-    public static function storeResults($fileDir) {
+    public static function storeResults($fileDir)
+    {
         $files = glob($fileDir);
         foreach ($files as $fileName) {
             $results = Common::readFromCsv($fileName);

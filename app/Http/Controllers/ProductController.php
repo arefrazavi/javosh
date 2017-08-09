@@ -57,12 +57,12 @@ class ProductController extends Controller
             $category = $product->category;
             $product->title = trans("common_lang.Productofcategory"). " " . $category->alias;
         }
-        $summarizationMethods = Summary::fetchMethods();
+        $whereClause = "id <> " . Summary::GOLD_STANDARD_METHOD_ID;
+        $methods = Summary::fetchMethods("*", $whereClause);
 
         //Get Summaries of different method for each aspect
         $summaryData['product_id'] = $productId;
-        $summaryData['user_id'] = Sentinel::getUser()->id;
-        $summaries = [];
+        $goldSummaries = [];
         foreach ($aspects as $aspect) {
             $keywordsText = '';
             $keywords = $aspect->keywords;
@@ -73,20 +73,13 @@ class ProductController extends Controller
             }
             $aspect->keywords = $keywordsText;
             $summaryData['aspect_id'] = $aspect->id;
-            foreach ($summarizationMethods as $summarizationMethod) {
-                $summaryData['method_id'] = $summarizationMethod->id;
-                $summary = SummaryLib::getProductSummary($summaryData);
-
-                if (!empty($summary)) {
-                    $summaries[$summaryData['aspect_id']][$summaryData['method_id']]['method'] = $summarizationMethod;
-                    $summaries[$summaryData['aspect_id']][$summaryData['method_id']]['summary'] = $summary;
-                }
-            }
+            $summaryData['method_id'] = Summary::GOLD_STANDARD_METHOD_ID;
+            $goldSummary = SummaryLib::getProductSummary($summaryData);
+            $goldSummaries[$summaryData['aspect_id']] = $goldSummary;
 
         }
 
-
-        return view("product.product", compact('product','summaries', 'aspects'));
+        return view("product.product", compact('product','goldSummaries', 'aspects', 'methods'));
     }
 
     public function viewUploadPanel(){
