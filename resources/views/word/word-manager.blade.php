@@ -44,7 +44,7 @@
                                 </ul>
                             </div>
                         @else
-                            <div class="alert alert-success">
+                            <div class="alert alert-info">
                                 <ul>
                                     {{ $success[1] }}
                                 </ul>

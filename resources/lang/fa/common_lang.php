@@ -124,5 +124,6 @@ return [
     "Productofcategory" => 'محصول از دسته',
     'Select_a_method' => 'انتخاب روش خلاصه سازی خودکار',
     'Automated_Summary' => 'خلاصه خودکار',
-    'Back' => 'بازگشت'
+    'Back' => 'بازگشت',
+    'Copyright' =>'کپی رایت',
 ];

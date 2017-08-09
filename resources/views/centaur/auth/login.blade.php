@@ -6,7 +6,7 @@
     <div class="row rtl-text">
         <div class="col-md-4 col-md-offset-4">
             <div class="panel panel-default">
-                <div class="panel-heading">
+                <div class="panel-heading prussian-blue">
                     <h3 class="panel-title rtl-text" style="direction: rtl">@lang('common_lang.Login')</h3>
                 </div>
                 <div class="panel-body">
@@ -30,7 +30,7 @@
                                 </label>
                             </div>
                             <input name="_token" value="{{ csrf_token() }}" type="hidden">
-                            <input class="btn btn-lg btn-primary btn-block" type="submit"
+                            <input class="btn btn-gold btn-block" type="submit"
                                    value="@lang('common_lang.Login')">
 
                             <div style="margin-top:6px; margin-bottom:0">

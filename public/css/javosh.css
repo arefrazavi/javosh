@@ -74,6 +74,7 @@ ul.list-style-checkmark li:before {
 }
 
 .ltr-text {
+    font-family: sans-serif;
     direction: ltr !important;
     text-align: justify !important;
     text-justify: inter-word !important;
@@ -112,7 +113,6 @@ ul.list-style-checkmark li:before {
 .aspect-header {
     background: green;
     color: #FFFFFF;
-    background-color: rgba(90, 0, 30);
 }
 
 a {
@@ -243,15 +243,18 @@ ul.text-list li {
 }
 
 .gold {
-    background-color: #D9B310;
+    background-color: #D9B310 !important;
     color: black;
 }
 
 .prussian-blue {
-    background-color: #0B3C5D;
+    background-color: #0B3C5D !important;
     color: white;
 }
 
+.nepal {
+    background-color: #9db1be !important;
+}
 .white-text {
     color: white;
 }
@@ -342,7 +345,7 @@ body.ivory-black .previous-page-link:hover{
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, .15), 0 1px 1px rgba(0, 0, 0, .075);
 }
 
-.btn-gold:hover, .btn-gold:active:hover, .btn-gold.active:hover, .open > .dropdown-toggle.btn-gold:hover, .btn-gold:active:focus, .btn-gold.active:focus, .open > .dropdown-toggle.btn-gold:focus, .btn-gold.active.focus, .open > .dropdown-toggle.btn-gold.focus {
+.btn-gold:hover, .btn-gold:active, .btn-gold:active:hover, .btn-gold.active:hover, .open > .dropdown-toggle.btn-gold:hover, .btn-gold:active:focus, .btn-gold.active:focus, .open > .dropdown-toggle.btn-gold:focus, .btn-gold.active.focus, .open > .dropdown-toggle.btn-gold.focus {
     
     background-image: -webkit-linear-gradient(top, #ffe766 0%, gold 100%);
     background-image: -o-linear-gradient(top, #ffe766 0%, gold 100%);
@@ -350,6 +353,41 @@ body.ivory-black .previous-page-link:hover{
     background-image: linear-gradient(to bottom, #ffe766 0%, gold 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffe766', endColorstr='gold', GradientType=0);
     filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+}
+
+
+.btn-blue {
+    background-color: #1d2731;
+    border-color: #1d2731;
+    background-image: -webkit-linear-gradient(top, #0B3C5D 0%, #1d2731 100%);
+    background-image: -o-linear-gradient(top, #0B3C5D 0%, #1d2731 100%);
+    background-image: -webkit-gradient(linear, right top, right bottom, from(#0B3C5D), to(#1d2731));
+    background-image: linear-gradient(to bottom, #0B3C5D 0%, #1d2731 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0B3C5D', endColorstr='#1d2731', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+    background-repeat: repeat-x;
+    color: white;
+    -moz-transition: all 0.1s;
+    -webkit-transition: all 0.1s;
+    transition: all 0.1s;
+    vertical-align: middle;
+    text-align: center;
+}
+.btn-blue {
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, .2);
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .15), 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .15), 0 1px 1px rgba(0, 0, 0, .075);
+}
+
+.btn-blue:hover,.btn-blue:active, .btn-blue:active:hover, .btn-blue.active:hover, .open > .dropdown-toggle.btn-blue:hover, .btn-blue:active:focus, .btn-blue.active:focus, .open > .dropdown-toggle.btn-blue:focus, .btn-blue.active.focus, .open > .dropdown-toggle.btn-blue.focus {
+
+    background-image: -webkit-linear-gradient(top, #328CC1 0%, #0B3C5D 100%);
+    background-image: -o-linear-gradient(top, #328CC1 0%, #0B3C5D 100%);
+    background-image: -webkit-gradient(linear, right top, right bottom, from(#328CC1), to(#0B3C5D));
+    background-image: linear-gradient(to bottom, #328CC1 0%, #0B3C5D 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#328CC1', endColorstr='#0B3C5D', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+    color: white;
 }
 
 .cat-img-wrapper {
@@ -374,3 +412,12 @@ body.ivory-black .previous-page-link:hover{
     -webkit-transform: scale(1.1);
     transform: scale(1.1);
 }
+
+body.ivory-black .panel-default > .panel-heading {
+    color: white;
+}
+
+body.ivory-black .alert-success {
+    background-color: #328CC1 !important;
+}
+

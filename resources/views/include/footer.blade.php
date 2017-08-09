@@ -1,4 +1,4 @@
-<footer class="main-footer">
+<footer class="main-footer nepal">
     <!-- Default to the left -->
-    <strong >کپی رایت  &copy; 2017 <a href="#">Javosh</a></strong>
+    <div class="ltr-text"><small>Copyright &copy; 2017 Javosh.com</small></div>
 </footer>

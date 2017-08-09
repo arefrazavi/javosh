@@ -4,11 +4,9 @@
     <!-- Logo -->
     <a href="{{ route('home') }}" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><img class="img-circle" style="width: 30px; height:30px"
-                                     src="{{ asset('images/Javosh.png') }}"></span>
+        <span class="logo-mini"><img src="{{ asset('images/javosh_small.png') }}"></span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo"><img style="width: 27px; height:40px"
-                                src="{{ asset('images/Javosh.png') }}"> @lang("common_lang.avosh")</span>
+        <span class="logo"><img src="{{ asset('images/Javosh.png') }}"></span>
     </a>
 
     <!-- Header Navbar -->
