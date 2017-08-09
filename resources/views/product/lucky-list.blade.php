@@ -98,7 +98,7 @@
                     render: function (id) {
                         var commentListRoute = '{{route("CommentController.viewList", "id")}}';
                         commentListRoute = commentListRoute.replace("id", id);
-                        var button = '<a class="btn btn-primary" title="Show comments list" href="' + commentListRoute + '">@lang('common_lang.Comments_List')</a>';
+                        var button = '<a class="btn btn-blue" title="Show comments list" href="' + commentListRoute + '">@lang('common_lang.Comments_List')</a>';
 
                         return button;
                     }
