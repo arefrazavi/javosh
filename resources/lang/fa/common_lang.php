@@ -126,4 +126,7 @@ return [
     'Automated_Summary' => 'خلاصه خودکار',
     'Back' => 'بازگشت',
     'Copyright' =>'کپی رایت',
+    'Reset_password' => 'بازنشانی رمزعبور',
+    'Reset_Password_Instruction' => 'راهنمای بازنشانی رمز عبور به ایمیلت ارسال شد.',
+    'Reset_Password' => 'بازنشانی رمز عبور'
 ];

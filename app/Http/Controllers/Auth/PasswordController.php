@@ -63,7 +63,7 @@ class PasswordController extends Controller
             Mail::to($email)->queue(new CentaurPasswordReset($code));
         }
 
-        $message = 'Instructions for changing your password will be sent to your email address if it is associated with a valid account.';
+        $message = trans("common_lang.Reset_Password_Instruction");
 
         if ($request->ajax()) {
             return response()->json(['message' => $message, 'code' => $code], 200);

@@ -1,4 +1,4 @@
-@extends('layouts.master-admin')
+@extends('Centaur::layout')
 
 @section('title', 'Reset Password')
 
@@ -13,11 +13,11 @@
                 <form accept-charset="UTF-8" role="form" method="post" action="{{ route('auth.password.request.attempt') }}">
                 <fieldset>
                     <div class="form-group {{ ($errors->has('email')) ? 'has-error' : '' }}">
-                        <input class="form-control" placeholder="E-mail" name="email" type="text" value="{{ old('email') }}">
+                        <input class="form-control" placeholder="@lang("user.email")" name="email" type="text" value="{{ old('email') }}">
                         {!! ($errors->has('email') ? $errors->first('email', '<p class="text-danger">:message</p>') : '') !!}
                     </div>
                     <input name="_token" value="{{ csrf_token() }}" type="hidden">
-                    <input class="btn btn-lg btn-primary btn-block" type="submit" value="Help!">
+                    <input class="btn btn-lg btn-primary btn-block" type="submit" value="@lang("common_lang.Reset_Password")">
                 </fieldset>
                 </form>
             </div>

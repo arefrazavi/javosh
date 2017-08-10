@@ -34,7 +34,9 @@
                                    value="@lang('common_lang.Login')">
 
                             <div style="margin-top:6px; margin-bottom:0">
-                                <p><a href="{{ route('auth.register.form') }}">@lang('common_lang.Register')</a></p>
+                                <p style="margin: 10px 0; padding: 10px 0;">
+                                    <b> <a href="{{ route('auth.register.form') }}">@lang('common_lang.Register')</a> </b>
+                                </p>
                                 <p><a href="{{ route('auth.password.request.form') }}" type="submit">@lang('common_lang.Forgot_Password')</a></p>
                             </div>
                         </fieldset>
