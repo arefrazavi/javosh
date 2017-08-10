@@ -204,10 +204,10 @@ h1, h2, h3, h4, h5 {
     background-color: goldenrod;
     color: #fff;
 }
-
-.treeview a {
-    text-align: center;
+.sidebar-mini.sidebar-collapse .treeview a {
+        text-align: center;
 }
+
 
 @media only screen and (max-width: 780px) {
     .main-sidebar {
