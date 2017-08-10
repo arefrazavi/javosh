@@ -141,23 +141,15 @@ a {
     font-size: x-large;
     cursor: hand;
     cursor: pointer;
-    transition: all 0.1s ease;
 }
 
 .gold-suggest-disabled {
     color: #696969;
 }
 
-.gold-suggest-disabled:hover {
-    color: goldenrod;
-}
 
 .gold-suggest-enabled, .gold-text {
     color: goldenrod;
-}
-
-.gold-suggest-enabled:hover {
-    color: #696969;
 }
 
 .breadcrumb {
