@@ -6,7 +6,7 @@
 <div class="row">
     <div class="col-md-4 col-md-offset-4">
         <div class="panel panel-default">
-            <div class="panel-heading">
+            <div class="panel-heading prussian-blue">
                 <h4 class="panel-title">@lang('user.Register')</h4>
             </div>
             <div class="panel-body">
@@ -34,7 +34,7 @@
                         {!! ($errors->has('password_confirmation') ? $errors->first('password_confirmation', '<p class="text-danger">:message</p>') : '') !!}
                     </div>
                     <input name="_token" value="{{ csrf_token() }}" type="hidden">
-                    <input class="btn btn-lg btn-primary btn-block" type="submit" value="@lang('user.Sign_Up')">
+                    <input class="btn btn-lg btn-gold btn-block" type="submit" value="@lang('user.Sign_Up')">
                 </fieldset>
                 </form>
             </div>

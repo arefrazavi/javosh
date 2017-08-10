@@ -30,7 +30,7 @@
                                 </label>
                             </div>
                             <input name="_token" value="{{ csrf_token() }}" type="hidden">
-                            <input class="btn btn-gold btn-block" type="submit"
+                            <input class="btn btn-lg btn-gold btn-block" type="submit"
                                    value="@lang('common_lang.Login')">
 
                             <div style="margin-top:6px; margin-bottom:0">
