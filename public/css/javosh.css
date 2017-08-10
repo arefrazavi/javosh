@@ -174,8 +174,8 @@ h1, h2, h3, h4, h5 {
     width: 10%;
 }
 
-#gold-selection-guide-description > li, .gold-selection-guide-description > li > span {
-    line-height: 2em;
+#gold-selection-guide-description > li, #gold-selection-guide-description > li > span {
+    line-height: 3rem;
 }
 
 .dataTables_filter, .dataTables_info {
@@ -413,3 +413,7 @@ body.ivory-black .alert-success {
     background-color: #328CC1 !important;
 }
 
+body.ivory-black .box-ivory {
+    padding-top: 0;
+    border-top: 3px solid #1d2731;
+}

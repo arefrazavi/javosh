@@ -4,12 +4,12 @@
 @section('content')
     <div class='row'>
         <div class='col-md-12'>
-            <div class="box box-intro">
-                <div class="box-header">
+            <div class="box box-ivory">
+                <div class="content-header">
                     <h4> @lang('common_lang.Help_Gold_Summarization') </h4>
                 </div>
                 <div class="box-body">
-                    <ol id="gold-selection-guide-description">
+                    <ol id="gold-selection-guide-description" class="black-text">
                         <li>
                             <span>
                                 @lang("common_lang.Register_Login_Guide1")

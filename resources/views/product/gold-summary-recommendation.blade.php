@@ -6,8 +6,8 @@
         <div class="col-lg-12">
             <div class="box box-intro rtl-text box-description">
                 <h5><i class="fa fa-info-circle"></i> @lang('common_lang.Title') @lang('common_lang.Product')</h5>
-                <div class="box-body"><a
-                            href="{{route("ProductController.viewProduct", $product->id)}}"> {{ $product->title }} </a>
+                <div class="box-body">
+                    <a href="{{route("ProductController.viewProduct", $product->id)}}"> {{ $product->title }} </a>
                 </div>
             </div>
             <div class="box box-danger box-description" style="cursor: move;">
@@ -15,7 +15,21 @@
                     <i class="fa fa-question-circle"></i> @lang("common_lang.Summarization_Guide") <i
                             class="fa fa-angle-down"></i>
                 </h5>
-                <ol id="gold-selection-guide-description" class="hidden">
+                <ol id="gold-selection-guide-description" class="black-text hidden">
+                    <li>
+                            <span>
+                                @lang("common_lang.Register_Login_Guide1")
+                                    <a class="btn-link" href="{{ route("auth.register.form") }}" >@lang("common_lang.Register_Login_Guide2")</a>
+                                    @lang("common_lang.Register_Login_Guide3")
+                            </span>
+                    </li>
+                    <li>
+                        <div>@lang("common_lang.Go_TO_Product_List")</div>
+                        <div><span class="alert-lucky"> @lang("common_lang.Go_TO_10_lucky_products") </span></div>
+                    </li>
+                    <li>
+                        <span>@lang("common_lang.Go_TO_Suggestion_Page")</span>
+                    </li>
                     <li><span>@lang("common_lang.Aspect_Selection_Guide")</span></li>
                     <li>
                         <span>@lang("common_lang.Sentence_Selection_Guide")</span>
@@ -36,6 +50,10 @@
                         <ul class="list-style-checkmark">
                             <li><b> @lang("common_lang.Max_Summary_Size_Guide") </b></li>
                             <li><b> @lang("common_lang.Diversity_Guide") </b></li>
+                            <li><b> @lang("common_lang.See_comments_list_On_Hover") </b></li>
+                            <li><b> @lang("common_lang.No_need_to_fill_all") </b></li>
+                            <li><b> @lang("common_lang.Sentences_Ordering_Guide") </b></li>
+                            <li>@lang("common_lang.Let_Go_No_Sentences_Product_Guide")</li>
                         </ul>
                     </li>
                 </ol>
