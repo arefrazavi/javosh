@@ -30,7 +30,7 @@ return [
     "password" => "رمز عبور",
     "email" => "ایمیل",
     "Registration_Complete" => "احسنت!",
-    "check_your_email_for_activation" => "لطفا کن اون ایملیتو چک کن و رو لینک فعالسازی کلیک کن. مرسی",
+    "check_your_email_for_activation" => "لطفا اون ایملیتو چک کن و رو لینک فعالسازی کلیک کن و بعد وارد ژاوُش شو. مرسی",
     "Login" => 'ورود',
     "Your_account_has_been_created" => "فعالسازی حساب کاربری ژاوُش",
     "first_name" => "نام",
