@@ -172,10 +172,10 @@ class ProductLib
     public static function getProductsWithoutSummary($userId = 0, $methodId = Summary::GOLD_STANDARD_METHOD_ID, $whereClause = "1", $limit = PHP_INT_MAX, $orderBy = "id")
     {
         $selectClause = "products.id AS id, ANY_VALUE(products.title) AS title, ANY_VALUE(products.category_id) AS category_id";
-        $whereClause .= " AND (method_id <> $methodId) AND has_comment = 1";
+        $whereClause .= " AND has_comment = 1";
 
         if ($userId) {
-            $whereClause .= " AND (user_id = $userId OR user_id IS NULL)";
+            $whereClause .= " AND ( (user_id = $userId AND method_id <> $methodId) || user_id <> $userId)";
         }
 
         $products = Product::fetchProductsWithSummary($selectClause, $whereClause, $limit, 0, $orderBy);
