@@ -37,13 +37,13 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <div class="row">
-                <div class="col-lg-11">
+                <div class="col-md-11">
                     <h4>
                         @yield('title')
                         <small>@yield('description')</small>
                     </h4>
                 </div>
-                <div class="col-lg-1">
+                <div class="col-md-1">
                     <!-- You can dynamically generate breadcrumbs here -->
                     <ol class="breadcrumb">
                         <a class="previous-page-link" href="{{ url()->previous() }}" class="">

@@ -201,12 +201,6 @@ h1, h2, h3, h4, h5 {
 }
 
 
-@media only screen and (max-width: 780px) {
-    .main-sidebar {
-        display: none !important;
-    }
-}
-
 .list-style-disc, .list-style-disc li {
     list-style: disc;
 }
@@ -245,7 +239,7 @@ ul.text-list li {
 }
 
 .nepal {
-    background-color: #9db1be !important;
+    background-color: #bdcbd4 !important;
 }
 .white-text {
     color: white;
@@ -416,4 +410,26 @@ body.ivory-black .alert-success {
 body.ivory-black .box-ivory {
     padding-top: 0;
     border-top: 3px solid #1d2731;
+}
+
+
+@media only screen and (max-width: 780px) {
+    .main-sidebar {
+        display: none !important;
+    }
+
+    body.ivory-black .main-header, body.ivory-black .main-header .logo {
+        background-color: #bdcbd4;
+    }
+    body.ivory-black .main-header > .logo:hover {
+        background-color: #bdcbd4;
+    }
+
+    .content-header h4 {
+        font-size: 1.4rem;
+    }
+    .content-header .previous-page-link {
+        font-size: smaller;
+    }
+
 }
