@@ -128,5 +128,7 @@ return [
     'Copyright' =>'کپی رایت',
     'Reset_password' => 'بازنشانی رمزعبور',
     'Reset_Password_Instruction' => 'راهنمای بازنشانی رمز عبور به ایمیلت ارسال شد.',
-    'Reset_Password' => 'بازنشانی رمز عبور'
+    'Reset_Password' => 'بازنشانی رمز عبور',
+    'Next_Lucky_Product' => 'خوش‌شانس بعدی',
+    'Previous_Lucky_Product' => 'خوش‌شانس قبلی'
 ];

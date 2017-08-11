@@ -1,16 +1,29 @@
 @extends('layouts.master-admin')
-@section('title', trans('common_lang.Gold_Summary_Suggestion'))
+@section('title')
+    @lang('common_lang.Gold_Summary_Suggestion')
+@endsection
+@section('description')
+    (<a class="description" href='{{route("ProductController.viewProduct", $product->id)}}'> {{ $product->title }} </a>)
+@endsection
 
 @section('content')
     <div class="row">
         <div class="col-lg-12">
-            <div class="box box-intro rtl-text box-description">
-                <h5><i class="fa fa-info-circle"></i> @lang('common_lang.Title') @lang('common_lang.Product')</h5>
-                <div class="box-body">
-                    <a href="{{route("ProductController.viewProduct", $product->id)}}"> {{ $product->title }} </a>
-                </div>
+            <div class="margin text-center">
+                @if (isset($previousLuckyProduct))
+                    <a class="btn btn-previous btn-previous-gold"
+                       href="{{route("ProductController.viewGoldSummaryRecommendation", ["productId" => $previousLuckyProduct->id, "lucky" => 1])}}">
+                        @lang("common_lang.Previous_Lucky_Product")
+                    </a>
+                @endif
+                @if (isset($nextLuckyProduct))
+                    <a class="btn btn-next btn-next-gold"
+                       href="{{route("ProductController.viewGoldSummaryRecommendation", ["productId" => $nextLuckyProduct->id, "lucky" => 1])}}">
+                        @lang("common_lang.Next_Lucky_Product")
+                    </a>
+                @endif
             </div>
-            <div class="box box-danger box-description" style="cursor: move;">
+            <div class="box box-danger nepal" style="cursor: move;">
                 <h5 id="gold-selection-guide" class="cursor-hand">
                     <i class="fa fa-question-circle"></i> @lang("common_lang.Summarization_Guide") <i
                             class="fa fa-angle-down"></i>
@@ -19,7 +32,8 @@
                     <li>
                             <span>
                                 @lang("common_lang.Register_Login_Guide1")
-                                    <a class="btn-link" href="{{ route("auth.register.form") }}" >@lang("common_lang.Register_Login_Guide2")</a>
+                                    <a class="btn-link"
+                                       href="{{ route("auth.register.form") }}">@lang("common_lang.Register_Login_Guide2")</a>
                                     @lang("common_lang.Register_Login_Guide3")
                             </span>
                     </li>
@@ -58,27 +72,25 @@
                     </li>
                 </ol>
             </div>
-            <div class="box box-warning">
-                <div class="box-body">
-                    <div class="form-group">
-                        <select class="form-control gold" id="aspect_id" name="aspect_id">
-                            <option value="0">@lang("common_lang.Select_an_aspect")</option>
-                            @foreach($aspects as $aspect)
-                                <option value="{{ $aspect->id }}">{!! $aspect->title !!}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="table-responsive">
-                        <table id="sentence-list-table" class="display responsive" cellspacing="0" width="100%">
-                            <thead>
-                            <tr>
-                                <th class="hidden">@lang('common_lang.af')</th>
-                                <th class="hidden">@lang('common_lang.Text')</th>
-                                <th class="hidden">@lang('common_lang.Aspect_Selection_For_Gold_Standard')</th>
-                            </tr>
-                            </thead>
-                        </table>
-                    </div>
+            <div class="box box-default">
+                <div class="form-group">
+                    <select class="form-control gold" id="aspect_id" name="aspect_id">
+                        <option value="0">@lang("common_lang.Select_an_aspect")</option>
+                        @foreach($aspects as $aspect)
+                            <option value="{{ $aspect->id }}">{!! $aspect->title !!}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="table-responsive">
+                    <table id="sentence-list-table" class="display responsive" cellspacing="0" width="100%">
+                        <thead>
+                        <tr>
+                            <th class="hidden">@lang('common_lang.af')</th>
+                            <th class="hidden">@lang('common_lang.Text')</th>
+                            <th class="hidden">@lang('common_lang.Aspect_Selection_For_Gold_Standard')</th>
+                        </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
         </div>
@@ -226,18 +238,18 @@
                 },
                 type: "POST"
             })
-            .done(function (result) {
-                if (!result.success) {
-                    alert(result.message);
+                .done(function (result) {
+                    if (!result.success) {
+                        alert(result.message);
 
-                    if (goldRequest.action) {
-                        previousGoldSibling.addClass("gold-suggest-enabled");
-                        previousGoldSibling.removeClass("gold-suggest-disabled");
+                        if (goldRequest.action) {
+                            previousGoldSibling.addClass("gold-suggest-enabled");
+                            previousGoldSibling.removeClass("gold-suggest-disabled");
+                        }
+                        targetSuggestBtn.toggleClass("gold-suggest-disabled");
+                        targetSuggestBtn.toggleClass("gold-suggest-enabled");
                     }
-                    targetSuggestBtn.toggleClass("gold-suggest-disabled");
-                    targetSuggestBtn.toggleClass("gold-suggest-enabled");
-                }
-            });
+                });
         });
     });
 

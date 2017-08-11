@@ -86,7 +86,7 @@ Route::group(
         Route::get('list/{categoryId?}/{limit?}', 'ProductController@viewList')->name('ProductController.viewList');
         Route::get('upload-panel', 'ProductController@viewUploadPanel')->name('ProductController.viewUploadPanel');
         Route::get('product/{productId}', 'ProductController@viewProduct')->name('ProductController.viewProduct');
-        Route::get('gold-summary-recommendation/{productId}', 'ProductController@viewGoldSummaryRecommendation')
+        Route::get('gold-summary-recommendation/{productId}/{isLucky?}', 'ProductController@viewGoldSummaryRecommendation')
             ->name('ProductController.viewGoldSummaryRecommendation');
 
         Route::post('get-product-list', 'ProductController@getList')->name('ProductController.getList');

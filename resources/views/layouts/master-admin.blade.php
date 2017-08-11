@@ -40,16 +40,18 @@
                 <div class="col-md-11">
                     <h4>
                         @yield('title')
-                        <small>@yield('description')</small>
+                        <small> @yield('description')</small>
                     </h4>
                 </div>
                 <div class="col-md-1">
                     <!-- You can dynamically generate breadcrumbs here -->
                     <ol class="breadcrumb">
-                        <a class="previous-page-link" href="{{ url()->previous() }}" class="">
-                            @yield('previous_page', trans("common_lang.Back"))
-                            <span class="fa fa-chevron-left"></span>
-                        </a>
+                        <li>
+                            <a class="previous-page-link" href="{{ url()->previous() }}" class="">
+                                @yield('previous_page', trans("common_lang.Back"))
+                                <span class="fa fa-angle-left"></span>
+                            </a>
+                        </li>
                     </ol>
                 </div>
             </div>

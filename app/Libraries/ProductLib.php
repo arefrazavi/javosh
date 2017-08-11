@@ -11,6 +11,7 @@ use App\Models\Rating;
 use App\Models\Summary;
 use App\Models\Type;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
+use Symfony\Component\HttpKernel\Profiler\ProfilerStorageInterface;
 
 class ProductLib
 {
@@ -123,9 +124,9 @@ class ProductLib
         }
 
         if ($limit) {
-            $products = ProductLib::getProductsWihSummary($userId = Sentinel::getUser()->id,Summary::GOLD_STANDARD_METHOD_ID, $whereClause, $limit, "RAND()");
+            $products = ProductLib::getProductsWithoutSummary($userId = Sentinel::getUser()->id,Summary::GOLD_STANDARD_METHOD_ID, $whereClause, $limit, "RAND()");
         } else {
-            $products = ProductLib::getProductsWihSummary(0, Summary::GOLD_STANDARD_METHOD_ID, $whereClause, PHP_INT_MAX, "summary_count");
+            $products = ProductLib::getProductsWihSummary(0, Summary::GOLD_STANDARD_METHOD_ID, $whereClause, PHP_INT_MAX, "summary_count ASC");
 
             foreach ($products as &$product) {
                 $product->category = Category::fetch($product->category_id);
@@ -149,7 +150,29 @@ class ProductLib
     public static function getProductsWihSummary($userId = 0, $methodId = Summary::GOLD_STANDARD_METHOD_ID, $whereClause = "1", $limit = PHP_INT_MAX, $orderBy = "id")
     {
         $selectClause = "products.id AS id, ANY_VALUE(products.title) AS title, ANY_VALUE(products.category_id) AS category_id, COUNT(*) AS summary_count";
-        $whereClause .= " AND (method_id = $methodId OR method_id IS NULL) AND has_comment = 1";
+        $whereClause .= " AND has_comment = 1";
+
+        if ($userId) {
+            $whereClause .= " AND (user_id = $userId OR user_id IS NULL)";
+        }
+
+        $products = Product::fetchProductsWithSummary($selectClause, $whereClause, $limit, 0, $orderBy);
+
+        return $products;
+    }
+
+    /**
+     * @param int $userId
+     * @param int $methodId
+     * @param string $whereClause
+     * @param int $limit
+     * @param string $orderBy
+     * @return mixed
+     */
+    public static function getProductsWithoutSummary($userId = 0, $methodId = Summary::GOLD_STANDARD_METHOD_ID, $whereClause = "1", $limit = PHP_INT_MAX, $orderBy = "id")
+    {
+        $selectClause = "products.id AS id, ANY_VALUE(products.title) AS title, ANY_VALUE(products.category_id) AS category_id";
+        $whereClause .= " AND (method_id != $methodId) AND has_comment = 1";
 
         if ($userId) {
             $whereClause .= " AND (user_id = $userId OR user_id IS NULL)";

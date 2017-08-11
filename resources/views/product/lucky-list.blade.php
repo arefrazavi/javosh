@@ -15,7 +15,7 @@
                         <table id="product-list-table" class="display responsive" cellspacing="0" width="100%">
                             <thead>
                             <tr>
-                                <th class="never">@lang('common_lang.summary_count')</th>
+                                <th class="never">@lang('common_lang.index')</th>
                                 <th class="desktop ">@lang('common_lang.Id')</th>
                                 <th>@lang('common_lang.Title')</th>
                                 <th class="all">@lang('common_lang.Gold_Summary')</th>
@@ -55,7 +55,6 @@
                     "sortDescending": ": activate to sort column descending"
                 }
             },
-            order: [[0, 'asc']],
             processing: true,
             serverSide: true,
             paging: false,
@@ -72,7 +71,7 @@
                 },
             },
             columns: [
-                {data: 'summary_count' , name: 'summary_count', visible : false},
+                {data: 'index' , name: 'index', visible : false},
                 {data: 'id', class: 'rtl-text', name: 'id'},
                 {
                     data: {title: 'title', id: 'id'}, class: 'rtl-text text-wrap',
@@ -88,7 +87,7 @@
                 {
                     data: "id",
                     render: function (id) {
-                        var suggestRoute = '{{route("ProductController.viewGoldSummaryRecommendation", "id")}}';
+                        var suggestRoute = '{{route("ProductController.viewGoldSummaryRecommendation", ["productId" => "id", "lucky" => 1])}}';
                         suggestRoute = suggestRoute.replace("id", id);
                         return "<a class='btn btn-gold' href='" + suggestRoute + "'> @lang('common_lang.Suggest') </a>";
                     }

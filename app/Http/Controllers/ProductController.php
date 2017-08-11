@@ -25,11 +25,11 @@ class ProductController extends Controller
     public function viewList($categoryId = 0, $limit = 0)
     {
         $category = Category::fetch($categoryId);
-         if ($limit) {
-             return view('product.lucky-list', compact('category', 'categoryId', 'limit'));
-         } else {
-             return view('product.list', compact('category', 'categoryId'));
-         }
+        if ($limit) {
+            return view('product.lucky-list', compact('category', 'categoryId', 'limit'));
+        } else {
+            return view('product.list', compact('category', 'categoryId'));
+        }
     }
 
     public function getList(Request $request)
@@ -45,6 +45,9 @@ class ProductController extends Controller
                 $products = session('luckyProducts');
             } else {
                 $products = ProductLib::getProducts($categoryId, $limit);
+                foreach ($products  as $index => $product) {
+                    $product->index = $index;
+                }
                 session(['luckyProducts' => $products]);
             }
         } else {
@@ -54,14 +57,50 @@ class ProductController extends Controller
         return Datatables::of($products)->make(true);
     }
 
+    public function viewGoldSummaryRecommendation($productId, $isLucky = 0)
+    {
 
-    public function viewProduct($productId)
+//        $recommendedSentences = SummaryLib::getRecommendedSentences(81294, 1);
+//        foreach($recommendedSentences as $recommendedSentence) {
+//            echo $recommendedSentence->text . "<br>";
+//            echo $recommendedSentence->aspect_frequency[1] . "<br>";
+//            echo "-------<br>";
+//        }
+//        return;
+
+        $product = Product::fetch($productId);
+        $aspects = $product->category->aspects;
+        foreach ($aspects as &$aspect) {
+            $aspect->keywords = unserialize($aspect->keywords);
+        }
+        unset($aspect);
+
+        $nextLuckyProduct = null;
+        if ($isLucky) {
+            $luckyProducts = session('luckyProducts');
+            foreach ($luckyProducts as $index => &$luckyProduct) {
+                if ($luckyProduct->id == $productId) {
+                    if (isset($luckyProducts{$index + 1})) {
+                        $nextLuckyProduct = $luckyProducts{$index + 1};
+                    }
+                    if (isset($luckyProducts{$index - 1})) {
+                        $previousLuckyProduct = $luckyProducts{$index - 1};
+                    }
+                }
+            }
+            unset($luckyProduct);
+        }
+
+        return view('product.gold-summary-recommendation', compact('product', 'aspects', 'nextLuckyProduct', 'previousLuckyProduct'));
+    }
+
+    public function viewProduct($productId, $isLucky = 0)
     {
         $product = Product::fetch($productId);
         $aspects = AspectLib::getAspects($product->category_id);
         if (!$product->title) {
             $category = $product->category;
-            $product->title = trans("common_lang.Productofcategory"). " " . $category->alias;
+            $product->title = trans("common_lang.Productofcategory") . " " . $category->alias;
         }
         $whereClause = "id <> " . Summary::GOLD_STANDARD_METHOD_ID;
         $methods = Summary::fetchMethods("*", $whereClause);
@@ -85,10 +124,11 @@ class ProductController extends Controller
 
         }
 
-        return view("product.product", compact('product','goldSummaries', 'aspects', 'methods'));
+        return view("product.product", compact('product', 'goldSummaries', 'aspects', 'methods'));
     }
 
-    public function viewUploadPanel(){
+    public function viewUploadPanel()
+    {
         return view('product.upload-panel');
     }
 
@@ -134,7 +174,7 @@ class ProductController extends Controller
                         while (($row = fgetcsv($handle)) !== false) {
                             //Saving Product
                             $productId = $row[0];
-                            print_r("\n<br>".$productId."<b>\n");
+                            print_r("\n<br>" . $productId . "<b>\n");
                             if ($productId == 128868) {
                                 $test = 'what';
                             }
@@ -189,26 +229,6 @@ class ProductController extends Controller
                 return redirect(route('ProductController.viewUploadPanel'))->with('results', $results);
             }
         }
-    }
-
-    public function viewGoldSummaryRecommendation($productId)
-    {
-        
-//        $recommendedSentences = SummaryLib::getRecommendedSentences(81294, 1);
-//        foreach($recommendedSentences as $recommendedSentence) {
-//            echo $recommendedSentence->text . "<br>";
-//            echo $recommendedSentence->aspect_frequency[1] . "<br>";
-//            echo "-------<br>";
-//        }
-//        return;
-
-        $product = Product::fetch($productId);
-        $aspects = $product->category->aspects;
-        foreach ($aspects as &$aspect) {
-            $aspect->keywords = unserialize($aspect->keywords);
-        }
-        unset($aspect);
-        return view('product.gold-summary-recommendation', compact('product', 'aspects'));
     }
 
     /**
