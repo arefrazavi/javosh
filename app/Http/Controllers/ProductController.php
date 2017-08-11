@@ -48,7 +48,9 @@ class ProductController extends Controller
                 foreach ($products  as $index => $product) {
                     $product->index = $index;
                 }
-                session(['luckyProducts' => $products]);
+                if ($products->count()) {
+                    session(['luckyProducts' => $products]);
+                }
             }
         } else {
             $products = ProductLib::getProducts($categoryId, $limit);
