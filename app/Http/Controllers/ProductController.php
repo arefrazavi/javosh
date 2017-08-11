@@ -41,9 +41,15 @@ class ProductController extends Controller
         }
         if ($request->limit) {
             $limit = $request->limit;
+            if ($request->session()->has('luckyProducts')) {
+                $products = session('luckyProducts');
+            } else {
+                $products = ProductLib::getProducts($categoryId, $limit);
+                session(['luckyProducts' => $products]);
+            }
+        } else {
+            $products = ProductLib::getProducts($categoryId, $limit);
         }
-
-        $products = ProductLib::getProducts($categoryId, $limit);
 
         return Datatables::of($products)->make(true);
     }

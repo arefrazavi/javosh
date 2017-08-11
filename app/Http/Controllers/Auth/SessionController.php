@@ -66,6 +66,9 @@ class SessionController extends Controller
      */
     public function getLogout(Request $request)
     {
+
+        $request->session()->forget('luckyProducts');
+        $request->session()->flush();
         // Terminate the user's current session.  Passing true as the
         // second parameter kills all of the user's active sessions.
         $result = $this->authManager->logout(null, null);
