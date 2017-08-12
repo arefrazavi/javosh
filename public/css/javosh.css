@@ -483,6 +483,7 @@ body.ivory-black box.box-default {
 }
 
 .centaur-footer {
+    margin-top: 20px;
     position: fixed;
     width: 100%;
     bottom: 0;
