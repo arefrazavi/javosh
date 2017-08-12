@@ -63,10 +63,6 @@ ul.list-style-checkmark li:before {
     margin: 10px 0;
 }
 
-.navbar-header {
-    float: right;
-}
-
 .rtl-text {
     direction: rtl !important;
     text-align: justify !important;
@@ -407,6 +403,8 @@ body.ivory-black .previous-page-link:hover{
 }
 
 body.ivory-black .panel-default > .panel-heading {
+    background-color: #1d2731;
+    background-image: none;
     color: white;
 }
 
@@ -484,9 +482,19 @@ body.ivory-black box.box-default {
     border-left:1em solid gold;
 }
 
+.centaur-footer {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    right: 0;
+}
+.centaur-footer .main-footer {
+    width: 100%;
+    margin: 0;
+}
 
 @media only screen and (max-width: 780px) {
-    .main-sidebar {
+    .main-sidebar, .sidebar-toggle {
         display: none !important;
     }
 

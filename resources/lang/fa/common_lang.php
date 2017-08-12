@@ -130,5 +130,7 @@ return [
     'Reset_Password_Instruction' => 'راهنمای بازنشانی رمز عبور به ایمیلت ارسال شد.',
     'Reset_Password' => 'بازنشانی رمز عبور',
     'Next_Lucky_Product' => 'خوش‌شانس بعدی',
-    'Previous_Lucky_Product' => 'خوش‌شانس قبلی'
+    'Previous_Lucky_Product' => 'خوش‌شانس قبلی',
+    'social_lab_of_uni_tehran' => 'آزمایشگاه شبکه‌های اجتماعی دانشگاه تهران',
+    'All_rights_reserved_by' => 'تمامی حقوق این وب‌سایت برای :address محفوظ می‌باشد.'
 ];

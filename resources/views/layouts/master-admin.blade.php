@@ -78,15 +78,7 @@
 <script src="{{ asset ("js/dataTables.scroller.min.js") }}"></script>
 <!-- Bootstrap JavaScript -->
 <!-- App scripts -->
-
-<script type="application/javascript">
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip();
-        $('[data-toggle="popover"]').popover();
-    })
-
-</script>
-
+<script src="{{ asset ("js/common.js") }}"></script>
 @stack('scripts')
 </body>
 </html>
