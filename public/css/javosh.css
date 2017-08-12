@@ -483,7 +483,6 @@ body.ivory-black box.box-default {
 }
 
 .centaur-footer {
-    margin-top: 20px;
     position: fixed;
     width: 100%;
     bottom: 0;
@@ -512,5 +511,10 @@ body.ivory-black box.box-default {
     .content-header .previous-page-link {
         font-size: smaller;
     }
+
+    .centaur-footer .main-footer * {
+        font-size: 0.85em;
+    }
+
 
 }
