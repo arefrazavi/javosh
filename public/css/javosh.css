@@ -408,6 +408,11 @@ body.ivory-black .panel-default > .panel-heading {
     color: white;
 }
 
+
+body.ivory-black .panel-default > .panel-body {
+    color: black;
+}
+
 body.ivory-black .alert-success {
     background-color: #328CC1 !important;
 }

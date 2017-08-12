@@ -26,7 +26,7 @@
                                 <label>
                                     <input name="remember" type="checkbox"
                                            value="true" {{ old('remember') == 'true' ? 'checked' : ''}}>
-                                    <span style="padding-right: 20px"> @lang('common_lang.Remember_Me') </span>
+                                    <small> @lang('common_lang.Remember_Me') </small>
                                 </label>
                             </div>
                             <input name="_token" value="{{ csrf_token() }}" type="hidden">
