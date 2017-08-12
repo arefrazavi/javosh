@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="google-site-verification" content="e02PAFaPzEXO676NK3hafXtKZ-pvuomVwfs-H8KB5b4">
+    <meta name="description" content="@lang('common_lang.description_meta')">
+    <meta name="keywords" content="@lang('common_lang.keywords_meta')">
+    <meta name="author" content="@lang('common_lang.author_meta')">
     <title>@yield('title')</title>
     <link rel="icon" href="{{ asset('images/favicon.ico') }}" type="image/gif" sizes="16x16">
 
