@@ -414,7 +414,9 @@ body.ivory-black .panel-default > .panel-body {
 }
 
 body.ivory-black .alert-success {
+    background: none;
     background-color: #328CC1 !important;
+
 }
 
 body.ivory-black .box-ivory {
