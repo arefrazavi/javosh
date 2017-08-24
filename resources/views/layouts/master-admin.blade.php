@@ -29,6 +29,7 @@
     <![endif]-->
 </head>
 <body class="hold-transition skin-black ivory-black sidebar-mini sidebar-collapse">
+{!! include_once(base_path("resources/views/include/google-analytics.php")) !!}
 <div class="wrapper">
     <!-- Header -->
 @include('include.header')
@@ -82,5 +83,6 @@
 <!-- App scripts -->
 <script src="{{ asset ("js/common.js") }}"></script>
 @stack('scripts')
+
 </body>
 </html>
