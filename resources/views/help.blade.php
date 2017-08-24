@@ -5,8 +5,8 @@
     <div class='row'>
         <div class='col-md-12'>
             <div class="box box-ivory">
-                <div class="content-header">
-                    <h4> @lang('common_lang.Help_Gold_Summarization') </h4>
+                <div class="content-header gold">
+                    <h4 class="black-text"> @lang('common_lang.Help_Gold_Summarization') </h4>
                 </div>
                 <div class="box-body">
                     <ol id="gold-selection-guide-description" class="black-text">
@@ -19,7 +19,7 @@
                         </li>
                         <li>
                             <div>@lang("common_lang.Go_TO_Product_List")</div>
-                            <div><span class="alert-lucky"> @lang("common_lang.Go_TO_10_lucky_products") </span></div>
+                            <div><span class="red-text"> @lang("common_lang.Go_TO_10_lucky_products") </span></div>
                         </li>
                         <li>
                             <span>@lang("common_lang.Go_TO_Suggestion_Page")</span>

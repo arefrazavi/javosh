@@ -44,5 +44,6 @@ return [
     "point_your_browser_to_this_address" => "یا به لینک زیر برو: ",
     "Thank_you!" => "مرسی!",
     "Welcome_To_Javosh" => "به ژاوُش خوش اومدی",
-    "Registration_complete_log_in" => "آفرین! حسابت فعال شد. حالا وارد شو."
+    "Registration_complete_log_in" => "آفرین! حسابت فعال شد. حالا وارد شو.",
+    "Reset" => "بازنشان"
 ];

@@ -500,6 +500,10 @@ body.ivory-black box.box-default {
     margin: 0;
 }
 
+.red-text {
+    color : red;
+}
+
 @media only screen and (max-width: 780px) {
     .main-sidebar, .sidebar-toggle {
         display: none !important;
@@ -529,5 +533,8 @@ body.ivory-black box.box-default {
         padding-top: 0;
     }
 
+    #gold-selection-guide-description{
+        padding-right: 1rem;
+    }
 
 }

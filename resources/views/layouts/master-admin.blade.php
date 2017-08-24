@@ -8,7 +8,7 @@
     <meta name="description" content="@lang('common_lang.description_meta')">
     <meta name="keywords" content="@lang('common_lang.keywords_meta')">
     <meta name="author" content="@lang('common_lang.author_meta')">
-    <title> @lang("common_lang.Javosh") - @yield('title')</title>
+    <title> @lang("common_lang.Javosh") (@lang('common_lang.Summarization')) - @yield('title')</title>
 
     <link rel="icon" href="{{ asset('images/favicon.ico') }}" type="image/gif" sizes="16x16">
     <link rel="stylesheet" href="{{ asset("admin-lte/bootstrap/css/bootstrap-rtl.css") }}">

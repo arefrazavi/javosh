@@ -7,7 +7,7 @@
     <div class="col-md-4 col-md-offset-4">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Reset Your Password</h3>
+                <h3 class="panel-title">@lang('user.Reset_Password')</h3>
             </div>
             <div class="panel-body">
                 <form accept-charset="UTF-8" role="form" method="post" action="{{ route('auth.password.reset.attempt', $code) }}">
