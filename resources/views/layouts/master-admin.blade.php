@@ -29,7 +29,7 @@
     <![endif]-->
 </head>
 <body class="hold-transition skin-black ivory-black sidebar-mini sidebar-collapse">
-{!! include_once(base_path("resources/views/include/google-analytics.php")) !!}
+@include("include.google-analytics")
 <div class="wrapper">
     <!-- Header -->
 @include('include.header')
