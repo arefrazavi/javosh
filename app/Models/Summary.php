@@ -15,7 +15,7 @@ class Summary extends Model
     const CB_METHOD_ID = 3;
     const RANDOM_METHOD_ID = 2;
     const E_WE_SCB_METHOD_ID = 3;
-    const MAX_SUMMARY_SIZE = 10;
+    const MAX_SUMMARY_SIZE = 5;
 
     /**
      * The attributes that are mass assignable.
