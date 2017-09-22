@@ -165,6 +165,7 @@ Route::group(
 );
 
 // Main Page
-Route::get('persian_tweets_word_vectors_model', ['as' => 'persian_tweets_word_vectors_model', 'uses' => function() {
+Route::get('/persian_tweets_word_vectors_model', ['as' => 'persian_tweets_word_vectors_model', 'uses' =>
+    function() {
         return view('persian_tweets_word_vectors_model');
 }]);
