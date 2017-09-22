@@ -21,8 +21,13 @@ Route::get('dashboard', ['as' => 'dashboard', 'uses' => function() {
     }
 }]);
 
-// Main Page
+// Help Page
 Route::get('/help', ['as' => 'help', 'uses' => 'Controller@viewHelp']);
+
+
+// persian_tweets_word_vectors_model Page
+Route::get('/persian_tweets_word_vectors_model', ['as' => 'persian_tweets_word_vectors_model', 'uses' => 'Controller@viewWordVectorsModel']);
+
 
 // Authorization
 Route::get('/login', ['as' => 'auth.login.form', 'uses' => 'Auth\SessionController@getLogin']);
@@ -163,9 +168,3 @@ Route::group(
         Route::get('evaluation_results', 'StatisticsController@viewResults')->name('StatisticsController.viewResults');
     }
 );
-
-// Main Page
-Route::get('/persian_tweets_word_vectors_model', ['as' => 'persian_tweets_word_vectors_model', 'uses' =>
-    function() {
-        return view('persian_tweets_word_vectors_model');
-}]);

@@ -21,4 +21,9 @@ class Controller extends BaseController
         }
         return view('help', compact('layout'));
     }
+
+    public function viewWordVectorsModel()
+    {
+        return view('persian_tweets_word_vectors_model');
+    }
 }
