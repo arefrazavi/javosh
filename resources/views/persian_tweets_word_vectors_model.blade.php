@@ -12,7 +12,9 @@
 </head>
 <body>
 <div>
-    <a href="{{ asset('persian_tweets_word_vectors_model/model.tar.bz2') }}">Persian Tweets Word Vectors Model</a>
+    <a href="{{ asset('persian_tweets_word_vectors_model/Persian.tweets.vectors.50M.100d.txt.zip') }}">
+        Persian Tweets Word Vectors Model
+    </a>
 </div>
 <div>
 
