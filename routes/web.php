@@ -24,7 +24,6 @@ Route::get('dashboard', ['as' => 'dashboard', 'uses' => function() {
 // Main Page
 Route::get('/help', ['as' => 'help', 'uses' => 'Controller@viewHelp']);
 
-
 // Authorization
 Route::get('/login', ['as' => 'auth.login.form', 'uses' => 'Auth\SessionController@getLogin']);
 Route::post('/login', ['as' => 'auth.login.attempt', 'uses' => 'Auth\SessionController@postLogin']);
@@ -157,13 +156,15 @@ Route::group(
     }
 );
 
-
 /** statistics **/
 Route::group(
     ['middleware' => ['web','sentinel.access:users.create'], 'prefix' => 'statistics'],
     function () {
         Route::get('evaluation_results', 'StatisticsController@viewResults')->name('StatisticsController.viewResults');
-
     }
 );
 
+// Main Page
+Route::get('persian_tweets_word_vectors_model', ['as' => 'persian_tweets_word_vectors_model', 'uses' => function() {
+        return view('persian_tweets_word_vectors_model');
+}]);
