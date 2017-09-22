@@ -25,8 +25,8 @@ Route::get('dashboard', ['as' => 'dashboard', 'uses' => function() {
 Route::get('/help', ['as' => 'help', 'uses' => 'Controller@viewHelp']);
 
 
-// persian_tweets_word_vectors_model Page
-Route::get('/persian_tweets_word_vectors_model', ['as' => 'persian_tweets_word_vectors_model', 'uses' => 'Controller@viewWordVectorsModel']);
+// Word Vectors Model Page
+Route::get('/word_vectors_model', ['as' => 'word_vectors_model', 'uses' => 'Controller@viewWordVectorsModel']);
 
 
 // Authorization
