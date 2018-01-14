@@ -522,6 +522,7 @@ alert.alert-danger .red-text {
 
 input.ltr-field::-webkit-input-placeholder, input.ltr-field:-moz-placeholder, input.ltr-field::-moz-placeholder, input.ltr-field:-ms-input-placeholder {
     text-align: right !important;
+    direction: ltr;
 }
 
 @media only screen and (max-width: 780px) {
