@@ -13,12 +13,12 @@
                     <form accept-charset="UTF-8" role="form" method="post" action="{{ route('auth.login.attempt') }}">
                         <fieldset>
                             <div class="form-group {{ ($errors->has('email')) ? 'has-error' : '' }}">
-                                <input class="form-control ltr-text" placeholder="@lang('user.email')" name="email" type="text"
+                                <input class="form-control ltr-field" placeholder="@lang('user.email')" name="email" type="text"
                                        value="{{ old('email') }}">
                                 {!! ($errors->has('email') ? $errors->first('email', '<p class="text-danger">:message</p>') : '') !!}
                             </div>
                             <div class="form-group  {{ ($errors->has('password')) ? 'has-error' : '' }}">
-                                <input class="form-control ltr-text" placeholder="@lang('user.password')" name="password"
+                                <input class="form-control ltr-field" placeholder="@lang('user.password')" name="password"
                                        type="password" value="">
                                 {!! ($errors->has('password') ? $errors->first('password', '<p class="text-danger">:message</p>') : '') !!}
                             </div>

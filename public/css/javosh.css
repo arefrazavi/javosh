@@ -506,6 +506,11 @@ alert.alert-danger .red-text {
 .alert.alert-danger {
     background: red;
 }
+
+.ltr-field:focus{
+    text-align:left !important;
+}
+
 @media only screen and (max-width: 780px) {
     .main-sidebar, .sidebar-toggle {
         display: none !important;
