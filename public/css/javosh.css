@@ -520,7 +520,7 @@ alert.alert-danger .red-text {
     text-align: left;
 }
 
-.ltr-field::-webkit-input-placeholder, .ltr-field:-moz-placeholder, .ltr-field::-moz-placeholder, .ltr-field:-ms-input-placeholder {
+input.ltr-field::-webkit-input-placeholder, input.ltr-field:-moz-placeholder, input.ltr-field::-moz-placeholder, input.ltr-field:-ms-input-placeholder {
     text-align: right !important;
 }
 
