@@ -506,9 +506,11 @@ alert.alert-danger .red-text {
 .alert.alert-danger {
     background: red;
 }
-
-.ltr-field:focus{
-    text-align:left !important;
+.ltr-field::-webkit-input-placeholder, .ltr-field::-moz-placeholder, .ltr-field:-ms-input-placeholder {
+    text-align:right;
+}
+.ltr-field {
+    text-align:left;
 }
 
 @media only screen and (max-width: 780px) {

@@ -21,16 +21,16 @@
                         <input class="form-control" placeholder="@lang('user.last_name')" name="last_name" type="text" value="{{ old('last_name') }}">
                         {!! ($errors->has('last_name') ? $errors->first('last_name', '<p class="text-danger">:message</p>') : '') !!}
                     </div>
-                    <div class="form-group {{ ($errors->has('email')) ? 'has-error' : '' }} ltr-field">
-                        <input class="form-control" placeholder="@lang('user.email')" name="email" type="text" value="{{ old('email') }}">
+                    <div class="form-group {{ ($errors->has('email')) ? 'has-error' : '' }}">
+                        <input class="form-control ltr-field" placeholder="@lang('user.email')" name="email" type="text" value="{{ old('email') }}">
                         {!! ($errors->has('email') ? $errors->first('email', '<p class="text-danger">:message</p>') : '') !!}
                     </div>
-                    <div class="form-group  {{ ($errors->has('password')) ? 'has-error' : '' }} ltr-field">
-                        <input class="form-control" placeholder="@lang('user.password')" name="password" type="password">
+                    <div class="form-group  {{ ($errors->has('password')) ? 'has-error' : '' }}">
+                        <input class="form-control ltr-field" placeholder="@lang('user.password')" name="password" type="password">
                         {!! ($errors->has('password') ? $errors->first('password', '<p class="text-danger">:message</p>') : '') !!}
                     </div>
-                    <div class="form-group  {{ ($errors->has('password_confirmation')) ? 'has-error' : '' }} ltr-field">
-                        <input class="form-control" placeholder="@lang('user.password_confirmation')" name="password_confirmation" type="password">
+                    <div class="form-group  {{ ($errors->has('password_confirmation')) ? 'has-error' : '' }}">
+                        <input class="form-control ltr-field" placeholder="@lang('user.password_confirmation')" name="password_confirmation" type="password">
                         {!! ($errors->has('password_confirmation') ? $errors->first('password_confirmation', '<p class="text-danger">:message</p>') : '') !!}
                     </div>
                     <input name="_token" value="{{ csrf_token() }}" type="hidden">
