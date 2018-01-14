@@ -117,9 +117,9 @@ nano /usr/bin/google-chrome
 //Install and run project and database
 cd /var/www/
 git clone https://github.com/arefrazavi/javosh.git
+cd javosh/
 chgrp -R www-data storage bootstrap/cache
 chmod -R ug+rwx storage bootstrap/cache
-cd javosh/
 apt-get install php-mbstring php-curl php-zip php-xml php-dom
 composer install
 
@@ -135,7 +135,7 @@ APP_URL=http://www.javosh.com
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=arcrawler_db
+DB_DATABASE=javosh_db
 DB_USERNAME=root
 DB_PASSWORD=fill
 

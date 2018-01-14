@@ -62,8 +62,8 @@ class RegistrationController extends Controller
         ];
 
         // Attempt the registration
-        //$result = $this->authManager->register($credentials);
-        $result = $this->authManager->register($credentials, false);
+        $result = $this->authManager->register($credentials);
+        //$result = $this->authManager->register($credentials, false);
 
         if ($result->isFailure()) {
             return $result->dispatch();
@@ -71,14 +71,14 @@ class RegistrationController extends Controller
 
         // Send the activation email
         $code = $result->activation->getCode();
-        $this->getActivate($request, $code); //activate in registration
+        //$this->getActivate($request, $code); //activate in registration
         $email = $result->user->email;
-        //Mail::to($email)->queue(new CentaurWelcomeEmail($email, $code, trans('user.Your_account_has_been_created')));
-        Mail::to($email)->queue(new CentaurWelcomeEmail($email, $code, trans('user.Welcome_To_Javosh')));
+        Mail::to($email)->queue(new CentaurWelcomeEmail($email, $code, trans('user.Your_account_has_been_created')));
+        //Mail::to($email)->queue(new CentaurWelcomeEmail($email, $code, trans('user.Welcome_To_Javosh')));
 
         // Ask the user to check their email for the activation link
-        //$message = trans('user.Registration_Complete'). " ". trans('user.check_your_email_for_activation');
-        $message = trans('user.Registration_Complete'). " ". trans('user.login_to_your_account');
+        $message = trans('user.Registration_Complete'). " ". trans('user.check_your_email_for_activation');
+        //$message = trans('user.Registration_Complete'). " ". trans('user.login_to_your_account');
         $result->setMessage($message);
 
         // There is no need to send the payload data to the end user
