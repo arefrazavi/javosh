@@ -46,6 +46,10 @@ ul.list-style-checkmark li:before {
     white-space: normal !important;
 }
 
+.text-center {
+    text-align: center !important;
+}
+
 .logo, .main-header .logo {
     font-family: 'yekan', 'AbeatbyKai', sans-serif;
     font-weight: bolder;

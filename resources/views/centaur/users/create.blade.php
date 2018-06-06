@@ -1,8 +1,8 @@
-@extends('layouts.master-admin')
+@extends('layouts.centaur-layout')
 
 @section('title', @trans('common_lang.Create_User'))
 
-@section('content')
+@section('inner-content')
 <div class="row">
     <div class="col-md-4 col-md-offset-4">
         <div class="box box-default">

@@ -214,7 +214,7 @@ class UserController extends Controller
 
         // Check to be sure user cannot delete himself
         if (Sentinel::getUser()->id == $user->id) {
-            $message = "You cannot remove yourself!";
+            $message = trans("centaur.cant_delete_yourself");
 
             if ($request->ajax()) {
                 return response()->json($message, 422);
@@ -228,7 +228,7 @@ class UserController extends Controller
         $user->delete();
 
         // All done
-        $message = "{$user->email} has been removed.";
+        $message = trans("centaur.user_got_deleted", ["user_email" => $user->email]);
         if ($request->ajax()) {
             return response()->json([$message], 200);
         }

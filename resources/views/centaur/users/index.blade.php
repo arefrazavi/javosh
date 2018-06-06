@@ -1,11 +1,11 @@
-@extends('layouts.master-admin')
+@extends('layouts.centaur-layout')
 
 @section('title', trans('user.Users'))
 
-@section('content')
+@section('inner-content')
     <div class="page-header">
-        <div class='btn-toolbar pull-left'>
-            <a class="btn btn-primary btn-lg" href="{{ route('users.create') }}">
+        <div class='center-block text-center'>
+            <a class="btn btn-success btn-lg" href="{{ route('users.create') }}">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                 @lang('user.Create_User')
             </a>
@@ -14,7 +14,7 @@
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             @foreach ($users as $user)
-                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
                     <div class="panel panel-default">
                         <div class="panel-body text-center">
                             <img src="//www.gravatar.com/avatar/{{ md5($user->email) }}?d=mm" alt="{{ $user->email }}" class="img-circle">
