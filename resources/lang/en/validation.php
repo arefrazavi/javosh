@@ -113,5 +113,7 @@ return [
     */
 
     'attributes' => [],
+    'captcha' => 'Prove you are not a robot!',
+    'captcha' => 'Prove you are not a robot!',
 
 ];

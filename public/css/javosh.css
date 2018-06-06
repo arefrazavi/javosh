@@ -135,7 +135,6 @@ a {
 .gold-suggest {
     padding: 0 3px;
     font-size: x-large;
-    cursor: hand;
     cursor: pointer;
 }
 
@@ -519,12 +518,27 @@ alert.alert-danger .red-text {
 .ltr-field {
     text-align: left;
     direction: ltr;
+    font-family: sans-serif;
 }
 
-input.ltr-field::-webkit-input-placeholder, input.ltr-field:-moz-placeholder, input.ltr-field::-moz-placeholder, input.ltr-field:-ms-input-placeholder {
+input.ltr-field::-webkit-input-placeholder {
     text-align: right !important;
     direction: rtl;
 }
+input.ltr-field::-moz-placeholder {
+    text-align: right !important;
+    direction: rtl;
+}
+
+input.ltr-field:-ms-input-placeholder {
+    text-align: right !important;
+    direction: rtl;
+}
+input.ltr-field::placeholder {
+    text-align: right !important;
+    direction: rtl;
+}
+
 
 @media only screen and (max-width: 780px) {
     .main-sidebar, .sidebar-toggle {

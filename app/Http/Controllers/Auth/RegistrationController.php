@@ -43,15 +43,27 @@ class RegistrationController extends Controller
      * @param  array  $data
      * @return Response|Redirect
      */
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     protected function postRegister(Request $request)
     {
         // Validate the form data
-        $result = $this->validate($request, [
+        $rules = [
             'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|confirmed|min:6',
+            'password' => 'required|min:6',
+            'password_confirmation' => 'required|same:password',
             'first_name' => 'required',
             'last_name' => 'required',
-        ]);
+            'g-recaptcha-response' => 'required|captcha',
+        ];
+        $messages = [
+            'email.unique' => trans('validation.email.unique'),
+            'password_confirmation.same' => trans('validation.password.confirmed'),
+            'g-recaptcha-response.required' => trans("validation.captcha.required")
+        ];
+        $this->validate($request, $rules, $messages);
 
         // Assemble registration credentials
         $credentials = [

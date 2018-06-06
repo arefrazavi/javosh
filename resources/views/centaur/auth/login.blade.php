@@ -29,6 +29,11 @@
                                     <small> @lang('common_lang.Remember_Me') </small>
                                 </label>
                             </div>
+                            <div class="form-group">
+                                <script src='https://www.google.com/recaptcha/api.js?hl=fa'></script>
+                                {!! app('captcha')->display(); !!}
+                                {!! ($errors->has('g-recaptcha-response') ? $errors->first('g-recaptcha-response', '<p class="text-danger">:message</p>') : '') !!}
+                            </div>
                             <input name="_token" value="{{ csrf_token() }}" type="hidden">
                             <input class="btn btn-lg btn-gold btn-block" type="submit"
                                    value="@lang('common_lang.Login')">

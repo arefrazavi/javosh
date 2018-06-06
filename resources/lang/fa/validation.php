@@ -24,11 +24,11 @@ return [
     'between'              => [
         'numeric' => 'The :attribute must be between :min and :max.',
         'file'    => 'The :attribute must be between :min and :max kilobytes.',
-        'string'  => 'The :attribute must be between :min and :max characters.',
+        'string'  => 'The :attribute mustpassword.confirmed be between :min and :max characters.',
         'array'   => 'The :attribute must have between :min and :max items.',
     ],
     'boolean'              => 'The :attribute field must be true or false.',
-    'confirmed'            => 'رمز عبور رو درست تکرار کن!',
+    'password.confirmed'            => 'رمز عبور رو درست تکرار کن!',
     'date'                 => 'The :attribute is not a valid date.',
     'date_format'          => 'The :attribute does not match the format :format.',
     'different'            => 'The :attribute and :other must be different.',
@@ -81,6 +81,7 @@ return [
     'string'               => 'The :attribute must be a string.',
     'timezone'             => 'The :attribute must be a valid zone.',
     'unique'               => ':attribute تکراری',
+    'email.unique'               => 'ای دوست! این ایمیل قبلا ثبت شده!',
     'uploaded'             => 'The :attribute failed to upload.',
     'url'                  => 'The :attribute format is invalid.',
 
@@ -113,6 +114,9 @@ return [
     */
 
     'attributes' => [],
-    'user_logout' => 'خروج از حساب کاربری'
+    'user_logout' => 'خروج از حساب کاربری',
+    'captcha' => 'ثابت کن ربات نیستی!',
+    'captcha.required' => 'ثابت کن ربات نیستی!',
+
 
 ];

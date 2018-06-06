@@ -40,10 +40,16 @@ class SessionController extends Controller
     public function postLogin(Request $request)
     {
         // Validate the Form Data
-        $result = $this->validate($request, [
-            'email' => 'required',
-            'password' => 'required'
-        ]);
+        $rules = [
+            'email' => 'required|email',
+            'password' => 'required',
+            'g-recaptcha-response' => 'required|captcha',
+        ];
+        $messages = [
+            'g-recaptcha-response.required' => trans("validation.captcha.required", [], 'fa'),
+        ];
+
+        $this->validate($request, $rules, $messages);
 
         // Assemble Login Credentials
         $credentials = [

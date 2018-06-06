@@ -182,7 +182,8 @@ return [
         Cartalyst\Sentinel\Laravel\SentinelServiceProvider::class,
         Centaur\CentaurServiceProvider::class,
         DaveJamesMiller\Breadcrumbs\ServiceProvider::class,
-        Fx3costa\LaravelChartJs\Providers\ChartjsServiceProvider::class
+        Fx3costa\LaravelChartJs\Providers\ChartjsServiceProvider::class,
+        Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
     ],
 
     /*
