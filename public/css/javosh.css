@@ -524,19 +524,23 @@ alert.alert-danger .red-text {
 input.ltr-field::-webkit-input-placeholder {
     text-align: right !important;
     direction: rtl;
+    font-family: 'yekan', 'yekan_numbers', sans-serif;
 }
 input.ltr-field::-moz-placeholder {
     text-align: right !important;
     direction: rtl;
+    font-family: 'yekan', 'yekan_numbers', sans-serif;
 }
 
 input.ltr-field:-ms-input-placeholder {
     text-align: right !important;
     direction: rtl;
+    font-family: 'yekan', 'yekan_numbers', sans-serif;
 }
 input.ltr-field::placeholder {
     text-align: right !important;
     direction: rtl;
+    font-family: 'yekan', 'yekan_numbers', sans-serif;
 }
 
 
