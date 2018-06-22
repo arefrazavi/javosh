@@ -2,7 +2,7 @@
 @section('title', trans('common_lang.Dashboard'))
 @section('content')
     <div class='row'>
-        <div class='col-md-6'>
+        <div class='col-md-6 col-sm-6 col-xs-12'>
             <div>
                 <a class="block text-center" href="{{ route("ProductController.viewList", ['categoryId' => 4]) }}">
                     <div class="cat-img-wrapper img-bordered">
@@ -18,7 +18,7 @@
                 </a>
             </div>
         </div><!-- /.col -->
-        <div class='col-md-6'>
+        <div class='col-md-6 col-sm-6 col-xs-12'>
             <div>
                 <a class="block text-center" href="{{ route("ProductController.viewList", ['categoryId' => 6]) }}">
                     <div class="cat-img-wrapper img-bordered">
