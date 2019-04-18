@@ -1,1 +1,1 @@
-# Javosh - A summarization Tool for Users' Reviews
+# Javosh - A Summarization Tool for Users' Reviews
