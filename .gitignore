@@ -6,5 +6,5 @@ Homestead.json
 Homestead.yaml
 .env
 /input_csvs
-
 tests/_output/*
+.javosh.iml
